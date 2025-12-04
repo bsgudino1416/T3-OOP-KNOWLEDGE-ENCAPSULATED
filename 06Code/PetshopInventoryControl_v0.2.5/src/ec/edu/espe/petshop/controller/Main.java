@@ -322,7 +322,7 @@ public class Main {
                     continue;
                 }
 
-                System.out.print("Food for? e.g: perro pequeño → ");
+                System.out.print("Food for? e.g: dog small → ");
                 String animalLine = sc.nextLine().trim().toLowerCase();
 
                 String[] animalParts = animalLine.split(" ");
@@ -339,7 +339,7 @@ public class Main {
                     continue;
                 }
 
-                System.out.print("Proveedor? e.g: DogChown → ");
+                System.out.print("Survey? e.g: DogChown → ");
                 String supplierName = sc.nextLine().trim();
 
                 if (supplierName.isEmpty()) {
