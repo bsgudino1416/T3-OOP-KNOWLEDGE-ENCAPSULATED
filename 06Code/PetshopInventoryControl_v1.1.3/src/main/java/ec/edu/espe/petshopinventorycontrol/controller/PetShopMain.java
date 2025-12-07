@@ -47,7 +47,7 @@ public class PetShopMain {
             System.out.println("1. Iniciar sesion como gerente");
             System.out.println("2. Iniciar sesion como empleado");
             System.out.println("3. Salir");
-            System.out.print("Selecciona una opcion: ");
+            System.out.print("Selecciona una opción: ");
             String op = SCANNER.nextLine().trim();
 
             switch (op) {
@@ -158,7 +158,7 @@ public class PetShopMain {
         System.out.print("Usuario nuevo: ");
         data.put("username", SCANNER.nextLine().trim());
 
-        System.out.print("Contrasenia: ");
+        System.out.print("Contraseña: ");
         data.put("password", SCANNER.nextLine().trim());
 
         saveJsonMap(EMPLOYEE_LOGIN_JSON, data);
