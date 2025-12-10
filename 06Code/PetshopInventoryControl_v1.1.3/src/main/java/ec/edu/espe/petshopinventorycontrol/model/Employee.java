@@ -1,35 +1,61 @@
 package ec.edu.espe.petshopinventorycontrol.model;
 
+import java.time.LocalDate;
+
 public class Employee {
 
-    private int id;
-    private String name;
-    private String role;
+    private String id;
     private String username;
     private String password;
+    private String role;      // Ej: "empleado", "gerente"
+    private LocalDate createdAt;
 
-    public Employee(int id, String name, String role, String username, String password) {
+    public Employee() {
+    }
+
+    public Employee(String id, String username, String password, String role) {
         this.id = id;
-        this.name = name;
-        this.role = role;
         this.username = username;
         this.password = password;
+        this.role = role;
+        this.createdAt = LocalDate.now();
     }
 
-    Employee(int i, String luis, String clave123, String vendedor) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Employee(String id, String username, String password, String role, LocalDate createdAt) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.createdAt = createdAt;
     }
 
-    public boolean login(String user, String pass) {
-        return this.username.equals(user) && this.password.equals(pass);
+    public String getId() {
+        return id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public LocalDate getCreatedAt() {
+        return createdAt;
     }
 
     @Override
     public String toString() {
-        return "Empleado: " + name + " | Rol: " + role;
-    }
-
-    public boolean validatePassword(String string) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return "Empleado {" +
+                "id='" + id + '\'' +
+                ", usuario='" + username + '\'' +
+                ", rol='" + role + '\'' +
+                ", creadoEl=" + createdAt +
+                '}';
     }
 }

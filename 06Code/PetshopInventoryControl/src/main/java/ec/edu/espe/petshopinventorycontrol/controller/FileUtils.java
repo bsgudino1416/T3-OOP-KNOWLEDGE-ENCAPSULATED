@@ -1,26 +1,27 @@
-package ec.edu.espe.petshopinventorycontrol.utils;
+package ec.edu.espe.petshopinventorycontrol.controller;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDate;
 
 public class FileUtils {
 
-    // Gson personalizado con soporte para LocalDate
-    private static final Gson GSON = new GsonBuilder()
-            .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
-            .create();
+    private static final Gson GSON = new Gson();
 
-    public static String readText(String filePath) {
+    // CREA CARPETA SI NO EXISTE
+    public static void ensureFolder(String folderPath) {
+        File folder = new File(folderPath);
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+    }
+
+    public static String readText(String resourcePath) {
         try {
-            File f = new File(filePath);
-            if (!f.exists())
-                return null;
+            File f = new File(resourcePath);
+            if (!f.exists()) return null;
 
             return Files.readString(f.toPath(), StandardCharsets.UTF_8);
 
@@ -33,6 +34,7 @@ public class FileUtils {
         try {
             File f = new File(filePath);
 
+            // CREA DIRECTORIOS
             if (f.getParentFile() != null) {
                 f.getParentFile().mkdirs();
             }
@@ -49,13 +51,8 @@ public class FileUtils {
         return writeText(filePath, GSON.toJson(data));
     }
 
-    public static <T> T loadJson(String filePath, Class<T> clazz) {
-        String txt = readText(filePath);
+    public static <T> T loadJson(String resourcePath, Class<T> clazz) {
+        String txt = readText(resourcePath);
         return (txt == null) ? null : GSON.fromJson(txt, clazz);
-    }
-
-    public static void ensureFolder(String folderPath) {
-        File folder = new File(folderPath);
-        if (!folder.exists()) folder.mkdirs();
     }
 }

@@ -2,7 +2,6 @@ package ec.edu.espe.petshopinventorycontrol.controller;
 
 import ec.edu.espe.petshopinventorycontrol.model.Inventory;
 import ec.edu.espe.petshopinventorycontrol.model.Product;
-import ec.edu.espe.petshopinventorycontrol.utils.FileUtils;
 
 import com.google.gson.Gson;
 import java.io.File;

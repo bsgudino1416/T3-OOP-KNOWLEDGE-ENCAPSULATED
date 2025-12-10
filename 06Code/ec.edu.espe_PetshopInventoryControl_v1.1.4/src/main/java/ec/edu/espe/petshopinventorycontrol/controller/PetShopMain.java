@@ -69,7 +69,7 @@ public class PetShopMain {
                     break;
                 case "3":
                     // inventory.saveToJson(PRODUCTS_JSON); // REMOVIDO: Ya no guarda productos en JSON
-                    DataManager.cerrar(); // Cierra la conexión de Atlas al salir
+                    //DataManager.cerrar(); // Cierra la conexión de Atlas al salir
                     System.out.println("Saliendo. ¡Hasta luego!");
                     return;
                 default:
@@ -299,7 +299,7 @@ public class PetShopMain {
                 Document productDocument = Document.parse(jsonProduct);
 
                 // 4. Llama al Mensajero (DataManager) para guardar en la colección "Productos"
-                DataManager.guardarDocumento("Productos", productDocument);
+               // DataManager.guardarDocumento("Productos", productDocument);
 
                 // inventory.saveToJson(PRODUCTS_JSON); // REMOVIDO: Ya no guarda en archivo local
 

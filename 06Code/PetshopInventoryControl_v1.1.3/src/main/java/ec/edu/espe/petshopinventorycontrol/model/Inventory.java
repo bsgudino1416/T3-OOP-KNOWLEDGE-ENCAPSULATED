@@ -1,20 +1,52 @@
 package ec.edu.espe.petshopinventorycontrol.model;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.google.gson.GsonBuilder;
 import ec.edu.espe.petshopinventorycontrol.utils.FileUtils;
+import ec.edu.espe.petshopinventorycontrol.utils.LocalDateAdapter;
+import ec.edu.espe.petshopinventorycontrol.utils.MongoDBConnection;
 
-import java.io.*;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
+
+import java.io.FileWriter;
+import java.io.Writer;
+import java.time.LocalDate;
 import java.util.*;
 
+/**
+ * Inventory class — Handles JSON + MongoDB synchronization
+ */
 public class Inventory {
 
+    /* =============================================================
+                       ATRIBUTOS PRINCIPALES
+       ============================================================= */
+
     private final List<Product> products = new ArrayList<>();
-    private final Gson gson = new Gson();
+
+    // Gson personalizado
+    private final Gson gson = new GsonBuilder()
+            .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+            .create();
+
+    /* =============================================================
+                       CONSTRUCTOR
+       ============================================================= */
+
+    public Inventory() {
+        loadProductsFromMongo();
+    }
+
+    /* =============================================================
+                       MÉTODOS BÁSICOS
+       ============================================================= */
 
     public void addProduct(Product product) {
         if (product != null) {
             products.add(product);
+            saveProductsToMongo();
         }
     }
 
@@ -28,214 +60,254 @@ public class Inventory {
             return;
         }
         System.out.println("=== Inventario Actual ===");
-        for (Product p : products) {
-            System.out.println(p);
-        }
+        for (Product p : products) System.out.println(p);
     }
 
     private String safe(String s) {
         return (s == null) ? "" : s.trim().toLowerCase();
     }
 
-    public void updateStock(String id, int quantityChange) {
-        for (Product p : products) {
-            if (p.getId().equals(id)) {
-                int newStock = p.getStock() + quantityChange;
-                if (newStock < 0) {
-                    System.out.println("No hay suficiente stock para la operacion.");
-                    return;
-                }
-                p.setStock(newStock);
-                System.out.println("Stock actualizado. Nuevo stock: " + newStock);
-                return;
-            }
-        }
-        System.out.println("Producto no encontrado.");
-    }
-
     public Product findProductByName(String name) {
-        String target = safe(name);
-        for (Product p : products) {
-            if (safe(p.getName()).equals(target)) {
+        String n = safe(name);
+        for (Product p : products)
+            if (safe(p.getName()).contains(n))
                 return p;
-            }
-        }
         return null;
     }
 
     public List<Product> findProductsByName(String partial) {
-        String target = safe(partial);
+        String n = safe(partial);
         List<Product> result = new ArrayList<>();
-        for (Product p : products) {
-            if (safe(p.getName()).contains(target)) {
+        for (Product p : products)
+            if (safe(p.getName()).contains(n))
                 result.add(p);
-            }
-        }
         return result;
     }
 
     public void sellProductInteractive(Scanner sc) {
-        if (products.isEmpty()) {
-            System.out.println("No hay productos disponibles para vender.");
-            return;
-        }
 
-        System.out.println("Ingrese el nombre del producto a vender:");
-        String name = sc.nextLine().trim();
-        List<Product> matches = findProductsByName(name);
-
-        if (matches.isEmpty()) {
-            System.out.println("No se encontro ningun producto con ese nombre.");
-            return;
-        }
-
-        System.out.println("Productos encontrados:");
-        for (int i = 0; i < matches.size(); i++) {
-            System.out.printf("%d. %s%n", i + 1, matches.get(i));
-        }
-        System.out.print("Seleccione el numero del producto: ");
-        try {
-            int index = Integer.parseInt(sc.nextLine().trim()) - 1;
-            if (index < 0 || index >= matches.size()) {
-                System.out.println("Seleccion invalida.");
-                return;
-            }
-            Product selected = matches.get(index);
-            System.out.print("Ingrese la cantidad a vender: ");
-            int qty = Integer.parseInt(sc.nextLine().trim());
-            if (qty <= 0) {
-                System.out.println("Cantidad invalida.");
-                return;
-            }
-            if (selected.getStock() < qty) {
-                System.out.println("No hay suficiente stock.");
-                return;
-            }
-            selected.setStock(selected.getStock() - qty);
-            double total = selected.getPrice() * qty;
-            System.out.println("Venta realizada. Total: " + total);
-        } catch (NumberFormatException e) {
-            System.out.println("Entrada invalida.");
-        }
+    if (products.isEmpty()) {
+        System.out.println("No hay productos disponibles para vender.");
+        return;
     }
 
-    public void saveToJson(String path) {
+    System.out.print("Ingrese el nombre del producto a vender: ");
+    String name = sc.nextLine().trim();
+
+    List<Product> matches = findProductsByName(name);
+
+    if (matches.isEmpty()) {
+        System.out.println("No se encontró ningún producto con ese nombre.");
+        return;
+    }
+
+    System.out.println("\nProductos encontrados:");
+    for (int i = 0; i < matches.size(); i++) {
+        System.out.printf("%d. %s%n", i + 1, matches.get(i));
+    }
+
+    try {
+        System.out.print("Seleccione el número del producto: ");
+        int index = Integer.parseInt(sc.nextLine()) - 1;
+
+        if (index < 0 || index >= matches.size()) {
+            System.out.println("Selección inválida.");
+            return;
+        }
+
+        Product selected = matches.get(index);
+
+        System.out.print("Cantidad a vender: ");
+        int qty = Integer.parseInt(sc.nextLine().trim());
+
+        if (qty <= 0) {
+            System.out.println("Cantidad inválida.");
+            return;
+        }
+
+        if (selected.getStock() < qty) {
+            System.out.println("No hay suficiente stock.");
+            return;
+        }
+
+        selected.setStock(selected.getStock() - qty);
+
+        saveProductsToMongo();
+
+        double total = selected.getPrice() * qty;
+        System.out.println("\nVenta realizada con éxito.");
+        System.out.println("Total de la venta: $" + total);
+
+    } catch (Exception e) {
+        System.out.println("Entrada inválida: " + e.getMessage());
+    }
+}
+
+
+    public void saveToJson(String jsonPath) {
         try {
-            // NUEVA CARPETA JSON DENTRO DE utils
             FileUtils.ensureFolder(
                     "src/main/java/ec/edu/espe/petshopinventorycontrol/utils/archivesJson/"
             );
 
-            try (Writer w = new FileWriter(path)) {
+            try (Writer w = new FileWriter(jsonPath)) {
                 gson.toJson(products, w);
             }
-            System.out.println("Inventario guardado en: " + path);
-        } catch (IOException e) {
-            System.out.println("Error al guardar inventario: " + e.getMessage());
+
+            System.out.println("Inventario guardado en JSON.");
+
+        } catch (Exception e) {
+            System.out.println("❌ Error al guardar JSON: " + e.getMessage());
         }
     }
 
-    public void loadFromJson(String path) {
-        File f = new File(path);
+   
 
-        if (!f.exists()) {
-            return;
-        }
+    public void saveProductsToMongo() {
+        try {
+            MongoDatabase db = MongoDBConnection.getDatabase();
+            MongoCollection<Document> col = db.getCollection("products");
 
-        try (Reader r = new FileReader(f)) {
-            List<Product> loaded = gson.fromJson(r, new TypeToken<List<Product>>() {}.getType());
-            products.clear();
-            if (loaded != null) {
-                products.addAll(loaded);
+            col.drop();
+
+            List<Document> docs = new ArrayList<>();
+            for (Product p : products) {
+                docs.add(new Document("id", p.getId())
+                        .append("name", p.getName())
+                        .append("price", p.getPrice())
+                        .append("stock", p.getStock())
+                        .append("category", p.getCategory())
+                        .append("animal", p.getAnimal())
+                        .append("size", p.getSize())
+                        .append("brand", p.getBrand()));
             }
-            System.out.println("Inventario cargado desde: " + path);
-        } catch (IOException e) {
-            System.out.println("Error al cargar inventario: " + e.getMessage());
+
+            if (!docs.isEmpty()) {
+                col.insertMany(docs);
+            }
+
+            System.out.println("✔ Inventario sincronizado con MongoDB.");
+
+        } catch (Exception e) {
+            System.out.println("❌ Error MongoDB: " + e.getMessage());
         }
     }
 
-    public void generateReport() {
-        System.out.println("=== Reporte de Inventario ===");
-        double totalValue = 0;
-        int totalItems = 0;
+    public void loadProductsFromMongo() {
+        try {
+            MongoDatabase db = MongoDBConnection.getDatabase();
+            MongoCollection<Document> col = db.getCollection("products");
 
-        Map<String, Integer> categoryCount = new HashMap<>();
+            List<Document> docs = col.find().into(new ArrayList<>());
 
-        for (Product p : products) {
-            totalValue += p.getPrice() * p.getStock();
-            totalItems += p.getStock();
+            products.clear();
 
-            String key = safe(p.getCategory());
-            categoryCount.put(key, categoryCount.getOrDefault(key, 0) + p.getStock());
-        }
+            for (Document d : docs) {
+                products.add(new Product(
+                        d.getString("id"),
+                        d.getString("name"),
+                        d.getDouble("price"),
+                        d.getInteger("stock"),
+                        d.getString("category"),
+                        d.getString("animal"),
+                        d.getString("size"),
+                        d.getString("brand")
+                ));
+            }
 
-        System.out.println("Total de productos (unidades): " + totalItems);
-        System.out.println("Valor total del inventario: " + totalValue);
+            if (!docs.isEmpty())
+                System.out.println("✔ Inventario cargado desde MongoDB.");
 
-        System.out.println("\nProductos por categoria:");
-        for (Map.Entry<String, Integer> e : categoryCount.entrySet()) {
-            System.out.printf("  %s: %d%n", e.getKey(), e.getValue());
+        } catch (Exception e) {
+            System.out.println("❌ Error cargando desde MongoDB: " + e.getMessage());
         }
     }
+
+    /* =============================================================
+                       SECCIÓN: MODIFICAR INVENTARIO
+       ============================================================= */
 
     public void modifyInventoryByCategory(Scanner sc, String jsonPath) {
-        System.out.print("Ingrese la categoria de productos a modificar: ");
-        String category = sc.nextLine().trim().toLowerCase();
-        List<Product> filtered = new ArrayList<>();
-        for (Product p : products) {
-            if (safe(p.getCategory()).equals(category)) {
-                filtered.add(p);
-            }
-        }
 
-        if (filtered.isEmpty()) {
-            System.out.println("No se encontraron productos en esa categoria.");
+        System.out.println("\n=== MODIFICAR INVENTARIO ===");
+        System.out.print("Categoría: ");
+
+        String category = sc.nextLine().trim().toUpperCase();
+
+        List<Product> matches = new ArrayList<>();
+        for (Product p : products)
+            if (p.getCategory().equalsIgnoreCase(category))
+                matches.add(p);
+
+        if (matches.isEmpty()) {
+            System.out.println("No hay productos en esa categoría.");
             return;
         }
 
-        System.out.println("Productos encontrados:");
-        for (int i = 0; i < filtered.size(); i++) {
-            System.out.printf("%d. %s%n", i + 1, filtered.get(i));
-        }
+        System.out.println("\nProductos:");
+        for (int i = 0; i < matches.size(); i++)
+            System.out.println((i + 1) + ". " + matches.get(i));
 
-        System.out.print("Seleccione el numero del producto a modificar: ");
         try {
-            int index = Integer.parseInt(sc.nextLine().trim()) - 1;
-            if (index < 0 || index >= filtered.size()) {
-                System.out.println("Seleccion invalida.");
-                return;
-            }
-            Product target = filtered.get(index);
+            System.out.print("Seleccione número: ");
+            int index = Integer.parseInt(sc.nextLine()) - 1;
 
-            System.out.println("¿Que desea modificar?");
-            System.out.println("1. Precio");
-            System.out.println("2. Stock");
-            System.out.print("Opcion: ");
-            String op = sc.nextLine().trim();
+            Product selected = matches.get(index);
+
+            System.out.println("\n1. Cambiar precio\n2. Cambiar stock");
+            String op = sc.nextLine();
 
             switch (op) {
                 case "1" -> {
-                    System.out.print("Ingrese el nuevo precio: ");
-                    double np = Double.parseDouble(sc.nextLine().trim());
-                    target.setPrice(np);
-                    System.out.println("Precio actualizado.");
+                    System.out.print("Nuevo precio: ");
+                    selected.setPrice(Double.parseDouble(sc.nextLine()));
                 }
                 case "2" -> {
-                    System.out.print("Ingrese el nuevo stock: ");
-                    int ns = Integer.parseInt(sc.nextLine().trim());
-                    target.setStock(ns);
-                    System.out.println("Stock actualizado.");
+                    System.out.print("Nuevo stock: ");
+                    selected.setStock(Integer.parseInt(sc.nextLine()));
                 }
                 default -> {
-                    System.out.println("Opcion no valida.");
+                    System.out.println("Opción inválida.");
                     return;
                 }
             }
 
             saveToJson(jsonPath);
+            saveProductsToMongo();
 
-        } catch (NumberFormatException e) {
-            System.out.println("Entrada invalida.");
+            System.out.println("✔ Cambios guardados.");
+
+        } catch (Exception e) {
+            System.out.println("❌ Error: " + e.getMessage());
         }
+    }
+
+    /* =============================================================
+                       SECCIÓN: REPORTES
+       ============================================================= */
+
+    public void generateReport() {
+
+        System.out.println("\n=== REPORTE ===");
+
+        if (products.isEmpty()) {
+            System.out.println("Inventario vacío.");
+            return;
+        }
+
+        int count = products.size();
+        double totalValue = 0;
+        int low = 0;
+
+        for (Product p : products) {
+            totalValue += p.getStock() * p.getPrice();
+            if (p.getStock() < 5) low++;
+        }
+
+        System.out.println("Total productos: " + count);
+        System.out.println("Valor total: $" + totalValue);
+        System.out.println("Bajo stock (<5): " + low);
+
+        saveProductsToMongo();
     }
 }

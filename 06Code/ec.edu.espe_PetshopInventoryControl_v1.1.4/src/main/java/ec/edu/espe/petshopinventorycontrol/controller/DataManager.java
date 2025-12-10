@@ -8,48 +8,81 @@ import org.bson.Document;
 
 public class DataManager {
 
-    // URI de CONEXIÓN (TU LLAVE)
-    private static final String CONNECTION_STRING = 
-        "mongodb+srv://Mikael:Mikael1897@cluster0.fpyoe9m.mongodb.net/?appName=Cluster0"; 
+    // ✔ TU URI REAL DE MONGO ATLAS (la que tú me enviaste)
+    private static final String CONNECTION_STRING =
+        "mongodb+srv://Steven:Steven2001@cluster0.mp8muds.mongodb.net/?appName=Cluster0";
 
-    private static MongoClient clienteMongo;
-    private static MongoDatabase baseDeDatos;
+    // ✔ Objetos principales del cliente Mongo
+    private static MongoClient mongoClient = null;
+    private static MongoDatabase database = null;
 
+    /**
+     * --------------------------------------------------------
+     * ✔ MÉTODO PRINCIPAL PARA UNA SOLA CONEXIÓN
+     * --------------------------------------------------------
+     */
     public static void conectar() {
         try {
-            // El traductor usa la URI para abrir la conexión
-            clienteMongo = MongoClients.create(CONNECTION_STRING);
-            baseDeDatos = clienteMongo.getDatabase("PetShopDB"); 
-            System.out.println(" ¡Conexión con Atlas establecida con éxito!");
+            if (mongoClient == null) {
+                mongoClient = MongoClients.create(CONNECTION_STRING);
+                System.out.println(" Conexión establecida con MongoDB Atlas.");
+            }
+
+            if (database == null) {
+                database = mongoClient.getDatabase("PetShopDB");
+                System.out.println(" Base de datos PetShopDB activa.");
+            }
 
         } catch (Exception e) {
-            System.err.println(" ERROR: No se pudo conectar a Atlas. Revisa tu URI o la conexión.");
-            e.printStackTrace();
+            System.err.println("❌ ERROR al conectar: " + e.getMessage());
         }
     }
 
+    /**
+     * --------------------------------------------------------
+     * ✔ DEVUELVE LA BASE DE DATOS (USADO EN TODAS LAS VENTANAS)
+     * --------------------------------------------------------
+     */
     public static MongoDatabase getDB() {
-        if (baseDeDatos == null) {
-            conectar(); 
+        if (database == null) {
+            conectar(); // Garantizamos que existe conexión
         }
-        return baseDeDatos;
+        return database;
     }
-    
-    public static void guardarDocumento(String coleccion, Document documento) {
+
+    /**
+     * --------------------------------------------------------
+     * ✔ OBTENER UNA COLECCIÓN
+     * --------------------------------------------------------
+     */
+    public static MongoCollection<Document> getCollection(String collectionName) {
+        return getDB().getCollection(collectionName);
+    }
+
+    /**
+     * --------------------------------------------------------
+     * ✔ GUARDAR CUALQUIER DOCUMENTO
+     * --------------------------------------------------------
+     */
+    public static void saveDocument(String collectionName, Document doc) {
         try {
-            MongoCollection<Document> coll = getDB().getCollection(coleccion);
-            coll.insertOne(documento);
-            System.out.println("Documento guardado en la colección: " + coleccion);
+            MongoCollection<Document> coll = getCollection(collectionName);
+            coll.insertOne(doc);
+            System.out.println(" Documento guardado en la colección: " + collectionName);
         } catch (Exception e) {
-            System.err.println("Fallo al guardar: " + e.getMessage());
+            System.err.println("❌ ERROR al guardar documento: " + e.getMessage());
         }
     }
 
-    public static void cerrar() {
-        if (clienteMongo != null) {
-            clienteMongo.close();
-            System.out.println("Conexión con Atlas cerrada.");
+    /**
+     * --------------------------------------------------------
+     * ✔ CERRAR CONEXIÓN (opcional al salir del sistema)
+     * --------------------------------------------------------
+     */
+    public static void close() {
+        if (mongoClient != null) {
+            mongoClient.close();
+            System.out.println(" Conexión con MongoDB cerrada correctamente.");
         }
     }
 }
-

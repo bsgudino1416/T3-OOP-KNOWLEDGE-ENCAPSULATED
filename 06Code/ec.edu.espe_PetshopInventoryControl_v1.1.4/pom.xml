@@ -10,11 +10,13 @@
     <version>1.0</version>
     <packaging>jar</packaging>
 
-    <name>PetshopInventoryControl</name>
+    <name>PetshopInventoryControl v1.1.4</name>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>24</maven.compiler.source>
+        <maven.compiler.target>24</maven.compiler.target>
         <maven.compiler.release>24</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
@@ -23,17 +25,30 @@
             <artifactId>gson</artifactId>
             <version>2.11.0</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver-sync</artifactId>
-            <version>4.11.1</version> 
+            <version>4.11.1</version>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
 
+            <!-- COMPILADOR JAVA -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <release>24</release>
+                    <compilerArgs>
+                        <arg>--enable-preview</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+
+            <!-- EJECUTAR PROYECTO -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -46,15 +61,10 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>ec.edu.espe.petshopinventorycontrol.controller.PetShopMain</mainClass>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
-                <configuration>
-                    <release>24</release>
+                    <mainClass>ec.edu.espe.petshopinventorycontrol.view.LoginPetshop</mainClass>
+                    <arguments>
+                        <argument>--enable-preview</argument>
+                    </arguments>
                 </configuration>
             </plugin>
 

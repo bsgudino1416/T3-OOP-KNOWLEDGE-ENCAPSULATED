@@ -2,7 +2,7 @@ package ec.edu.espe.petshopinventorycontrol.model;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import ec.edu.espe.petshopinventorycontrol.utils.FileUtils;
+import ec.edu.espe.petshopinventorycontrol.controller.FileUtils;
 
 import java.io.*;
 import java.util.*;
