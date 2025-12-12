@@ -17,7 +17,7 @@ public class FrmManagerGenerateReport extends javax.swing.JFrame {
      * Creates new form NewJFrame1
      */
     public FrmManagerGenerateReport() {
-
+        initComponents();
     }
     
   

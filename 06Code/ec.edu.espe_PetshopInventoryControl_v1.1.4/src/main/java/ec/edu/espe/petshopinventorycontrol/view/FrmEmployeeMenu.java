@@ -11,6 +11,12 @@ package ec.edu.espe.petshopinventorycontrol.view;
 public class FrmEmployeeMenu extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmEmployeeMenu.class.getName());
+    private String loggedUser;
+
+    public FrmEmployeeMenu(String loggedUser) {
+        initComponents();
+        this.loggedUser = loggedUser;
+    }
 
     /**
      * Creates new form NewJFrame
@@ -32,12 +38,12 @@ public class FrmEmployeeMenu extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnAddProductEmployeeMenu = new javax.swing.JButton();
+        btnReportEmployeeMenu = new javax.swing.JButton();
+        btnSalesEmployeeMenu = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jButton5 = new javax.swing.JButton();
+        btnExit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -69,24 +75,24 @@ public class FrmEmployeeMenu extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel3.setText("Qué desea hacer? ");
 
-        jButton1.setText("Agregar productos a la tienda");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnAddProductEmployeeMenu.setText("Agregar productos a la tienda");
+        btnAddProductEmployeeMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnAddProductEmployeeMenuActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Ver reporte de ventas");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnReportEmployeeMenu.setText("Ver reporte de ventas");
+        btnReportEmployeeMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnReportEmployeeMenuActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Ventas");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnSalesEmployeeMenu.setText("Ventas");
+        btnSalesEmployeeMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnSalesEmployeeMenuActionPerformed(evt);
             }
         });
 
@@ -100,9 +106,9 @@ public class FrmEmployeeMenu extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(55, 55, 55)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAddProductEmployeeMenu)
+                    .addComponent(btnReportEmployeeMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSalesEmployeeMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(43, 43, 43)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,20 +126,20 @@ public class FrmEmployeeMenu extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(btnAddProductEmployeeMenu)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
+                .addComponent(btnSalesEmployeeMenu)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3)
+                .addComponent(btnReportEmployeeMenu)
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
         jPanel4.setBackground(new java.awt.Color(0, 0, 119));
 
-        jButton5.setText("Salir");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        btnExit.setText("Salir");
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                btnExitActionPerformed(evt);
             }
         });
 
@@ -143,14 +149,14 @@ public class FrmEmployeeMenu extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(120, 120, 120)
-                .addComponent(jButton5)
+                .addComponent(btnExit)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jButton5)
+                .addComponent(btnExit)
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
@@ -181,35 +187,36 @@ public class FrmEmployeeMenu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnAddProductEmployeeMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProductEmployeeMenuActionPerformed
         // TODO add your handling code here:
         FrmManagerAddProduct add = new FrmManagerAddProduct();
         add.setVisible(true);
         add.setLocationRelativeTo(null);
         this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnAddProductEmployeeMenuActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnSalesEmployeeMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalesEmployeeMenuActionPerformed
         // TODO add your handling code here:
-        FrmEmployeeSale sale = new FrmEmployeeSale();
+        FrmEmployeeSale sale = new FrmEmployeeSale(loggedUser);
         sale.setVisible(true);
         sale.setLocationRelativeTo(null);
         this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnSalesEmployeeMenuActionPerformed
+
+    private void btnReportEmployeeMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportEmployeeMenuActionPerformed
         // TODO add your handling code here:
         FrmManagerGenerateReport report = new FrmManagerGenerateReport();
         report.setVisible(true);
         report.setLocationRelativeTo(null);
         this.dispose();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnReportEmployeeMenuActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         // TODO add your handling code here:
         new LoginPetshop().setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_btnExitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -237,10 +244,10 @@ public class FrmEmployeeMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton btnAddProductEmployeeMenu;
+    private javax.swing.JButton btnExit;
+    private javax.swing.JButton btnReportEmployeeMenu;
+    private javax.swing.JButton btnSalesEmployeeMenu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -30,7 +30,73 @@ public class FrmEmployeeSale extends javax.swing.JFrame {
     }
 
     public FrmEmployeeSale() {
+        initComponents();
+        agregarValidaciones();
+    }
 
+    private Document guardarCliente() {
+
+        MongoDatabase db = DataManager.getDB();
+        MongoCollection<Document> clientes = db.getCollection("cliente");
+
+        Document cliente = new Document()
+                .append("nombre", txtNameandLastNameEmployeeSale.getText())
+                .append("tipo_identificacion", jComboBox1.getSelectedItem().toString())
+                .append("identificacion", txtIdentificationEmployeeSale.getText())
+                .append("telefono", txtPhoneEmployeeSale.getText())
+                .append("direccion", txtAdressEmployeeSale.getText())
+                .append("ciudad", txtCityEmployeeSale.getText())
+                .append("registrado_por", txtEmployeeEmployeeSale.getText())
+                .append("fecha_registro", new java.util.Date());
+
+        clientes.insertOne(cliente);
+
+        return cliente;
+    }
+
+    private void guardarFacturaCompleta() {
+
+        MongoDatabase db = DataManager.getDB();
+        MongoCollection<Document> facturas = db.getCollection("factura");
+
+        // 1️⃣ Guardar cliente
+        Document cliente = guardarCliente();
+
+        // 2️⃣ Productos desde la tabla
+        DefaultTableModel model
+                = (DefaultTableModel) tblAddinthecarEmployeeSale.getModel();
+
+        java.util.List<Document> productos = new java.util.ArrayList<>();
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+
+            Document item = new Document()
+                    .append("producto_id", model.getValueAt(i, 0))
+                    .append("cantidad", model.getValueAt(i, 1))
+                    .append("descripcion", model.getValueAt(i, 2))
+                    .append("marca", model.getValueAt(i, 3))
+                    .append("precio_unitario", model.getValueAt(i, 4))
+                    .append("total", model.getValueAt(i, 5));
+
+            productos.add(item);
+        }
+
+        // 3️⃣ Documento factura
+        Document factura = new Document()
+                .append("cliente", cliente)
+                .append("productos", productos)
+                .append("subtotal", Double.parseDouble(txtSubtotalEmployeeSale.getText()))
+                .append("iva", Double.parseDouble(txtIVAEmployeeSale.getText()))
+                .append("total_pagar", Double.parseDouble(txtTotalofSaleEmployeeSale.getText()))
+                .append("observacion", TxtaObservationEmployeeSale.getText())
+                .append("atendido_por", loggedUser)
+                .append("fecha", new java.util.Date());
+
+        facturas.insertOne(factura);
+
+        JOptionPane.showMessageDialog(this,
+                "Factura guardada correctamente",
+                "Éxito", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void agregarValidaciones() {
@@ -72,6 +138,19 @@ public class FrmEmployeeSale extends javax.swing.JFrame {
         txtIdentificationEmployeeSale.setText("");
     }
 
+    private void bttnPrintEmployeeSaleActionPerformed(
+            java.awt.event.ActionEvent evt) {
+
+        if (tblAddinthecarEmployeeSale.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this,
+                    "No hay productos en la factura");
+            return;
+        }
+
+        guardarFacturaCompleta();
+        limpiarTodo();
+    }
+
     private void validarLongitudIdentificacion(java.awt.event.KeyEvent evt) {
         if (!Character.isDigit(evt.getKeyChar())) {
             evt.consume();
@@ -106,10 +185,13 @@ public class FrmEmployeeSale extends javax.swing.JFrame {
             return;
         }
 
-        Document prod = buscarProducto(new Document("id", id));
+        MongoDatabase db = DataManager.getDB();
+        MongoCollection<Document> coll = db.getCollection("productos");
+
+        Document prod = coll.find(new Document("id", id)).first();
 
         if (prod == null) {
-            JOptionPane.showMessageDialog(this, "Producto no encontrado.");
+            JOptionPane.showMessageDialog(this, "Producto no encontrado");
             return;
         }
 
@@ -134,6 +216,21 @@ public class FrmEmployeeSale extends javax.swing.JFrame {
         txtPriceEmployeeSale.setText(String.valueOf(prod.getDouble("price")));
     }
 
+    private void calcularSubtotal() {
+
+        DefaultTableModel model
+                = (DefaultTableModel) tblAddinthecarEmployeeSale.getModel();
+
+        double subtotal = 0;
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            subtotal += Double.parseDouble(model.getValueAt(i, 5).toString());
+        }
+
+        txtSubtotalEmployeeSale.setText(String.valueOf(subtotal));
+        txtIVAEmployeeSale.setText(String.valueOf(subtotal * 0.15));
+    }
+
     private void calcularTotal() {
         try {
             double precio = Double.parseDouble(txtPriceEmployeeSale.getText());
@@ -148,25 +245,29 @@ public class FrmEmployeeSale extends javax.swing.JFrame {
 
     private void agregarYGuardar() {
 
-        DefaultTableModel model = (DefaultTableModel) tblAddinthecarEmployeeSale.getModel();
+        DefaultTableModel model
+                = (DefaultTableModel) tblAddinthecarEmployeeSale.getModel();
 
         String id = txtIdEmployeeSale.getText();
-        String cantidad = txtQuantityEmployeeSale.getText();
+        int cantidad = Integer.parseInt(txtQuantityEmployeeSale.getText());
         String producto = txtDescriptionEmployeeSale.getText();
-        String precio = txtPriceEmployeeSale.getText();
-        String total = txtTotalEmployeeSale.getText();
+        double precio = Double.parseDouble(txtPriceEmployeeSale.getText());
+        double total = Double.parseDouble(txtTotalEmployeeSale.getText());
 
-        // ← Debe leerse MARCA desde MongoDB
+        // MARCA desde MongoDB
         Document prod = buscarProducto(new Document("id", id));
-        String marca = prod != null ? prod.getString("brand") : "Desconocida";
+        String marca = prod != null ? prod.getString("brand") : "N/D";
 
-        // Añadir a la tabla
-        model.addRow(new Object[]{id, cantidad, producto, marca, precio, total});
+        model.addRow(new Object[]{
+            id,
+            cantidad,
+            producto,
+            marca,
+            precio,
+            total
+        });
 
         calcularSubtotal();
-
-        // GUARDAR DIRECTO EN LA COLLECTION FACTURA
-        guardarFacturaIndividual(id, cantidad, producto, marca, precio, total);
     }
 
     /**
@@ -174,7 +275,11 @@ public class FrmEmployeeSale extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-
+        java.awt.EventQueue.invokeLater(() -> {
+            FrmEmployeeSale sale = new FrmEmployeeSale("PRUEBA");
+            sale.setLocationRelativeTo(null);
+            sale.setVisible(true);
+        });
     }
 
     private void guardarFacturaIndividual(String id, String cantidad, String producto, String marca, String precio, String total) {
@@ -222,22 +327,6 @@ public class FrmEmployeeSale extends javax.swing.JFrame {
 
         DefaultTableModel model = (DefaultTableModel) tblAddinthecarEmployeeSale.getModel();
         model.setRowCount(0);
-    }
-
-    private void calcularSubtotal() {
-        DefaultTableModel model = (DefaultTableModel) tblAddinthecarEmployeeSale.getModel();
-        double subtotal = 0;
-
-        for (int i = 0; i < model.getRowCount(); i++) {
-            subtotal += Double.parseDouble(model.getValueAt(i, 5).toString());
-        }
-
-        txtSubtotalEmployeeSale.setText(String.valueOf(subtotal));
-
-        double iva = subtotal * 0.15;
-        txtIVAEmployeeSale.setText(String.valueOf(iva));
-
-        txtTotalofSaleEmployeeSale.setText(String.valueOf(subtotal + iva));
     }
 
     private void agregarProductoALaTabla() {
@@ -320,6 +409,8 @@ public class FrmEmployeeSale extends javax.swing.JFrame {
         txtSubtotalEmployeeSale = new javax.swing.JTextField();
         txtIVAEmployeeSale = new javax.swing.JTextField();
         txtTotalofSaleEmployeeSale = new javax.swing.JTextField();
+        btnTotalProductEmployeeSale = new javax.swing.JButton();
+        btnTotalNetoEmployeeSale = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -538,6 +629,20 @@ public class FrmEmployeeSale extends javax.swing.JFrame {
 
         jLabel18.setText("Total a pagar:");
 
+        btnTotalProductEmployeeSale.setText(">");
+        btnTotalProductEmployeeSale.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTotalProductEmployeeSaleActionPerformed(evt);
+            }
+        });
+
+        btnTotalNetoEmployeeSale.setText(">");
+        btnTotalNetoEmployeeSale.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTotalNetoEmployeeSaleActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -546,7 +651,7 @@ public class FrmEmployeeSale extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel4Layout.createSequentialGroup()
@@ -566,18 +671,24 @@ public class FrmEmployeeSale extends javax.swing.JFrame {
                                     .addGroup(jPanel4Layout.createSequentialGroup()
                                         .addComponent(jLabel14)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtDescriptionEmployeeSale, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabel16)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtTotalEmployeeSale, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(txtDescriptionEmployeeSale, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
+                                .addComponent(btnTotalProductEmployeeSale, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel16)
+                                .addGap(26, 26, 26)
+                                .addComponent(txtTotalEmployeeSale, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(72, 72, 72))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 801, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(16, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnTotalNetoEmployeeSale, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(12, 12, 12)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel17)
@@ -596,27 +707,32 @@ public class FrmEmployeeSale extends javax.swing.JFrame {
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel14)
-                    .addComponent(jLabel16)
-                    .addComponent(txtIdEmployeeSale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDescriptionEmployeeSale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTotalEmployeeSale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel15)
-                    .addComponent(txtPriceEmployeeSale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtQuantityEmployeeSale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel14)
+                            .addComponent(jLabel16)
+                            .addComponent(txtIdEmployeeSale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDescriptionEmployeeSale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTotalEmployeeSale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel15)
+                            .addComponent(txtPriceEmployeeSale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtQuantityEmployeeSale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(btnTotalProductEmployeeSale, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addGap(38, 38, 38))
                     .addGroup(jPanel4Layout.createSequentialGroup()
@@ -630,7 +746,8 @@ public class FrmEmployeeSale extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel18)
-                            .addComponent(txtTotalofSaleEmployeeSale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtTotalofSaleEmployeeSale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnTotalNetoEmployeeSale, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(31, Short.MAX_VALUE))))
         );
 
@@ -687,8 +804,36 @@ public class FrmEmployeeSale extends javax.swing.JFrame {
         agregarYGuardar();
     }//GEN-LAST:event_bttnAddintheCarEmployeeSaleActionPerformed
 
+    private void btnTotalProductEmployeeSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTotalProductEmployeeSaleActionPerformed
+        // TODO add your handling code here:
+
+        try {
+            double precio = Double.parseDouble(txtPriceEmployeeSale.getText());
+            int cantidad = Integer.parseInt(txtQuantityEmployeeSale.getText());
+
+            double total = precio * cantidad;
+            txtTotalEmployeeSale.setText(String.valueOf(total));
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Ingrese cantidad válida",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnTotalProductEmployeeSaleActionPerformed
+
+    private void btnTotalNetoEmployeeSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTotalNetoEmployeeSaleActionPerformed
+        // TODO add your handling code here:
+        double subtotal = Double.parseDouble(txtSubtotalEmployeeSale.getText());
+        double iva = subtotal * 0.15;
+
+        txtIVAEmployeeSale.setText(String.valueOf(iva));
+        txtTotalofSaleEmployeeSale.setText(String.valueOf(subtotal + iva));
+    }//GEN-LAST:event_btnTotalNetoEmployeeSaleActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea TxtaObservationEmployeeSale;
+    private javax.swing.JButton btnTotalNetoEmployeeSale;
+    private javax.swing.JButton btnTotalProductEmployeeSale;
     private javax.swing.JButton bttnAddintheCarEmployeeSale;
     private javax.swing.JButton bttnCleanEmployeeSale;
     private javax.swing.JButton bttnExitEmployeeSale;
