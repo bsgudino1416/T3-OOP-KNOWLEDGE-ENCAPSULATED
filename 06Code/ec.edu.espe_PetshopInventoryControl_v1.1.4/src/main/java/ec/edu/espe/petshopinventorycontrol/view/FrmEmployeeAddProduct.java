@@ -7,15 +7,14 @@ import javax.swing.JOptionPane;
  * @author Bryan Gudino, KNOWLEDGE ENCAPSULATE, @ESPE
  */
 public class FrmEmployeeAddProduct extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmEmployeeAddProduct.class.getName());
 
     private String productoSeleccionado = "";
     private String animalSeleccionado = "";
     private String marcaSeleccionada = "";
     private String detalleProducto = "";
-    
-    
+
     /**
      * Creates new form NewJFrame9
      */
@@ -88,9 +87,10 @@ public class FrmEmployeeAddProduct extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(109, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 201, Short.MAX_VALUE))
+                .addGap(104, 104, 104))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -436,13 +436,14 @@ public class FrmEmployeeAddProduct extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 632, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(16, 16, 16)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 632, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(129, Short.MAX_VALUE))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 632, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 644, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -451,7 +452,7 @@ public class FrmEmployeeAddProduct extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 169, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -459,50 +460,48 @@ public class FrmEmployeeAddProduct extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
-        
-    System.out.println("Resumen de la compra: " + lblDetailPurchase.getText());
-    // TODO add your handling code here:                                         
-    // Imprimir resumen de la compra
-    StringBuilder summary = new StringBuilder();
 
-    // Agregar detalles del producto
-    summary.append("Producto: ");
-    if (radProductMedicine.isSelected()) {
-        summary.append("Medicinas\n");
-    } else if (radProductAccesory.isSelected()) {
-        summary.append("Accesorios\n");
-    } else if (radProductToy.isSelected()) {
-        summary.append("Juguetes\n");
-    } else if (radProductFood.isSelected()) {
-        summary.append("Comida\n");
-    }
-    
-    // Agregar detalles del animal seleccionado
-    //String selectedAnimal = listAnimals.getSelectedValue();
- //   summary.append("Animal: ").append(selectedAnimal).append("\n");
+        System.out.println("Resumen de la compra: " + lblDetailPurchase.getText());
+        // TODO add your handling code here:                                         
+        // Imprimir resumen de la compra
+        StringBuilder summary = new StringBuilder();
 
-    // Agregar marca seleccionada
-    String selectedBrand = ComboBoxMake.getSelectedItem().toString();
-    summary.append("Marca registrada: ").append(selectedBrand).append("\n");
+        // Agregar detalles del producto
+        summary.append("Producto: ");
+        if (radProductMedicine.isSelected()) {
+            summary.append("Medicinas\n");
+        } else if (radProductAccesory.isSelected()) {
+            summary.append("Accesorios\n");
+        } else if (radProductToy.isSelected()) {
+            summary.append("Juguetes\n");
+        } else if (radProductFood.isSelected()) {
+            summary.append("Comida\n");
+        }
 
-    // Agregar detalle del producto
-    String productDetail = txtDetailProduct.getText();
-    summary.append("Detalle del producto: ").append(productDetail).append("\n");
+        // Agregar detalles del animal seleccionado
+        //String selectedAnimal = listAnimals.getSelectedValue();
+        //   summary.append("Animal: ").append(selectedAnimal).append("\n");
+        // Agregar marca seleccionada
+        String selectedBrand = ComboBoxMake.getSelectedItem().toString();
+        summary.append("Marca registrada: ").append(selectedBrand).append("\n");
 
-    // Agregar total a pagar
-    String totalPrice = txtTotalPrice.getText();
-    summary.append("Total a pagar: ").append(totalPrice);
+        // Agregar detalle del producto
+        String productDetail = txtDetailProduct.getText();
+        summary.append("Detalle del producto: ").append(productDetail).append("\n");
 
-    // Mostrar resumen en la consola (o en algún otro lugar)
-    System.out.println(summary.toString());
+        // Agregar total a pagar
+        String totalPrice = txtTotalPrice.getText();
+        summary.append("Total a pagar: ").append(totalPrice);
 
-    // Aquí puedes agregar cualquier lógica adicional que desees para imprimir en un formato específico o generar un archivo
-  
+        // Mostrar resumen en la consola (o en algún otro lugar)
+        System.out.println(summary.toString());
+
+        // Aquí puedes agregar cualquier lógica adicional que desees para imprimir en un formato específico o generar un archivo
 
     }//GEN-LAST:event_btnPrintActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        
+
         productButtonGroup.clearSelection();
         //listAnimals.clearSelection();
         ComboBoxMake.setSelectedIndex(0);
@@ -515,20 +514,20 @@ public class FrmEmployeeAddProduct extends javax.swing.JFrame {
         productoSeleccionado = "Medicina";
         mostrarResumenCompra();
 
-    // TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_radProductMedicineActionPerformed
 
     private void radProductAccesoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radProductAccesoryActionPerformed
         productoSeleccionado = "Accesorios";
         mostrarResumenCompra();
-        
+
         // TODO add your handling code here:
     }//GEN-LAST:event_radProductAccesoryActionPerformed
 
     private void radProductFoodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radProductFoodActionPerformed
         productoSeleccionado = "Comida";
         mostrarResumenCompra();
-        
+
         // TODO add your handling code here:
     }//GEN-LAST:event_radProductFoodActionPerformed
 
@@ -539,7 +538,7 @@ public class FrmEmployeeAddProduct extends javax.swing.JFrame {
     private void txtDetailProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDetailProductActionPerformed
         detalleProducto = txtDetailProduct.getText();
         mostrarResumenCompra();
-        
+
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDetailProductActionPerformed
 
@@ -550,14 +549,14 @@ public class FrmEmployeeAddProduct extends javax.swing.JFrame {
     private void radProductToyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radProductToyActionPerformed
         productoSeleccionado = "Juguete";
         mostrarResumenCompra();
-        
+
         // TODO add your handling code here:
     }//GEN-LAST:event_radProductToyActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        
+
         JOptionPane.showMessageDialog(this, "Información guardada exitosamente.", "Guardar", JOptionPane.INFORMATION_MESSAGE);
-    
+
         // TODO add your handling code here:
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -591,23 +590,21 @@ public class FrmEmployeeAddProduct extends javax.swing.JFrame {
     private void txtPriceAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPriceAddProductActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPriceAddProductActionPerformed
-    
-    private void mostrarResumenCompra() {
-    String resumen = productoSeleccionado + "/" + animalSeleccionado;
 
-    if (animalSeleccionado != null && animalSeleccionado.equals("Perro")) {
-       
+    private void mostrarResumenCompra() {
+        String resumen = productoSeleccionado + "/" + animalSeleccionado;
+
+        if (animalSeleccionado != null && animalSeleccionado.equals("Perro")) {
+
+        }
+
+        resumen += "//" + marcaSeleccionada + "//"; // Opción de cantidad fija
+        resumen += "//" + detalleProducto;
+
+        lblDetailPurchase.setText(resumen);
+
     }
-    
-    resumen += "//" + marcaSeleccionada + "//"; // Opción de cantidad fija
-    resumen += "//" + detalleProducto;
-    
-    lblDetailPurchase.setText(resumen);
-    
-    
-    }
-    
-    
+
     /**
      * @param args the command line arguments
      */

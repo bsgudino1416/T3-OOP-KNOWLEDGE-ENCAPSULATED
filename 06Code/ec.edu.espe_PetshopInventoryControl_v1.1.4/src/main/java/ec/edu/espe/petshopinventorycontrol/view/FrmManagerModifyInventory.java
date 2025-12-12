@@ -1,4 +1,4 @@
-package ec.edu.espe.petshopinventorycontrol.view.login;
+package ec.edu.espe.petshopinventorycontrol.view;
 
 import com.mongodb.client.FindIterable;
 import javax.swing.ImageIcon;
@@ -232,12 +232,11 @@ public class FrmManagerModifyInventory extends javax.swing.JFrame {
                                             .addComponent(jLabel6ModifyProduct)
                                             .addComponent(jLabel5ModifyProduct))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                                .addComponent(txtNewPriceModifyProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jLabel7ModifyProduct))
-                                            .addComponent(txtNewStockModifyProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txtNewPriceModifyProduct, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
+                                            .addComponent(txtNewStockModifyProduct))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel7ModifyProduct))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(rbttnPriceModifyProduct)
@@ -339,7 +338,7 @@ public class FrmManagerModifyInventory extends javax.swing.JFrame {
 
     private void bttnModifyProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnModifyProductActionPerformed
         // TODO add your handling code here:
-        
+
         int selected = tblModifyProduct.getSelectedRow();
 
         if (selected == -1) {

@@ -3,13 +3,12 @@ package ec.edu.espe.petshopinventorycontrol.view;
 import javax.swing.ImageIcon;
 import java.awt.Image;
 
-
 /**
  *
  * @author Bryan Gudino, KNOWLEDGE ENCAPSULATE, @ESPE
  */
 public class FrmEmployeeSearchProduct extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmEmployeeSearchProduct.class.getName());
 
     /**
@@ -25,7 +24,7 @@ public class FrmEmployeeSearchProduct extends javax.swing.JFrame {
         cargarImagenHorse();
         cargarImagenPig();
     }
-    
+
     private void cargarImagenDog() {
 //        lblDog.setText("");
 
@@ -36,63 +35,63 @@ public class FrmEmployeeSearchProduct extends javax.swing.JFrame {
 
         Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
 
-       // lblDog.setIcon(new ImageIcon(imagenEscalada));
+        // lblDog.setIcon(new ImageIcon(imagenEscalada));
     }
-    
+
     private void cargarImagenCat() {
-    //lblCat.setText("");
-    ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Cat.jpg"));
-    int ancho = 91;
-    int alto = 64;
-    Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-    //lblCat.setIcon(new ImageIcon(imagenEscalada));
+        //lblCat.setText("");
+        ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Cat.jpg"));
+        int ancho = 91;
+        int alto = 64;
+        Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+        //lblCat.setIcon(new ImageIcon(imagenEscalada));
     }
 
     private void cargarImagenConejillo() {
-   // lblConejillo.setText("");
-    ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Conejillo.jpg"));
-    int ancho = 91;
-    int alto = 64;
-    Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-   // lblConejillo.setIcon(new ImageIcon(imagenEscalada));
+        // lblConejillo.setText("");
+        ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Conejillo.jpg"));
+        int ancho = 91;
+        int alto = 64;
+        Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+        // lblConejillo.setIcon(new ImageIcon(imagenEscalada));
     }
 
-private void cargarImagenCow() {
-   // lblCow.setText("");
-    ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Cow.jpg"));
-    int ancho = 84;
-    int alto = 49;
-    Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-   // lblCow.setIcon(new ImageIcon(imagenEscalada));
-}
+    private void cargarImagenCow() {
+        // lblCow.setText("");
+        ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Cow.jpg"));
+        int ancho = 84;
+        int alto = 49;
+        Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+        // lblCow.setIcon(new ImageIcon(imagenEscalada));
+    }
 
     private void cargarImagenHorse() {
-    //lblHorse.setText("");
-    ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Horse.jpg"));
-    int ancho = 84;
-    int alto = 49;
-    Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-   // lblHorse.setIcon(new ImageIcon(imagenEscalada));
+        //lblHorse.setText("");
+        ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Horse.jpg"));
+        int ancho = 84;
+        int alto = 49;
+        Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+        // lblHorse.setIcon(new ImageIcon(imagenEscalada));
     }
 
     private void cargarImagenPig() {
-   // lblPig.setText("");
-    ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Pig.jpg"));
-    int ancho = 84;
-    int alto = 49;
-    Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-   // lblPig.setIcon(new ImageIcon(imagenEscalada));
+        // lblPig.setText("");
+        ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Pig.jpg"));
+        int ancho = 84;
+        int alto = 49;
+        Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+        // lblPig.setIcon(new ImageIcon(imagenEscalada));
     }
 
     private void cargarImagenChicken() {
-    //lblChicken.setText("");
-    ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Chicken.jpg"));
-    int ancho = 84;
-    int alto = 49;
-    Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-  //  lblChicken.setIcon(new ImageIcon(imagenEscalada));
+        //lblChicken.setText("");
+        ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Chicken.jpg"));
+        int ancho = 84;
+        int alto = 49;
+        Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+        //  lblChicken.setIcon(new ImageIcon(imagenEscalada));
     }
-    
+
     /**
      * @param args the command line arguments
      */

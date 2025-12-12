@@ -3,12 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package ec.edu.espe.petshopinventorycontrol.view;
+
 import ec.edu.espe.petshopinventorycontrol.controller.DataManager;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 import javax.swing.JOptionPane;
 import java.time.LocalDateTime;
+
 /**
  *
  * @author Steven Loza @ESPE
@@ -277,9 +279,9 @@ public class Registro extends javax.swing.JFrame {
 
     private void bttnExitRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnExitRegisterActionPerformed
         // TODO add your handling code here:
-                                                         
-    new LoginPetshop().setVisible(true);
-    this.dispose();
+
+        new LoginPetshop().setVisible(true);
+        this.dispose();
 
 
     }//GEN-LAST:event_bttnExitRegisterActionPerformed
@@ -291,89 +293,89 @@ public class Registro extends javax.swing.JFrame {
     private void bttnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnRegisterActionPerformed
         // TODO add your handling code here                                            
 
-    String role = (String) jComboBox2.getSelectedItem();          // Administrador / Empleado
-    String name = txtNameRegister.getText().trim();               // Nombres
-    String lastname = txtLastNameRegister1.getText().trim();      // Apellidos
-    String address = txtAdressRegister.getText().trim();          // Dirección
-    String email = txtemailRegister.getText().trim();             // Email
-    String gender = (String) jComboBox1.getSelectedItem();        // Género
-    String username = txtCreateUserRegister.getText().trim();     // Usuario para login
-    String pass = txtCreatePassRegister.getText().trim();         // Contraseña
-    String passConfirm = txtLastConfirmPassRegister.getText().trim(); // Confirmación
+        String role = (String) jComboBox2.getSelectedItem();          // Administrador / Empleado
+        String name = txtNameRegister.getText().trim();               // Nombres
+        String lastname = txtLastNameRegister1.getText().trim();      // Apellidos
+        String address = txtAdressRegister.getText().trim();          // Dirección
+        String email = txtemailRegister.getText().trim();             // Email
+        String gender = (String) jComboBox1.getSelectedItem();        // Género
+        String username = txtCreateUserRegister.getText().trim();     // Usuario para login
+        String pass = txtCreatePassRegister.getText().trim();         // Contraseña
+        String passConfirm = txtLastConfirmPassRegister.getText().trim(); // Confirmación
 
-    // VALIDAR CAMPOS VACÍOS
-    if (name.isEmpty() || lastname.isEmpty() || address.isEmpty() ||
-        email.isEmpty() || username.isEmpty() || pass.isEmpty() || passConfirm.isEmpty()) {
+        // VALIDAR CAMPOS VACÍOS
+        if (name.isEmpty() || lastname.isEmpty() || address.isEmpty()
+                || email.isEmpty() || username.isEmpty() || pass.isEmpty() || passConfirm.isEmpty()) {
 
-        JOptionPane.showMessageDialog(this,
-                "Todos los campos deben estar llenos.",
-                "Error",
-                JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-
-    // VALIDAR CONTRASEÑAS IGUALES
-    if (!pass.equals(passConfirm)) {
-        JOptionPane.showMessageDialog(this,
-                "Las contraseñas no coinciden.",
-                "Error",
-                JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-
-    try {
-        // OBTENER LA BD DESDE DataManager
-        MongoDatabase db = DataManager.getDB();
-        MongoCollection<Document> coll = db.getCollection("usuarios");
-
-        // VALIDAR QUE NO EXISTA OTRO USUARIO IGUAL
-        Document existsQuery = new Document("username", username);
-        Document existingUser = coll.find(existsQuery).first();
-        if (existingUser != null) {
             JOptionPane.showMessageDialog(this,
-                    "El nombre de usuario ya existe. Por favor elija otro.",
+                    "Todos los campos deben estar llenos.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // CREAR DOCUMENTO A GUARDAR
-        Document userDoc = new Document();
-        userDoc.put("role", role);
-        userDoc.put("username", username);
-        userDoc.put("password", pass);
-        userDoc.put("name", name);
-        userDoc.put("lastname", lastname);
-        userDoc.put("address", address);
-        userDoc.put("email", email);
-        userDoc.put("gender", gender);
-        userDoc.put("created_at", LocalDateTime.now().toString());
+        // VALIDAR CONTRASEÑAS IGUALES
+        if (!pass.equals(passConfirm)) {
+            JOptionPane.showMessageDialog(this,
+                    "Las contraseñas no coinciden.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-        // GUARDAR EN LA COLECCIÓN "usuarios"
-        coll.insertOne(userDoc);
+        try {
+            // OBTENER LA BD DESDE DataManager
+            MongoDatabase db = DataManager.getDB();
+            MongoCollection<Document> coll = db.getCollection("usuarios");
 
-        JOptionPane.showMessageDialog(this,
-                "Usuario registrado correctamente.",
-                "Éxito",
-                JOptionPane.INFORMATION_MESSAGE);
+            // VALIDAR QUE NO EXISTA OTRO USUARIO IGUAL
+            Document existsQuery = new Document("username", username);
+            Document existingUser = coll.find(existsQuery).first();
+            if (existingUser != null) {
+                JOptionPane.showMessageDialog(this,
+                        "El nombre de usuario ya existe. Por favor elija otro.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-        // OPCIONAL: LIMPIAR CAMPOS
-        txtNameRegister.setText("");
-        txtLastNameRegister1.setText("");
-        txtAdressRegister.setText("");
-        txtemailRegister.setText("");
-        txtCreateUserRegister.setText("");
-        txtCreatePassRegister.setText("");
-        txtLastConfirmPassRegister.setText("");
-        jComboBox1.setSelectedIndex(0);
-        jComboBox2.setSelectedIndex(0);
+            // CREAR DOCUMENTO A GUARDAR
+            Document userDoc = new Document();
+            userDoc.put("role", role);
+            userDoc.put("username", username);
+            userDoc.put("password", pass);
+            userDoc.put("name", name);
+            userDoc.put("lastname", lastname);
+            userDoc.put("address", address);
+            userDoc.put("email", email);
+            userDoc.put("gender", gender);
+            userDoc.put("created_at", LocalDateTime.now().toString());
 
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this,
-                "Error al registrar usuario: " + e.getMessage(),
-                "Error",
-                JOptionPane.ERROR_MESSAGE);
-    }
+            // GUARDAR EN LA COLECCIÓN "usuarios"
+            coll.insertOne(userDoc);
+
+            JOptionPane.showMessageDialog(this,
+                    "Usuario registrado correctamente.",
+                    "Éxito",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+            // OPCIONAL: LIMPIAR CAMPOS
+            txtNameRegister.setText("");
+            txtLastNameRegister1.setText("");
+            txtAdressRegister.setText("");
+            txtemailRegister.setText("");
+            txtCreateUserRegister.setText("");
+            txtCreatePassRegister.setText("");
+            txtLastConfirmPassRegister.setText("");
+            jComboBox1.setSelectedIndex(0);
+            jComboBox2.setSelectedIndex(0);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al registrar usuario: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
 
 
     }//GEN-LAST:event_bttnRegisterActionPerformed

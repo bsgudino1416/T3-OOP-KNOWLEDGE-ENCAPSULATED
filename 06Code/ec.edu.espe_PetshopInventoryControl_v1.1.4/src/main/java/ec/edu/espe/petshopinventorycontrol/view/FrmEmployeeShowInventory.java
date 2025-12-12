@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  * @author Bryan Gudino, KNOWLEDGE ENCAPSULATE, @ESPE
  */
 public class FrmEmployeeShowInventory extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmEmployeeShowInventory.class.getName());
 
     /**
@@ -22,57 +22,102 @@ public class FrmEmployeeShowInventory extends javax.swing.JFrame {
      */
     public FrmEmployeeShowInventory() {
         initComponents();
-       
+        configurarTabla();
     }
-    
+
+    private void configurarTabla() {
+        DefaultTableModel model = new DefaultTableModel(
+                new Object[][]{},
+                new String[]{
+                    "Id", "Tipo de animal", "Tipo de producto", "Especie", "Marca", "Precio", "Stock"
+                }
+        );
+
+        tblShowProduct.setModel(model);
+    }
+
+//    private void cargarProductos() {
+//
+//    try {
+//        MongoDatabase db = DataManager.getDB();
+//        MongoCollection<Document> collection = db.getCollection("productos");
+//
+//        MongoCursor<Document> cursor = collection.find().iterator();
+//
+//        DefaultTableModel model = (DefaultTableModel) tblShowProduct.getModel();
+//        model.setRowCount(0); // limpiar tabla
+//
+//        while (cursor.hasNext()) {
+//            Document doc = cursor.next();
+//
+//            String id = doc.getString("id");
+//            String typeAnimal = doc.getString("typeAnimal");
+//            String typeProduct = doc.getString("typeProduct");
+//            String species = doc.getString("species");
+//            String brand = doc.getString("brand");
+//            double price = doc.getDouble("price");
+//            int stock = doc.getInteger("stock");
+//
+//            model.addRow(new Object[]{
+//                id, typeAnimal, typeProduct, species, brand, price, stock
+//            });
+//        }
+//
+//        cursor.close();
+//
+//        if (model.getRowCount() == 0) {
+//            JOptionPane.showMessageDialog(this, "No hay productos registrados.");
+//        }
+//
+//    } catch (Exception e) {
+//        JOptionPane.showMessageDialog(this, 
+//            "Error al cargar inventario: " + e.getMessage(),
+//            "Error", JOptionPane.ERROR_MESSAGE);
+//    }
+//}
     private void cargarProductos() {
+        try {
+            MongoDatabase db = DataManager.getDB();
+            MongoCollection<Document> collection = db.getCollection("productos");
 
-    try {
-        MongoDatabase db = DataManager.getDB();
-        MongoCollection<Document> collection = db.getCollection("productos");
+            MongoCursor<Document> cursor = collection.find().iterator();
 
-        MongoCursor<Document> cursor = collection.find().iterator();
+            DefaultTableModel model = (DefaultTableModel) tblShowProduct.getModel();
+            model.setRowCount(0); // limpiar tabla
 
-        DefaultTableModel model = (DefaultTableModel) tblShowProduct.getModel();
-        model.setRowCount(0); // limpiar tabla
+            while (cursor.hasNext()) {
+                Document doc = cursor.next();
 
-        while (cursor.hasNext()) {
-            Document doc = cursor.next();
+                model.addRow(new Object[]{
+                    doc.getString("id"),
+                    doc.getString("typeAnimal"),
+                    doc.getString("typeProduct"),
+                    doc.getString("species"),
+                    doc.getString("brand"),
+                    doc.getDouble("price"),
+                    doc.getInteger("stock")
+                });
+            }
 
-            String id = doc.getString("id");
-            String typeAnimal = doc.getString("typeAnimal");
-            String typeProduct = doc.getString("typeProduct");
-            String species = doc.getString("species");
-            String brand = doc.getString("brand");
-            double price = doc.getDouble("price");
-            int stock = doc.getInteger("stock");
+            cursor.close();
 
-            model.addRow(new Object[]{
-                id, typeAnimal, typeProduct, species, brand, price, stock
-            });
+            if (model.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(this, "No hay productos registrados.");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al cargar inventario: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
-
-        cursor.close();
-
-        if (model.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(this, "No hay productos registrados.");
-        }
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, 
-            "Error al cargar inventario: " + e.getMessage(),
-            "Error", JOptionPane.ERROR_MESSAGE);
     }
-}
 
-  
-   
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-        
+
     }
 
     /**
@@ -178,16 +223,16 @@ public class FrmEmployeeShowInventory extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(27, 27, 27)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 779, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(16, 16, 16)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -219,13 +264,13 @@ public class FrmEmployeeShowInventory extends javax.swing.JFrame {
 
     private void bttnExitShowProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnExitShowProductActionPerformed
         // TODO add your handling code here:
-        
-    this.dispose();
-    
-    // ABRIR EL MENÚ DEL GERENTE
-    FrmManagerMenu menu = new FrmManagerMenu();
-    menu.setVisible(true);
-    menu.setLocationRelativeTo(null); // centrar ventana
+
+        this.dispose();
+
+        // ABRIR EL MENÚ DEL GERENTE
+        FrmManagerMenu menu = new FrmManagerMenu();
+        menu.setVisible(true);
+        menu.setLocationRelativeTo(null); // centrar ventana
     }//GEN-LAST:event_bttnExitShowProductActionPerformed
 
     private void bttnShowProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnShowProductActionPerformed

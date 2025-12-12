@@ -4,19 +4,20 @@
  */
 package ec.edu.espe.petshopinventorycontrol.view;
 
-import ec.edu.espe.petshopinventorycontrol.view.login.FrmManagerModifyInventory;
-
 /**
  *
  * @author Steven Loza @ESPE
  */
 public class FrmManagerMenu extends javax.swing.JFrame {
 
+    private String loggedUser;
+
     /**
      * Creates new form AdministratorMenu
      */
     public FrmManagerMenu() {
         initComponents();
+        this.loggedUser = "Desconocido";
     }
 
     /**
@@ -75,6 +76,11 @@ public class FrmManagerMenu extends javax.swing.JFrame {
         });
 
         bttnRegisterNewEmployee.setText("Registrar Nuevo Colaborador");
+        bttnRegisterNewEmployee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttnRegisterNewEmployeeActionPerformed(evt);
+            }
+        });
 
         jLabel3Manager.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel3Manager.setText("Qué desea hacer? ");
@@ -159,6 +165,11 @@ public class FrmManagerMenu extends javax.swing.JFrame {
         });
 
         bttnExit.setText("Salir");
+        bttnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttnExitActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -214,10 +225,10 @@ public class FrmManagerMenu extends javax.swing.JFrame {
 
     private void bttnGenerateReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnGenerateReportActionPerformed
         // TODO add your handling code here:
-          FrmManagerGenerateReport report = new FrmManagerGenerateReport();
-    report.setVisible(true);
-    report.setLocationRelativeTo(null);
-    this.dispose();
+        FrmManagerGenerateReport report = new FrmManagerGenerateReport();
+        report.setVisible(true);
+        report.setLocationRelativeTo(null);
+        this.dispose();
     }//GEN-LAST:event_bttnGenerateReportActionPerformed
 
     private void bttnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnLogOutActionPerformed
@@ -226,24 +237,41 @@ public class FrmManagerMenu extends javax.swing.JFrame {
 
     private void bttnModifyInventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnModifyInventoryActionPerformed
         // TODO add your handling code here:
-         FrmManagerModifyInventory modify = new FrmManagerModifyInventory();
-    modify.setVisible(true);
-    modify.setLocationRelativeTo(null);
-    this.dispose(); // cerrar menú
+        FrmManagerModifyInventory modify = new FrmManagerModifyInventory();
+        modify.setVisible(true);
+        modify.setLocationRelativeTo(null);
+        this.dispose(); // cerrar menú
     }//GEN-LAST:event_bttnModifyInventoryActionPerformed
 
     private void bttnShowInventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnShowInventoryActionPerformed
         // TODO add your handling code here:
-        
+        FrmEmployeeShowInventory show = new FrmEmployeeShowInventory();
+        show.setVisible(true);
+        show.setLocationRelativeTo(null);
+        this.dispose();
     }//GEN-LAST:event_bttnShowInventoryActionPerformed
 
     private void bttnAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnAddProductActionPerformed
         // TODO add your handling code here:
-         FrmManagerAddProduct add = new FrmManagerAddProduct();
-    add.setVisible(true);
-    add.setLocationRelativeTo(null);
-    this.dispose(); // cerrar menú
+        FrmManagerAddProduct add = new FrmManagerAddProduct();
+        add.setVisible(true);
+        add.setLocationRelativeTo(null);
+        this.dispose(); // cerrar menú
     }//GEN-LAST:event_bttnAddProductActionPerformed
+
+    private void bttnRegisterNewEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnRegisterNewEmployeeActionPerformed
+        // TODO add your handling code here:
+        Registro registro = new Registro();
+        registro.setVisible(true);
+        registro.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_bttnRegisterNewEmployeeActionPerformed
+
+    private void bttnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnExitActionPerformed
+        // TODO add your handling code here:
+        new LoginPetshop().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_bttnExitActionPerformed
 
     /**
      * @param args the command line arguments

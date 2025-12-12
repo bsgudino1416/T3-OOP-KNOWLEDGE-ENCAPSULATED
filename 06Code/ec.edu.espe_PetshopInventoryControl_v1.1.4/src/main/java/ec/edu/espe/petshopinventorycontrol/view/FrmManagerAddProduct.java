@@ -6,14 +6,13 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoCollection;
 import ec.edu.espe.petshopinventorycontrol.controller.DataManager;
 import javax.swing.JOptionPane;
+
 /**
  *
  * @author Bryan Gudino, KNOWLEDGE ENCAPSULATE, @ESPE
  */
 public class FrmManagerAddProduct extends javax.swing.JFrame {
-    
 
-    
     /**
      * Creates new form NewJFrame9
      */
@@ -407,78 +406,105 @@ public class FrmManagerAddProduct extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
-        
 
 
     }//GEN-LAST:event_btnPrintActionPerformed
-private String getAnimalTypeCode() {
+    private String getAnimalTypeCode() {
 
-    if (radProductFood1.isSelected()) return "DM";  // Doméstico
-    if (radProductMedicine1.isSelected()) return "AV"; // Aves
-    if (radProductAccesory1.isSelected()) return "RP"; // Reptiles
-    if (radProductToy1.isSelected()) return "AN"; // Anfibios
-    if (radProductToy2.isSelected()) return "PC"; // Peces
-
-    return "";
-}
-private String getProductTypeCode() {
-
-    if (radProductFood.isSelected()) return "C";  // Comida
-    if (radProductMedicine.isSelected()) return "M"; // Medicina
-    if (radProductAccesory.isSelected()) return "A"; // Accesorios
-    if (radProductToy.isSelected()) return "J"; // Juguete
-
-    return "";
-}
-private String normalizeAnimal(String input) {
-    if (input == null || input.isBlank()) return "";
-
-    input = input.toLowerCase().trim();
-
-    return switch (input) {
-        case "perro" -> "DOG";
-        case "gato" -> "CAT";
-        case "caballo" -> "HORSE";
-        case "cerdo" -> "PIG";
-        case "vaca" -> "COW";
-        case "conejo" -> "RABBIT";
-        case "hamster" -> "HAM";
-        default -> input.toUpperCase(); // Si escribe “iguana”, “pato”, etc.
-    };
-}
-private String generateProductId() {
-
-    String typeAnimal = getAnimalTypeCode();     // DM, AV, RP…
-    String typeProduct = getProductTypeCode();   // C, M, A, J
-    String species = normalizeAnimal(txtAnimalAddProduct.getText());
-
-    if (typeAnimal.isEmpty() || typeProduct.isEmpty() || species.isEmpty()) {
+        if (radProductFood1.isSelected()) {
+            return "DM";  // Doméstico
+        }
+        if (radProductMedicine1.isSelected()) {
+            return "AV"; // Aves
+        }
+        if (radProductAccesory1.isSelected()) {
+            return "RP"; // Reptiles
+        }
+        if (radProductToy1.isSelected()) {
+            return "AN"; // Anfibios
+        }
+        if (radProductToy2.isSelected()) {
+            return "PC"; // Peces
+        }
         return "";
     }
 
-    String prefix = typeAnimal + typeProduct + species; // DMCAT
+    private String getProductTypeCode() {
 
-    // Obtener consecutivo desde Mongo
-    MongoDatabase db = DataManager.getDB();
-    MongoCollection<Document> coll = db.getCollection("productos");
+        if (radProductFood.isSelected()) {
+            return "C";  // Comida
+        }
+        if (radProductMedicine.isSelected()) {
+            return "M"; // Medicina
+        }
+        if (radProductAccesory.isSelected()) {
+            return "A"; // Accesorios
+        }
+        if (radProductToy.isSelected()) {
+            return "J"; // Juguete
+        }
+        return "";
+    }
 
-    long count = coll.countDocuments(new Document("id_prefix", prefix));
+    private String normalizeAnimal(String input) {
+        if (input == null || input.isBlank()) {
+            return "";
+        }
 
-    long next = count + 1;
+        input = input.toLowerCase().trim();
 
-    return prefix + String.format("%02d", next);  // DMCAT01
-}
+        return switch (input) {
+            case "perro" ->
+                "DOG";
+            case "gato" ->
+                "CAT";
+            case "caballo" ->
+                "HORSE";
+            case "cerdo" ->
+                "PIG";
+            case "vaca" ->
+                "COW";
+            case "conejo" ->
+                "RABBIT";
+            case "hamster" ->
+                "HAM";
+            default ->
+                input.toUpperCase(); // Si escribe “iguana”, “pato”, etc.
+        };
+    }
+
+    private String generateProductId() {
+
+        String typeAnimal = getAnimalTypeCode();     // DM, AV, RP…
+        String typeProduct = getProductTypeCode();   // C, M, A, J
+        String species = normalizeAnimal(txtAnimalAddProduct.getText());
+
+        if (typeAnimal.isEmpty() || typeProduct.isEmpty() || species.isEmpty()) {
+            return "";
+        }
+
+        String prefix = typeAnimal + typeProduct + species; // DMCAT
+
+        // Obtener consecutivo desde Mongo
+        MongoDatabase db = DataManager.getDB();
+        MongoCollection<Document> coll = db.getCollection("productos");
+
+        long count = coll.countDocuments(new Document("id_prefix", prefix));
+
+        long next = count + 1;
+
+        return prefix + String.format("%02d", next);  // DMCAT01
+    }
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-  this.dispose(); // Cerrar ventana actual
-    
-    FrmManagerMenu menu = new FrmManagerMenu();
-    menu.setVisible(true);
-    menu.setLocationRelativeTo(null);
-        
+        this.dispose(); // Cerrar ventana actual
+
+        FrmManagerMenu menu = new FrmManagerMenu();
+        menu.setVisible(true);
+        menu.setLocationRelativeTo(null);
 
         // TODO add your handling code here:
-      
+
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void radProductMedicineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radProductMedicineActionPerformed
@@ -487,13 +513,11 @@ private String generateProductId() {
 
     private void radProductAccesoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radProductAccesoryActionPerformed
 
-        
         // TODO add your handling code here:
     }//GEN-LAST:event_radProductAccesoryActionPerformed
 
     private void radProductFoodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radProductFoodActionPerformed
 
-        
         // TODO add your handling code here:
     }//GEN-LAST:event_radProductFoodActionPerformed
 
@@ -504,80 +528,79 @@ private String generateProductId() {
     private void txtDetailProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDetailProductActionPerformed
 //        detalleProducto = txtDetailProduct.getText();
 //        mostrarResumenCompra();
-        
+
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDetailProductActionPerformed
 
     private void radProductToyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radProductToyActionPerformed
 
-        
         // TODO add your handling code here:
     }//GEN-LAST:event_radProductToyActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        
+
         JOptionPane.showMessageDialog(this, "Información guardada exitosamente.", "Guardar", JOptionPane.INFORMATION_MESSAGE);
-    try {
-        String typeAnimal = getAnimalTypeCode();
-        String typeProduct = getProductTypeCode();
-        String species = normalizeAnimal(txtAnimalAddProduct.getText());
-        String brand = txtNewMake.getText().isBlank()
-                ? ComboBoxMake.getSelectedItem().toString()
-                : txtNewMake.getText();
-        String description = txtDetailProduct.getText();
-        double price = Double.parseDouble(txtPriceAddProduct.getText());
-        int stock = Integer.parseInt(txtStockAddProduct.getText());
+        try {
+            String typeAnimal = getAnimalTypeCode();
+            String typeProduct = getProductTypeCode();
+            String species = normalizeAnimal(txtAnimalAddProduct.getText());
+            String brand = txtNewMake.getText().isBlank()
+                    ? ComboBoxMake.getSelectedItem().toString()
+                    : txtNewMake.getText();
+            String description = txtDetailProduct.getText();
+            double price = Double.parseDouble(txtPriceAddProduct.getText());
+            int stock = Integer.parseInt(txtStockAddProduct.getText());
 
-        String id = generateProductId();
+            String id = generateProductId();
 
-        if (id.isEmpty()) {
+            if (id.isEmpty()) {
+                JOptionPane.showMessageDialog(this,
+                        "Por favor complete todos los campos obligatorios.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Crear documento MongoDB
+            Document product = new Document();
+            product.put("id", id);
+            product.put("typeAnimal", typeAnimal);
+            product.put("typeProduct", typeProduct);
+            product.put("species", species);
+            product.put("brand", brand);
+            product.put("description", description);
+            product.put("price", price);
+            product.put("stock", stock);
+            product.put("id_prefix", typeAnimal + typeProduct + species);
+
+            // Guardar en MongoDB
+            MongoDatabase db = DataManager.getDB();
+            MongoCollection<Document> coll = db.getCollection("productos");
+            coll.insertOne(product);
+
             JOptionPane.showMessageDialog(this,
-                    "Por favor complete todos los campos obligatorios.",
+                    "Producto guardado correctamente.\nID: " + id,
+                    "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+            // OPCIONAL: LIMPIAR CAMPOS DESPUÉS DE GUARDAR
+            txtAnimalAddProduct.setText("");
+            txtDetailProduct.setText("");
+            txtNewMake.setText("");
+            txtPriceAddProduct.setText("");
+            txtStockAddProduct.setText("");
+
+            productButtonGroup.clearSelection();
+            ComboBoxMake.setSelectedIndex(0);
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Precio o stock inválidos. Ingrese valores numéricos.",
                     "Error", JOptionPane.ERROR_MESSAGE);
-            return;
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al guardar el producto: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
-
-        // Crear documento MongoDB
-        Document product = new Document();
-        product.put("id", id);
-        product.put("typeAnimal", typeAnimal);
-        product.put("typeProduct", typeProduct);
-        product.put("species", species);
-        product.put("brand", brand);
-        product.put("description", description);
-        product.put("price", price);
-        product.put("stock", stock);
-        product.put("id_prefix", typeAnimal + typeProduct + species);
-
-        // Guardar en MongoDB
-        MongoDatabase db = DataManager.getDB();
-        MongoCollection<Document> coll = db.getCollection("productos");
-        coll.insertOne(product);
-
-        JOptionPane.showMessageDialog(this,
-                "Producto guardado correctamente.\nID: " + id,
-                "Éxito", JOptionPane.INFORMATION_MESSAGE);
-
-        // OPCIONAL: LIMPIAR CAMPOS DESPUÉS DE GUARDAR
-        txtAnimalAddProduct.setText("");
-        txtDetailProduct.setText("");
-        txtNewMake.setText("");
-        txtPriceAddProduct.setText("");
-        txtStockAddProduct.setText("");
-
-        productButtonGroup.clearSelection();
-        ComboBoxMake.setSelectedIndex(0);
-
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this,
-                "Precio o stock inválidos. Ingrese valores numéricos.",
-                "Error", JOptionPane.ERROR_MESSAGE);
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this,
-                "Error al guardar el producto: " + e.getMessage(),
-                "Error", JOptionPane.ERROR_MESSAGE);
-    }
         // TODO add your handling code here:
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -609,9 +632,7 @@ private String generateProductId() {
     private void txtPriceAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPriceAddProductActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPriceAddProductActionPerformed
-    
 
-    
     /**
      * @param args the command line arguments
      */
@@ -621,7 +642,7 @@ private String generateProductId() {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-     
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

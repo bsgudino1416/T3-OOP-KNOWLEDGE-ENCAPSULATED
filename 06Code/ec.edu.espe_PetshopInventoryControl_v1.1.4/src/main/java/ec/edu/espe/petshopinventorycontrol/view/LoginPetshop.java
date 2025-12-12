@@ -21,17 +21,16 @@ public class LoginPetshop extends javax.swing.JFrame {
      */
     public LoginPetshop() {
         initComponents();
-       DataManager.conectar();
-    this.setLocationRelativeTo(null);
+        DataManager.conectar();
+        this.setLocationRelativeTo(null);
 
-    
-    addListeners();
+        addListeners();
     }
 
-   private void addListeners() {
-    bttnSignIn.addActionListener(evt -> iniciarSesion());
-    bttnCreate.addActionListener(evt -> abrirRegistro());
-}
+    private void addListeners() {
+        bttnSignIn.addActionListener(evt -> iniciarSesion());
+        bttnCreate.addActionListener(evt -> abrirRegistro());
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -199,74 +198,76 @@ public class LoginPetshop extends javax.swing.JFrame {
     private void bttnSignInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnSignInActionPerformed
         // TODO add your handling code here:
         FrmManagerMenu menu = new FrmManagerMenu();
-    menu.setVisible(true);
-    menu.setLocationRelativeTo(null);
-    this.dispose();
+        menu.setVisible(true);
+        menu.setLocationRelativeTo(null);
+        this.dispose();
     }//GEN-LAST:event_bttnSignInActionPerformed
     private void iniciarSesion() {
 
         String username = txtUserLogin.getText().trim();
-    String password = new String(txtPassLogin.getPassword()).trim();
+        String password = new String(txtPassLogin.getPassword()).trim();
 
-    // Validación básica
-    if (username.isEmpty() || password.isEmpty()) {
-        JOptionPane.showMessageDialog(this,
-                "Ingrese usuario y contraseña.",
-                "Error",
-                JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-
-    try {
-        MongoDatabase db = DataManager.getDB();
-        MongoCollection<Document> coll = db.getCollection("usuarios");
-
-        // Buscar usuario en MongoDB
-        Document query = new Document("username", username)
-                .append("password", password);
-
-        Document user = coll.find(query).first();
-
-        if (user == null) {
+        // Validación básica
+        if (username.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(this,
-                    "Credenciales incorrectas.",
+                    "Ingrese usuario y contraseña.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Obtener el rol
-        String role = user.getString("role");
+        try {
+            MongoDatabase db = DataManager.getDB();
+            MongoCollection<Document> coll = db.getCollection("usuarios");
 
-        JOptionPane.showMessageDialog(this,
-                "Bienvenido " + username + " (" + role + ")",
-                "Éxito",
-                JOptionPane.INFORMATION_MESSAGE);
+            // Buscar usuario en MongoDB
+            Document query = new Document("username", username)
+                    .append("password", password);
 
-        // ✅ ABRIR MENU DEL GERENTE SI ES ADMINISTRADOR
-        if (role.equalsIgnoreCase("Administrador")) {
+            Document user = coll.find(query).first();
 
-            FrmManagerMenu menu = new FrmManagerMenu();
-            menu.setLocationRelativeTo(null);
-            menu.setVisible(true);
-            this.dispose();
-            return;
-        }
+            if (user == null) {
+                JOptionPane.showMessageDialog(this,
+                        "Credenciales incorrectas.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-        // (OPCIONAL) Aquí puedes abrir otro menú para empleado
-        if (role.equalsIgnoreCase("Empleado")) {
+            // Obtener el rol
+            String role = user.getString("role");
+
             JOptionPane.showMessageDialog(this,
-                    "El menú de empleado aún no está implementado.",
-                    "Información",
+                    "Bienvenido " + username + " (" + role + ")",
+                    "Éxito",
                     JOptionPane.INFORMATION_MESSAGE);
-        }
 
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this,
-                "Error al conectar con MongoDB: " + e.getMessage(),
-                "Error",
-                JOptionPane.ERROR_MESSAGE);
-    }
+            // ✅ ABRIR MENU DEL GERENTE SI ES ADMINISTRADOR
+            if (role.equalsIgnoreCase("Administrador")) {
+
+                FrmEmployeeSale venta = new FrmEmployeeSale(username);
+                venta.setVisible(true);
+                venta.setLocationRelativeTo(null);
+
+                this.dispose();
+
+                return;
+            }
+
+            // (OPCIONAL) Aquí puedes abrir otro menú para empleado
+            if (role.equalsIgnoreCase("Empleado")) {
+                JOptionPane.showMessageDialog(this,
+                        "El menú de empleado aún no está implementado.",
+                        "Información",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al conectar con MongoDB: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void abrirRegistro() {

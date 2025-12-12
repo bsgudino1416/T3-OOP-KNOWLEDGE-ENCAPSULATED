@@ -1,116 +1,268 @@
 package ec.edu.espe.petshopinventorycontrol.view;
 
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import ec.edu.espe.petshopinventorycontrol.controller.DataManager;
 import javax.swing.ImageIcon;
 import java.awt.Image;
-
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import org.bson.Document;
 
 /**
  *
  * @author Bryan Gudino, KNOWLEDGE ENCAPSULATE, @ESPE
  */
 public class FrmEmployeeSale extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmEmployeeSale.class.getName());
 
     /**
      * Creates new form NewJFrame1
      */
-    public FrmEmployeeSale() {
+    private String loggedUser;
+
+    public FrmEmployeeSale(String loggedUser) {
         initComponents();
-        cargarImagenDog();
-        cargarImagenCat();
-        cargarImagenConejillo();
-        cargarImagenCow();
-        cargarImagenChicken();
-        cargarImagenHorse();
-        cargarImagenPig();
-    }
-    
-    private void cargarImagenDog() {
-//        lblDog.setText("");
-
-        ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Dog.jpg"));
-
-        int ancho = 91;
-        int alto = 64;
-
-        Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-
-       // lblDog.setIcon(new ImageIcon(imagenEscalada));
-    }
-    
-    private void cargarImagenCat() {
-    //lblCat.setText("");
-    ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Cat.jpg"));
-    int ancho = 91;
-    int alto = 64;
-    Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-    //lblCat.setIcon(new ImageIcon(imagenEscalada));
+        this.loggedUser = loggedUser;
+        txtEmployeeEmployeeSale.setText(loggedUser);
+        agregarValidaciones();
     }
 
-    private void cargarImagenConejillo() {
-   // lblConejillo.setText("");
-    ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Conejillo.jpg"));
-    int ancho = 91;
-    int alto = 64;
-    Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-   // lblConejillo.setIcon(new ImageIcon(imagenEscalada));
+    public FrmEmployeeSale() {
+
     }
 
-private void cargarImagenCow() {
-   // lblCow.setText("");
-    ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Cow.jpg"));
-    int ancho = 84;
-    int alto = 49;
-    Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-   // lblCow.setIcon(new ImageIcon(imagenEscalada));
-}
+    private void agregarValidaciones() {
 
-    private void cargarImagenHorse() {
-    //lblHorse.setText("");
-    ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Horse.jpg"));
-    int ancho = 84;
-    int alto = 49;
-    Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-   // lblHorse.setIcon(new ImageIcon(imagenEscalada));
+        jComboBox1.addActionListener(e -> validarTipoIdentificacion());
+
+        txtIdentificationEmployeeSale.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                validarLongitudIdentificacion(evt);
+            }
+        });
+
+        txtPhoneEmployeeSale.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                validarTelefono(evt);
+            }
+        });
+
+        txtQuantityEmployeeSale.addActionListener(e -> calcularTotal());
+
+        txtIdEmployeeSale.addActionListener(e -> cargarProductoPorId());
+        txtDescriptionEmployeeSale.addActionListener(e -> cargarProductoPorDescripcion());
     }
 
-    private void cargarImagenPig() {
-   // lblPig.setText("");
-    ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Pig.jpg"));
-    int ancho = 84;
-    int alto = 49;
-    Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-   // lblPig.setIcon(new ImageIcon(imagenEscalada));
+    private int maxDigitos = 0;
+
+    private void validarTipoIdentificacion() {
+        String tipo = jComboBox1.getSelectedItem().toString();
+
+        switch (tipo) {
+            case "Cédula" ->
+                maxDigitos = 10;
+            case "Pasaporte" ->
+                maxDigitos = 20;
+            case "RUC" ->
+                maxDigitos = 13;
+        }
+
+        txtIdentificationEmployeeSale.setText("");
     }
 
-    private void cargarImagenChicken() {
-    //lblChicken.setText("");
-    ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Chicken.jpg"));
-    int ancho = 84;
-    int alto = 49;
-    Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-  //  lblChicken.setIcon(new ImageIcon(imagenEscalada));
+    private void validarLongitudIdentificacion(java.awt.event.KeyEvent evt) {
+        if (!Character.isDigit(evt.getKeyChar())) {
+            evt.consume();
+            return;
+        }
+
+        if (txtIdentificationEmployeeSale.getText().length() >= maxDigitos) {
+            evt.consume();
+        }
     }
-    
+
+    private void validarTelefono(java.awt.event.KeyEvent evt) {
+        if (!Character.isDigit(evt.getKeyChar())) {
+            evt.consume();
+            return;
+        }
+
+        if (txtPhoneEmployeeSale.getText().length() >= 10) {
+            evt.consume();
+        }
+    }
+
+    private Document buscarProducto(Document filtro) {
+        MongoDatabase db = DataManager.getDB();
+        MongoCollection<Document> collection = db.getCollection("productos");
+        return collection.find(filtro).first();
+    }
+
+    private void cargarProductoPorId() {
+        String id = txtIdEmployeeSale.getText().trim();
+        if (id.isEmpty()) {
+            return;
+        }
+
+        Document prod = buscarProducto(new Document("id", id));
+
+        if (prod == null) {
+            JOptionPane.showMessageDialog(this, "Producto no encontrado.");
+            return;
+        }
+
+        txtDescriptionEmployeeSale.setText(prod.getString("description"));
+        txtPriceEmployeeSale.setText(String.valueOf(prod.getDouble("price")));
+    }
+
+    private void cargarProductoPorDescripcion() {
+        String desc = txtDescriptionEmployeeSale.getText().trim();
+        if (desc.isEmpty()) {
+            return;
+        }
+
+        Document prod = buscarProducto(new Document("description", desc));
+
+        if (prod == null) {
+            JOptionPane.showMessageDialog(this, "Producto no encontrado.");
+            return;
+        }
+
+        txtIdEmployeeSale.setText(prod.getString("id"));
+        txtPriceEmployeeSale.setText(String.valueOf(prod.getDouble("price")));
+    }
+
+    private void calcularTotal() {
+        try {
+            double precio = Double.parseDouble(txtPriceEmployeeSale.getText());
+            int cantidad = Integer.parseInt(txtQuantityEmployeeSale.getText());
+
+            double total = precio * cantidad;
+            txtTotalEmployeeSale.setText(String.valueOf(total));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Cantidad inválida.");
+        }
+    }
+
+    private void agregarYGuardar() {
+
+        DefaultTableModel model = (DefaultTableModel) tblAddinthecarEmployeeSale.getModel();
+
+        String id = txtIdEmployeeSale.getText();
+        String cantidad = txtQuantityEmployeeSale.getText();
+        String producto = txtDescriptionEmployeeSale.getText();
+        String precio = txtPriceEmployeeSale.getText();
+        String total = txtTotalEmployeeSale.getText();
+
+        // ← Debe leerse MARCA desde MongoDB
+        Document prod = buscarProducto(new Document("id", id));
+        String marca = prod != null ? prod.getString("brand") : "Desconocida";
+
+        // Añadir a la tabla
+        model.addRow(new Object[]{id, cantidad, producto, marca, precio, total});
+
+        calcularSubtotal();
+
+        // GUARDAR DIRECTO EN LA COLLECTION FACTURA
+        guardarFacturaIndividual(id, cantidad, producto, marca, precio, total);
+    }
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
+
+    }
+
+    private void guardarFacturaIndividual(String id, String cantidad, String producto, String marca, String precio, String total) {
+
+        MongoDatabase db = DataManager.getDB();
+        MongoCollection<Document> facturas = db.getCollection("factura"); // nombre EXACTO que pediste
+
+        Document detalle = new Document()
+                .append("cliente", txtNameandLastNameEmployeeSale.getText())
+                .append("documento", txtIdentificationEmployeeSale.getText())
+                .append("telefono", txtPhoneEmployeeSale.getText())
+                .append("direccion", txtAdressEmployeeSale.getText())
+                .append("ciudad", txtCityEmployeeSale.getText())
+                .append("atendido_por", loggedUser)
+                .append("producto_id", id)
+                .append("cantidad", cantidad)
+                .append("descripcion", producto)
+                .append("marca", marca)
+                .append("precio_unitario", precio)
+                .append("total", total)
+                .append("observacion", TxtaObservationEmployeeSale.getText())
+                .append("subtotal", txtSubtotalEmployeeSale.getText())
+                .append("iva", txtIVAEmployeeSale.getText())
+                .append("total_pagar", txtTotalofSaleEmployeeSale.getText());
+
+        facturas.insertOne(detalle);
+    }
+
+    private void limpiarTodo() {
+
+        txtNameandLastNameEmployeeSale.setText("");
+        txtIdentificationEmployeeSale.setText("");
+        txtPhoneEmployeeSale.setText("");
+        txtAdressEmployeeSale.setText("");
+        txtCityEmployeeSale.setText("");
+        txtIdEmployeeSale.setText("");
+        txtDescriptionEmployeeSale.setText("");
+        txtPriceEmployeeSale.setText("");
+        txtQuantityEmployeeSale.setText("");
+        txtTotalEmployeeSale.setText("");
+        txtSubtotalEmployeeSale.setText("");
+        txtIVAEmployeeSale.setText("");
+        txtTotalofSaleEmployeeSale.setText("");
+        TxtaObservationEmployeeSale.setText("");
+
+        DefaultTableModel model = (DefaultTableModel) tblAddinthecarEmployeeSale.getModel();
+        model.setRowCount(0);
+    }
+
+    private void calcularSubtotal() {
+        DefaultTableModel model = (DefaultTableModel) tblAddinthecarEmployeeSale.getModel();
+        double subtotal = 0;
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            subtotal += Double.parseDouble(model.getValueAt(i, 5).toString());
         }
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new FrmEmployeeSale().setVisible(true));
+        txtSubtotalEmployeeSale.setText(String.valueOf(subtotal));
+
+        double iva = subtotal * 0.15;
+        txtIVAEmployeeSale.setText(String.valueOf(iva));
+
+        txtTotalofSaleEmployeeSale.setText(String.valueOf(subtotal + iva));
+    }
+
+    private void agregarProductoALaTabla() {
+        DefaultTableModel model = (DefaultTableModel) tblAddinthecarEmployeeSale.getModel();
+
+        String id = txtIdEmployeeSale.getText();
+        String cantidad = txtQuantityEmployeeSale.getText();
+        String producto = txtDescriptionEmployeeSale.getText();
+        String marca = ""; // Marca viene del MongoDB → species
+        String precio = txtPriceEmployeeSale.getText();
+        String total = txtTotalEmployeeSale.getText();
+
+        model.addRow(new Object[]{id, cantidad, producto, marca, precio, total});
+
+        calcularSubtotal();
+    }
+
+    private void salir() {
+        // ← AQUÍ PONES A QUÉ FORM DEBE IR
+        // Ejemplo:
+        // FrmManagerMenu menu = new FrmManagerMenu(loggedUser);
+        // menu.setVisible(true);
+        // menu.setLocationRelativeTo(null);
+
+        this.dispose();
     }
 
     /**
@@ -182,16 +334,16 @@ private void cargarImagenCow() {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(355, 355, 355)
+                .addGap(367, 367, 367)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(21, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jPanel3.setBackground(new java.awt.Color(0, 0, 119));
@@ -206,6 +358,11 @@ private void cargarImagenCow() {
         bttnPrintEmployeeSale.setText("Imprimir");
 
         bttnAddintheCarEmployeeSale.setText("Añadir");
+        bttnAddintheCarEmployeeSale.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttnAddintheCarEmployeeSaleActionPerformed(evt);
+            }
+        });
 
         bttnExitEmployeeSale.setText("Salir");
         bttnExitEmployeeSale.addActionListener(new java.awt.event.ActionListener() {
@@ -511,16 +668,24 @@ private void cargarImagenCow() {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bttnCleanEmployeeSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnCleanEmployeeSaleActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here
+        limpiarTodo();
     }//GEN-LAST:event_bttnCleanEmployeeSaleActionPerformed
 
     private void bttnExitEmployeeSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnExitEmployeeSaleActionPerformed
         // TODO add your handling code here:
+        salir();
+
     }//GEN-LAST:event_bttnExitEmployeeSaleActionPerformed
 
     private void txtAdressEmployeeSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAdressEmployeeSaleActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtAdressEmployeeSaleActionPerformed
+
+    private void bttnAddintheCarEmployeeSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnAddintheCarEmployeeSaleActionPerformed
+        // TODO add your handling code here:
+        agregarYGuardar();
+    }//GEN-LAST:event_bttnAddintheCarEmployeeSaleActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea TxtaObservationEmployeeSale;
