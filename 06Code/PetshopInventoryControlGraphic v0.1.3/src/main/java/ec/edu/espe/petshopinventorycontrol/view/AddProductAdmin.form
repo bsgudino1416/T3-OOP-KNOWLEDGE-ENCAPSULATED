@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="3"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace pref="92" max="32767" attributes="0"/>
+              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace pref="21" max="32767" attributes="0"/>
+              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Container class="javax.swing.JPanel" name="jPanel1">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="d6" green="9f" id="Actions.Blue" palette="3" red="38" type="palette"/>
+        </Property>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="132" max="-2" attributes="0"/>
+              </Group>
+              <Group type="102" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Component id="rbttnFood" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Component id="rbttnMedicine" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Component id="rbttnSnack" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="bttnSave" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Component id="rbttnAccesories" min="-2" max="-2" attributes="0"/>
+                                      <Component id="bttnExit1" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="111" max="-2" attributes="0"/>
+                                  <Component id="txtConfirmation" min="-2" pref="149" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Component id="rbttnFood2" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Component id="rbttnMedicine2" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Component id="rbttnSnack2" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Component id="rbttnAccesories2" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="rbttnTypeAnimal1" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Component id="rbttnTypeAnimal2" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Component id="rbttnTypeAnimal3" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Component id="rbttnTypeAnimal4" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                              <Group type="103" alignment="0" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
+                                      <Component id="bttnCancel" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="txtPriceofProduct" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                                      <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="txtStock" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                  <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="98" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="rbttnFood" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="rbttnMedicine" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="rbttnSnack" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="rbttnAccesories" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="116" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="rbttnTypeAnimal1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="rbttnTypeAnimal2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="rbttnTypeAnimal3" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="rbttnTypeAnimal4" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="110" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="rbttnFood2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="rbttnMedicine2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="rbttnSnack2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="rbttnAccesories2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="txtPriceofProduct" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtStock" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="36" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="bttnSave" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="bttnCancel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="bttnExit1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                  <Component id="txtConfirmation" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="jLabel1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Seleciona la categoria del producto:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JRadioButton" name="rbttnFood">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="COMIDA"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JRadioButton" name="rbttnMedicine">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="MEDICINA"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JRadioButton" name="rbttnSnack">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="SNACK"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JRadioButton" name="rbttnAccesories">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="ACCESORIOS"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbttnAccesoriesActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel2">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Tipo de animal"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel3">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Precio del producto"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtPriceofProduct">
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel4">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="$"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel5">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="&#xbf;Cuanto producto ingresa?"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtStock">
+        </Component>
+        <Component class="javax.swing.JButton" name="bttnSave">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Guardar"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bttnSaveActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="bttnCancel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Cancelar"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="bttnExit1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Salir"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel6">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Bodoni MT" size="18" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="A&#xd1;ADIR PRODUCTO"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtConfirmation">
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel7">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Domesticos"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel8">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="De granja"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JRadioButton" name="rbttnTypeAnimal1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="PERRO"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JRadioButton" name="rbttnTypeAnimal2">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="GATO"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JRadioButton" name="rbttnTypeAnimal3">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="AVES"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JRadioButton" name="rbttnTypeAnimal4">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="PECES"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbttnTypeAnimal4ActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JRadioButton" name="rbttnFood2">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="CERDO"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JRadioButton" name="rbttnMedicine2">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="GALLINA"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JRadioButton" name="rbttnSnack2">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="VACA"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JRadioButton" name="rbttnAccesories2">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="CABALLO"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbttnAccesories2ActionPerformed"/>
+          </Events>
+        </Component>
+      </SubComponents>
+    </Container>
+  </SubComponents>
+</Form>

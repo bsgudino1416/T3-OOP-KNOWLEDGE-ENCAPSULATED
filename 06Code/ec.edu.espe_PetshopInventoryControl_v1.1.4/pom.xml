@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>ec.edu.espe</groupId>
+    <artifactId>PetshopInventoryControl</artifactId>
+    <version>1.0</version>
+    <packaging>jar</packaging>
+
+    <name>PetshopInventoryControl v1.1.4</name>
+
+    <properties>
+        <maven.compiler.source>24</maven.compiler.source>
+        <maven.compiler.target>24</maven.compiler.target>
+        <maven.compiler.release>24</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver-sync</artifactId>
+            <version>4.11.1</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <!-- COMPILADOR JAVA -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <release>24</release>
+                    <compilerArgs>
+                        <arg>--enable-preview</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+
+            <!-- EJECUTAR PROYECTO -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>ec.edu.espe.petshopinventorycontrol.view.LoginPetshop</mainClass>
+                    <arguments>
+                        <argument>--enable-preview</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>
