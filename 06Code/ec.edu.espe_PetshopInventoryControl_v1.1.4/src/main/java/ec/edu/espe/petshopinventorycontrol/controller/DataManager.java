@@ -8,19 +8,15 @@ import org.bson.Document;
 
 public class DataManager {
 
-    // ✔ TU URI REAL DE MONGO ATLAS (la que tú me enviaste)
+   
     private static final String CONNECTION_STRING =
         "mongodb+srv://Steven:Steven2001@cluster0.mp8muds.mongodb.net/?appName=Cluster0";
 
-    // ✔ Objetos principales del cliente Mongo
+    
     private static MongoClient mongoClient = null;
     private static MongoDatabase database = null;
 
-    /**
-     * --------------------------------------------------------
-     * ✔ MÉTODO PRINCIPAL PARA UNA SOLA CONEXIÓN
-     * --------------------------------------------------------
-     */
+    
     public static void conectar() {
         try {
             if (mongoClient == null) {
@@ -38,32 +34,20 @@ public class DataManager {
         }
     }
 
-    /**
-     * --------------------------------------------------------
-     * ✔ DEVUELVE LA BASE DE DATOS (USADO EN TODAS LAS VENTANAS)
-     * --------------------------------------------------------
-     */
+   
     public static MongoDatabase getDB() {
         if (database == null) {
-            conectar(); // Garantizamos que existe conexión
+            conectar(); 
         }
         return database;
     }
 
-    /**
-     * --------------------------------------------------------
-     * ✔ OBTENER UNA COLECCIÓN
-     * --------------------------------------------------------
-     */
+  
     public static MongoCollection<Document> getCollection(String collectionName) {
         return getDB().getCollection(collectionName);
     }
 
-    /**
-     * --------------------------------------------------------
-     * ✔ GUARDAR CUALQUIER DOCUMENTO
-     * --------------------------------------------------------
-     */
+    
     public static void saveDocument(String collectionName, Document doc) {
         try {
             MongoCollection<Document> coll = getCollection(collectionName);
@@ -74,11 +58,7 @@ public class DataManager {
         }
     }
 
-    /**
-     * --------------------------------------------------------
-     * ✔ CERRAR CONEXIÓN (opcional al salir del sistema)
-     * --------------------------------------------------------
-     */
+    
     public static void close() {
         if (mongoClient != null) {
             mongoClient.close();

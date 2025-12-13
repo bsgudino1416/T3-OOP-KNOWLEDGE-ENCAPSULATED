@@ -245,7 +245,7 @@ public class FrmManagerMenu extends javax.swing.JFrame {
 
     private void bttnShowInventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnShowInventoryActionPerformed
         // TODO add your handling code here:
-        FrmEmployeeShowInventory show = new FrmEmployeeShowInventory();
+        FrmShowInventory show = new FrmShowInventory();
         show.setVisible(true);
         show.setLocationRelativeTo(null);
         this.dispose();

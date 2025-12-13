@@ -13,14 +13,14 @@ import javax.swing.JOptionPane;
  *
  * @author Bryan Gudino, KNOWLEDGE ENCAPSULATE, @ESPE
  */
-public class FrmEmployeeShowInventory extends javax.swing.JFrame {
+public class FrmShowInventory extends javax.swing.JFrame {
 
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmEmployeeShowInventory.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmShowInventory.class.getName());
 
     /**
      * Creates new form NewJFrame1
      */
-    public FrmEmployeeShowInventory() {
+    public FrmShowInventory() {
         initComponents();
         configurarTabla();
     }
