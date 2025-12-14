@@ -1,12 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package ec.edu.espe.petshopinventorycontrol.view;
 
 /**
  *
- * @author Steven Loza @ESPE
+ * @author @ESPE
  */
 import ec.edu.espe.petshopinventorycontrol.controller.DataManager;
 import com.mongodb.client.MongoDatabase;
@@ -48,7 +44,7 @@ public class LoginPetshop extends javax.swing.JFrame {
         txtUserLogin = new javax.swing.JTextField();
         txtPassLogin = new javax.swing.JPasswordField();
         jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        bttnSigIn = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         bttnSignIn = new javax.swing.JButton();
         bttnCreate = new javax.swing.JButton();
@@ -56,8 +52,6 @@ public class LoginPetshop extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
-
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\User\\T3-OOP-KNOWLEDGE-ENCAPSULATED\\06Code\\ec.edu.espe_PetshopInventoryControl_v1.1.4\\src\\main\\java\\images\\seguridad (1).png")); // NOI18N
 
         jLabel3.setText("Usuario:");
 
@@ -107,9 +101,9 @@ public class LoginPetshop extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 119));
 
-        jLabel1.setFont(new java.awt.Font("Bodoni MT", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Sign In");
+        bttnSigIn.setFont(new java.awt.Font("Bodoni MT", 1, 24)); // NOI18N
+        bttnSigIn.setForeground(new java.awt.Color(255, 255, 255));
+        bttnSigIn.setText("Sign In");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -117,14 +111,14 @@ public class LoginPetshop extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(154, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addComponent(bttnSigIn)
                 .addGap(149, 149, 149))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addComponent(jLabel1)
+                .addComponent(bttnSigIn)
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
@@ -196,11 +190,7 @@ public class LoginPetshop extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUserLoginActionPerformed
 
     private void bttnSignInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnSignInActionPerformed
-        // TODO add your handling code here:
-        FrmManagerMenu menu = new FrmManagerMenu();
-        menu.setVisible(true);
-        menu.setLocationRelativeTo(null);
-        this.dispose();
+       
     }//GEN-LAST:event_bttnSignInActionPerformed
     private void iniciarSesion() {
 
@@ -239,6 +229,7 @@ public class LoginPetshop extends javax.swing.JFrame {
                 "Acceso concedido",
                 JOptionPane.INFORMATION_MESSAGE);
 
+<<<<<<< HEAD
         // 🔹 ADMINISTRADOR
         if (role.equalsIgnoreCase("Administrador")) {
             FrmManagerMenu menu = new FrmManagerMenu();
@@ -246,6 +237,53 @@ public class LoginPetshop extends javax.swing.JFrame {
             menu.setLocationRelativeTo(null);
             this.dispose();
             return;
+=======
+            Document user = coll.find(query).first();
+
+            if (user == null) {
+                JOptionPane.showMessageDialog(this,
+                        "Credenciales incorrectas.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Obtener el rol
+            String role = user.getString("role");
+
+            JOptionPane.showMessageDialog(this,
+                    "Bienvenido " + username + " (" + role + ")",
+                    "Éxito",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+            // ✅ ABRIR MENU DEL GERENTE SI ES ADMINISTRADOR
+            if (role.equalsIgnoreCase("Administrador")) {
+
+                FrmEmployeeSale venta = new FrmEmployeeSale(username);
+                venta.setVisible(true);
+                venta.setLocationRelativeTo(null);
+
+                this.dispose();
+
+                return;
+            }
+
+            // (OPCIONAL) Aquí puedes abrir otro menú para empleado
+            if (role.equalsIgnoreCase("Empleado")) {
+    // 1. Abrimos la ventana de Inventario de Empleado
+    // (Asegúrate de importar FrmEmployeeShowInventory si te marca error)
+    new ec.edu.espe.petshopinventorycontrol.view.FrmEmployeeShowInventory().setVisible(true);
+    
+    // 2. Cerramos la ventana de Login
+    this.dispose();
+}
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al conectar con MongoDB: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+>>>>>>> cf74e3dac7f33703f4eb83b635bd83fd5951104b
         }
 
         // 🔹 EMPLEADO
@@ -313,8 +351,8 @@ public class LoginPetshop extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bttnCreate;
+    private javax.swing.JLabel bttnSigIn;
     private javax.swing.JButton bttnSignIn;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

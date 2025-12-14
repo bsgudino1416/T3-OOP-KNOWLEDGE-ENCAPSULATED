@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package ec.edu.espe.petshopinventorycontrol.model;
 
 public class Customer {
@@ -54,3 +55,61 @@ public class Customer {
         return name + " (" + phone + ")";
     }
 }
+=======
+package ec.edu.espe.petshopinventorycontrol.model;
+
+public class Customer {
+
+    private int id;
+    private String name;
+    private String address;
+    private String phone;
+
+    public Customer() {
+    }
+
+    public Customer(int id, String name, String address, String phone) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    @Override
+    public String toString() {
+        return name + " (" + phone + ")";
+    }
+}
+>>>>>>> 23a19a791ee45b0b7a40ad42c0dd08930a62491d
