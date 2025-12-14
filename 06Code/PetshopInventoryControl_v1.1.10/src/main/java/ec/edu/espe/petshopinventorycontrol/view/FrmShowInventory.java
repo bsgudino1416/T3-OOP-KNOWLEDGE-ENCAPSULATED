@@ -1,116 +1,123 @@
-package ec.edu.espe.petshopinventorycontrol.view.manager;
+package ec.edu.espe.petshopinventorycontrol.view;
 
-import javax.swing.ImageIcon;
-import java.awt.Image;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
+import ec.edu.espe.petshopinventorycontrol.controller.DataManager;
 
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Bryan Gudino, KNOWLEDGE ENCAPSULATE, @ESPE
  */
-public class FrmManagerShowInventory extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmManagerShowInventory.class.getName());
+public class FrmShowInventory extends javax.swing.JFrame {
+
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmShowInventory.class.getName());
 
     /**
      * Creates new form NewJFrame1
      */
-    public FrmManagerShowInventory() {
+    public FrmShowInventory() {
         initComponents();
-        cargarImagenDog();
-        cargarImagenCat();
-        cargarImagenConejillo();
-        cargarImagenCow();
-        cargarImagenChicken();
-        cargarImagenHorse();
-        cargarImagenPig();
-    }
-    
-    private void cargarImagenDog() {
-//        lblDog.setText("");
-
-        ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Dog.jpg"));
-
-        int ancho = 91;
-        int alto = 64;
-
-        Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-
-       // lblDog.setIcon(new ImageIcon(imagenEscalada));
-    }
-    
-    private void cargarImagenCat() {
-    //lblCat.setText("");
-    ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Cat.jpg"));
-    int ancho = 91;
-    int alto = 64;
-    Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-    //lblCat.setIcon(new ImageIcon(imagenEscalada));
+        configurarTabla();
     }
 
-    private void cargarImagenConejillo() {
-   // lblConejillo.setText("");
-    ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Conejillo.jpg"));
-    int ancho = 91;
-    int alto = 64;
-    Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-   // lblConejillo.setIcon(new ImageIcon(imagenEscalada));
+    private void configurarTabla() {
+        DefaultTableModel model = new DefaultTableModel(
+                new Object[][]{},
+                new String[]{
+                    "Id", "Tipo de animal", "Tipo de producto", "Especie", "Marca", "Precio", "Stock"
+                }
+        );
+
+        tblShowProduct.setModel(model);
     }
 
-private void cargarImagenCow() {
-   // lblCow.setText("");
-    ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Cow.jpg"));
-    int ancho = 84;
-    int alto = 49;
-    Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-   // lblCow.setIcon(new ImageIcon(imagenEscalada));
-}
+//    private void cargarProductos() {
+//
+//    try {
+//        MongoDatabase db = DataManager.getDB();
+//        MongoCollection<Document> collection = db.getCollection("productos");
+//
+//        MongoCursor<Document> cursor = collection.find().iterator();
+//
+//        DefaultTableModel model = (DefaultTableModel) tblShowProduct.getModel();
+//        model.setRowCount(0); // limpiar tabla
+//
+//        while (cursor.hasNext()) {
+//            Document doc = cursor.next();
+//
+//            String id = doc.getString("id");
+//            String typeAnimal = doc.getString("typeAnimal");
+//            String typeProduct = doc.getString("typeProduct");
+//            String species = doc.getString("species");
+//            String brand = doc.getString("brand");
+//            double price = doc.getDouble("price");
+//            int stock = doc.getInteger("stock");
+//
+//            model.addRow(new Object[]{
+//                id, typeAnimal, typeProduct, species, brand, price, stock
+//            });
+//        }
+//
+//        cursor.close();
+//
+//        if (model.getRowCount() == 0) {
+//            JOptionPane.showMessageDialog(this, "No hay productos registrados.");
+//        }
+//
+//    } catch (Exception e) {
+//        JOptionPane.showMessageDialog(this, 
+//            "Error al cargar inventario: " + e.getMessage(),
+//            "Error", JOptionPane.ERROR_MESSAGE);
+//    }
+//}
+    private void cargarProductos() {
+        try {
+            MongoDatabase db = DataManager.getDB();
+            MongoCollection<Document> collection = db.getCollection("productos");
 
-    private void cargarImagenHorse() {
-    //lblHorse.setText("");
-    ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Horse.jpg"));
-    int ancho = 84;
-    int alto = 49;
-    Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-   // lblHorse.setIcon(new ImageIcon(imagenEscalada));
+            MongoCursor<Document> cursor = collection.find().iterator();
+
+            DefaultTableModel model = (DefaultTableModel) tblShowProduct.getModel();
+            model.setRowCount(0); // limpiar tabla
+
+            while (cursor.hasNext()) {
+                Document doc = cursor.next();
+
+                model.addRow(new Object[]{
+                    doc.getString("id"),
+                    doc.getString("typeAnimal"),
+                    doc.getString("typeProduct"),
+                    doc.getString("species"),
+                    doc.getString("brand"),
+                    doc.getDouble("price"),
+                    doc.getInteger("stock")
+                });
+            }
+
+            cursor.close();
+
+            if (model.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(this, "No hay productos registrados.");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al cargar inventario: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
-    private void cargarImagenPig() {
-   // lblPig.setText("");
-    ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Pig.jpg"));
-    int ancho = 84;
-    int alto = 49;
-    Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-   // lblPig.setIcon(new ImageIcon(imagenEscalada));
-    }
-
-    private void cargarImagenChicken() {
-    //lblChicken.setText("");
-    ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Chicken.jpg"));
-    int ancho = 84;
-    int alto = 49;
-    Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-  //  lblChicken.setIcon(new ImageIcon(imagenEscalada));
-    }
-    
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new FrmManagerShowInventory().setVisible(true));
     }
 
     /**
@@ -216,16 +223,16 @@ private void cargarImagenCow() {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(27, 27, 27)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 779, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addGap(16, 16, 16)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -257,10 +264,18 @@ private void cargarImagenCow() {
 
     private void bttnExitShowProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnExitShowProductActionPerformed
         // TODO add your handling code here:
+
+        this.dispose();
+
+        // ABRIR EL MENÚ DEL GERENTE
+        FrmManagerMenu menu = new FrmManagerMenu();
+        menu.setVisible(true);
+        menu.setLocationRelativeTo(null); // centrar ventana
     }//GEN-LAST:event_bttnExitShowProductActionPerformed
 
     private void bttnShowProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnShowProductActionPerformed
         // TODO add your handling code here:
+        cargarProductos();
     }//GEN-LAST:event_bttnShowProductActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -197,10 +197,10 @@ public class LoginPetshop extends javax.swing.JFrame {
 
     private void bttnSignInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnSignInActionPerformed
         // TODO add your handling code here:
-        FrmManagerMenu menu = new FrmManagerMenu();
-        menu.setVisible(true);
-        menu.setLocationRelativeTo(null);
-        this.dispose();
+//        FrmManagerMenu menu = new FrmManagerMenu();
+//        menu.setVisible(true);
+//        menu.setLocationRelativeTo(null);
+//        this.dispose();
     }//GEN-LAST:event_bttnSignInActionPerformed
     private void iniciarSesion() {
 
@@ -234,13 +234,24 @@ public class LoginPetshop extends javax.swing.JFrame {
 
         String role = user.getString("role");
 
+        if (role == null) {
+            JOptionPane.showMessageDialog(this,
+                    "El usuario no tiene rol asignado.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // 🔑 NORMALIZAR ROL
+        role = role.trim().toLowerCase();
+
         JOptionPane.showMessageDialog(this,
                 "Bienvenido " + username,
                 "Acceso concedido",
                 JOptionPane.INFORMATION_MESSAGE);
 
         // 🔹 ADMINISTRADOR
-        if (role.equalsIgnoreCase("Administrador")) {
+        if (role.equals("administrador") || role.equals("admin")) {
             FrmManagerMenu menu = new FrmManagerMenu();
             menu.setVisible(true);
             menu.setLocationRelativeTo(null);
@@ -249,7 +260,7 @@ public class LoginPetshop extends javax.swing.JFrame {
         }
 
         // 🔹 EMPLEADO
-        if (role.equalsIgnoreCase("Empleado")) {
+        if (role.equals("empleado")) {
             FrmEmployeeMenu menu = new FrmEmployeeMenu(username);
             menu.setVisible(true);
             menu.setLocationRelativeTo(null);
@@ -258,7 +269,7 @@ public class LoginPetshop extends javax.swing.JFrame {
         }
 
         JOptionPane.showMessageDialog(this,
-                "Rol no reconocido.",
+                "Rol no reconocido: " + role,
                 "Error",
                 JOptionPane.ERROR_MESSAGE);
 

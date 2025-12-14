@@ -1,16 +1,30 @@
 package ec.edu.espe.petshopinventorycontrol.view;
 
-import ec.edu.espe.petshopinventorycontrol.view.manager.*;
+
 import javax.swing.ImageIcon;
 import java.awt.Image;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.MongoDatabase;
+import ec.edu.espe.petshopinventorycontrol.controller.DataManager;
+import org.bson.Document;
 
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
+import java.io.File;
+
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 
 /**
  *
  * @author Bryan Gudino, KNOWLEDGE ENCAPSULATE, @ESPE
  */
 public class FrmManagerGenerateReport extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmManagerGenerateReport.class.getName());
 
     /**
@@ -18,17 +32,132 @@ public class FrmManagerGenerateReport extends javax.swing.JFrame {
      */
     public FrmManagerGenerateReport() {
         initComponents();
+        configurarTabla();
     }
-    
-  
-    
+
+    private void configurarTabla() {
+        DefaultTableModel model = new DefaultTableModel(
+                new Object[][]{},
+                new String[]{
+                    "Id", "Tipo de animal", "Tipo de producto", "Especie", "Marca", "Precio", "Stock"
+                }
+        );
+        tblShowProduct.setModel(model);
+    }
+
+    private void cargarProductos() {
+        try {
+            MongoDatabase db = DataManager.getDB();
+            MongoCollection<Document> collection = db.getCollection("productos");
+
+            MongoCursor<Document> cursor = collection.find().iterator();
+
+            DefaultTableModel model = (DefaultTableModel) tblShowProduct.getModel();
+            model.setRowCount(0); // limpiar tabla
+
+            while (cursor.hasNext()) {
+                Document doc = cursor.next();
+
+                model.addRow(new Object[]{
+                    doc.getString("id"),
+                    doc.getString("typeAnimal"),
+                    doc.getString("typeProduct"),
+                    doc.getString("species"),
+                    doc.getString("brand"),
+                    doc.getDouble("price"),
+                    doc.getInteger("stock")
+                });
+            }
+
+            cursor.close();
+
+            // CONTAR PRODUCTOS
+            txtGenerateReport.setText(String.valueOf(model.getRowCount()));
+
+            if (model.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(this, "No hay productos registrados.");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al generar reporte: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-        
+
     }
+
+    private void generarPDF() {
+    try {
+        DefaultTableModel model = (DefaultTableModel) tblShowProduct.getModel();
+
+        PDDocument document = new PDDocument();
+        PDPage page = new PDPage();
+        document.addPage(page);
+
+        PDPageContentStream content = new PDPageContentStream(document, page);
+
+        //content.setFont(PDType1Font.HELVETICA_BOLD, 14);
+        content.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA_BOLD), 14);
+
+        content.beginText();
+        content.newLineAtOffset(50, 750);
+        content.showText("REPORTE DE INVENTARIO - PETSHOP");
+        content.endText();
+
+      content.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 10);
+
+        int y = 720;
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            content.beginText();
+            content.newLineAtOffset(50, y);
+
+            String fila =
+                    model.getValueAt(i, 0) + " | " +
+                    model.getValueAt(i, 1) + " | " +
+                    model.getValueAt(i, 2) + " | " +
+                    model.getValueAt(i, 3) + " | " +
+                    model.getValueAt(i, 4) + " | $" +
+                    model.getValueAt(i, 5) + " | " +
+                    model.getValueAt(i, 6);
+
+            content.showText(fila);
+            content.endText();
+
+            y -= 15;
+        }
+
+        // TOTAL
+        content.beginText();
+        content.newLineAtOffset(50, y - 20);
+        content.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 12);
+
+        content.showText("Total de productos: " + model.getRowCount());
+        content.endText();
+
+        content.close();
+
+        File file = new File("Reporte_Inventario_Petshop.pdf");
+        document.save(file);
+        document.close();
+
+        JOptionPane.showMessageDialog(this,
+                "Reporte PDF generado correctamente:\n" + file.getAbsolutePath(),
+                "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this,
+                "Error al generar PDF: " + e.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -187,10 +316,16 @@ public class FrmManagerGenerateReport extends javax.swing.JFrame {
 
     private void bttnExitGenerateReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnExitGenerateReportActionPerformed
         // TODO add your handling code here:
+        FrmManagerMenu menu = new FrmManagerMenu();
+        menu.setVisible(true);
+        menu.setLocationRelativeTo(null);
+        this.dispose();
     }//GEN-LAST:event_bttnExitGenerateReportActionPerformed
 
     private void bttnGenerateReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnGenerateReportActionPerformed
         // TODO add your handling code here:
+        cargarProductos();
+        generarPDF();
     }//GEN-LAST:event_bttnGenerateReportActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
