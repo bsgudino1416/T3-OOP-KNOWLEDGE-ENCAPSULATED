@@ -198,7 +198,7 @@ public class FrmManagerAddProduct extends javax.swing.JFrame {
         lblNewMakeRegister.setFont(new java.awt.Font("Times New Roman", 2, 12)); // NOI18N
         lblNewMakeRegister.setText("Registrar nueva marca:");
 
-        ComboBoxMake.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DogChown", "ProCat", "Michu", "Caballito", "Chanchito", "Balanceado" }));
+        ComboBoxMake.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DogChow", "ProCat", "Michu", "Caballito", "Chanchito", "Balanceado" }));
         ComboBoxMake.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ComboBoxMakeActionPerformed(evt);

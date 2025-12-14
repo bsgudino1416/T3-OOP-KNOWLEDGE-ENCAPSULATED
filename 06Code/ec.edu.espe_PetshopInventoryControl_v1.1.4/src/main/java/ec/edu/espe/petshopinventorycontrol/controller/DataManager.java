@@ -8,12 +8,24 @@ import org.bson.Document;
 
 public class DataManager {
 
+<<<<<<< HEAD
     private static final String CONNECTION_STRING =
         "mongodb+srv://Steven:Steven2001@cluster0.mp8muds.mongodb.net/?appName=Cluster0";
 
     private static MongoClient mongoClient = null;
     private static MongoDatabase database = null;
 
+=======
+   
+    private static final String CONNECTION_STRING =
+        "mongodb+srv://Steven:Steven2001@cluster0.mp8muds.mongodb.net/?appName=Cluster0";
+
+    
+    private static MongoClient mongoClient = null;
+    private static MongoDatabase database = null;
+
+    
+>>>>>>> ac327a9d613cf024e0488cefb44d44eda008a826
     public static void conectar() {
         try {
             if (mongoClient == null) {
@@ -31,18 +43,30 @@ public class DataManager {
         }
     }
 
+<<<<<<< HEAD
     
+=======
+   
+>>>>>>> ac327a9d613cf024e0488cefb44d44eda008a826
     public static MongoDatabase getDB() {
         if (database == null) {
-            conectar(); // Garantizamos que existe conexión
+            conectar(); 
         }
         return database;
     }
 
+<<<<<<< HEAD
+=======
+  
+>>>>>>> ac327a9d613cf024e0488cefb44d44eda008a826
     public static MongoCollection<Document> getCollection(String collectionName) {
         return getDB().getCollection(collectionName);
     }
 
+<<<<<<< HEAD
+=======
+    
+>>>>>>> ac327a9d613cf024e0488cefb44d44eda008a826
     public static void saveDocument(String collectionName, Document doc) {
         try {
             MongoCollection<Document> coll = getCollection(collectionName);
@@ -52,6 +76,10 @@ public class DataManager {
             System.err.println("❌ ERROR al guardar documento: " + e.getMessage());
         }
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> ac327a9d613cf024e0488cefb44d44eda008a826
     
     public static void close() {
         if (mongoClient != null) {

@@ -1,7 +1,14 @@
 package ec.edu.espe.petshopinventorycontrol.view;
 
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.MongoDatabase;
+import ec.edu.espe.petshopinventorycontrol.controller.DataManager;
 import javax.swing.ImageIcon;
 import java.awt.Image;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import org.bson.Document;
 
 /**
  *
@@ -14,84 +21,58 @@ public class FrmEmployeeSearchProduct extends javax.swing.JFrame {
     /**
      * Creates new form NewJFrame1
      */
-    public FrmEmployeeSearchProduct() {
+   public FrmEmployeeSearchProduct() {
         initComponents();
-        cargarImagenDog();
-        cargarImagenCat();
-        cargarImagenConejillo();
-        cargarImagenCow();
-        cargarImagenChicken();
-        cargarImagenHorse();
-        cargarImagenPig();
+        configurarTabla();
     }
 
-    private void cargarImagenDog() {
-//        lblDog.setText("");
+    private void configurarTabla() {
+        DefaultTableModel model = new DefaultTableModel(
+                new Object[][]{},
+                new String[]{
+                    "Id", "Tipo de animal", "Tipo de producto", "Especie", "Marca", "Precio", "Stock"
+                }
+        );
 
-        ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Dog.jpg"));
-
-        int ancho = 91;
-        int alto = 64;
-
-        Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-
-        // lblDog.setIcon(new ImageIcon(imagenEscalada));
+        tblSearchProduct.setModel(model);
     }
 
-    private void cargarImagenCat() {
-        //lblCat.setText("");
-        ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Cat.jpg"));
-        int ancho = 91;
-        int alto = 64;
-        Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-        //lblCat.setIcon(new ImageIcon(imagenEscalada));
-    }
+    private void cargarProductos() {
+        try {
+            MongoDatabase db = DataManager.getDB();
+            MongoCollection<Document> collection = db.getCollection("productos");
 
-    private void cargarImagenConejillo() {
-        // lblConejillo.setText("");
-        ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Conejillo.jpg"));
-        int ancho = 91;
-        int alto = 64;
-        Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-        // lblConejillo.setIcon(new ImageIcon(imagenEscalada));
-    }
+            MongoCursor<Document> cursor = collection.find().iterator();
 
-    private void cargarImagenCow() {
-        // lblCow.setText("");
-        ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Cow.jpg"));
-        int ancho = 84;
-        int alto = 49;
-        Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-        // lblCow.setIcon(new ImageIcon(imagenEscalada));
-    }
+            DefaultTableModel model = (DefaultTableModel) tblSearchProduct.getModel();
+            model.setRowCount(0); // limpiar tabla
 
-    private void cargarImagenHorse() {
-        //lblHorse.setText("");
-        ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Horse.jpg"));
-        int ancho = 84;
-        int alto = 49;
-        Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-        // lblHorse.setIcon(new ImageIcon(imagenEscalada));
-    }
+            while (cursor.hasNext()) {
+                Document doc = cursor.next();
 
-    private void cargarImagenPig() {
-        // lblPig.setText("");
-        ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Pig.jpg"));
-        int ancho = 84;
-        int alto = 49;
-        Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-        // lblPig.setIcon(new ImageIcon(imagenEscalada));
-    }
+                model.addRow(new Object[]{
+                    doc.getString("id"),
+                    doc.getString("typeAnimal"),
+                    doc.getString("typeProduct"),
+                    doc.getString("species"),
+                    doc.getString("brand"),
+                    doc.getDouble("price"),
+                    doc.getInteger("stock")
+                });
+            }
 
-    private void cargarImagenChicken() {
-        //lblChicken.setText("");
-        ImageIcon original = new ImageIcon(getClass().getResource("/Graphics/Chicken.jpg"));
-        int ancho = 84;
-        int alto = 49;
-        Image imagenEscalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-        //  lblChicken.setIcon(new ImageIcon(imagenEscalada));
-    }
+            cursor.close();
 
+            if (model.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(this, "No hay productos registrados.");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al cargar inventario: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -133,13 +114,13 @@ public class FrmEmployeeSearchProduct extends javax.swing.JFrame {
         jLabel14SearchProduct = new javax.swing.JLabel();
         jLabel15SearchProduct = new javax.swing.JLabel();
         jLabel16SearchProduct = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblSearchProduct = new javax.swing.JTable();
         txtIdSearchProduct = new javax.swing.JTextField();
         txtPriceSearchProduct = new javax.swing.JTextField();
         txtDescriptionSearchProduct = new javax.swing.JTextField();
         txtQuantitySearchProduct = new javax.swing.JTextField();
         txtTotalSearchProduct = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblSearchProduct = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -230,13 +211,13 @@ public class FrmEmployeeSearchProduct extends javax.swing.JFrame {
 
         tblSearchProduct.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Id", "Cantidad", "Producto", "Marca de Producto", "Precio Unitario", "Total"
+                "Id", "Tipo de animal", "Producto", "Animal", "Marca ", "Precio", "Stock"
             }
         ));
         jScrollPane1.setViewportView(tblSearchProduct);
@@ -249,31 +230,33 @@ public class FrmEmployeeSearchProduct extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel13SearchProduct)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtPriceSearchProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel12SearchProduct)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtIdSearchProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(96, 96, 96)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel15SearchProduct)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtQuantitySearchProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel14SearchProduct)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtDescriptionSearchProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel16SearchProduct)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtTotalSearchProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 801, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                        .addComponent(jLabel13SearchProduct)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtPriceSearchProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel12SearchProduct)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtIdSearchProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(96, 96, 96)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel15SearchProduct)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtQuantitySearchProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel14SearchProduct)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtDescriptionSearchProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel16SearchProduct)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtTotalSearchProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(165, Short.MAX_VALUE))
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(27, Short.MAX_VALUE)))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -292,9 +275,12 @@ public class FrmEmployeeSearchProduct extends javax.swing.JFrame {
                     .addComponent(jLabel15SearchProduct)
                     .addComponent(txtPriceSearchProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtQuantitySearchProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(268, Short.MAX_VALUE))
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addGap(73, 73, 73)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -333,10 +319,17 @@ public class FrmEmployeeSearchProduct extends javax.swing.JFrame {
 
     private void bttnExitSearchProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnExitSearchProductActionPerformed
         // TODO add your handling code here:
+        this.dispose();
+
+        
+        FrmManagerMenu menu = new FrmManagerMenu();
+        menu.setVisible(true);
+        menu.setLocationRelativeTo(null); 
     }//GEN-LAST:event_bttnExitSearchProductActionPerformed
 
     private void bttnSearchProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnSearchProductActionPerformed
         // TODO add your handling code here:
+         cargarProductos();
     }//GEN-LAST:event_bttnSearchProductActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
