@@ -9,7 +9,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
 import java.util.*;
-import org.bson.Document; // IMPORTANTE: Agregamos el import para Documento de MongoDB
+import org.bson.Document; 
 
 public class PetShopMain {
 
@@ -32,12 +32,8 @@ public class PetShopMain {
 
     public static void main(String[] args) {
 
-        // ===============================================
-        // *** MODIFICACIÓN PARA CONEXIÓN A MONGODB ATLAS ***
-        // -----------------------------------------------
         DataManager.conectar(); 
-        // ===============================================
-
+        
         ensureDirectories();
 
         Inventory inventory = new Inventory();
@@ -78,7 +74,7 @@ public class PetShopMain {
         }
     }
 
-    /* ---------------- Manager menu ---------------- */
+    
 
     private static void managerMenu(Inventory inventory) {
         while (true) {
