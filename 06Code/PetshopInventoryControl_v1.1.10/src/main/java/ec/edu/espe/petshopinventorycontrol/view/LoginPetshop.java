@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package ec.edu.espe.petshopinventorycontrol.view;
 
 /**
@@ -261,7 +258,7 @@ public class LoginPetshop extends javax.swing.JFrame {
 
         // 🔹 EMPLEADO
         if (role.equals("empleado")) {
-            FrmEmployeeMenu menu = new FrmEmployeeMenu(username);
+            FrmManagerMenu menu = new FrmManagerMenu();
             menu.setVisible(true);
             menu.setLocationRelativeTo(null);
             this.dispose();
