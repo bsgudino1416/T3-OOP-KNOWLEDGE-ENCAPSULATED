@@ -9,7 +9,14 @@ import ec.edu.espe.petshopinventorycontrol.employee.sale.FrmEmployeeHorseSection
 import ec.edu.espe.petshopinventorycontrol.employee.sale.FrmEmployeePigSection;
 
 import ec.edu.espe.petshopinventorycontrol.data.TableToMongo;
-
+import java.io.File;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 /**
  *
  * @author Bryan Gudino, KNOWLEDGE ENCAPSULATE, @ESPE
@@ -120,7 +127,71 @@ public class FrmEmployeeSummary extends javax.swing.JFrame {
     public void cleanTablePublic() {
         cleanTable();
     }
+private void generarPDF() {
+    try {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
+        PDDocument document = new PDDocument();
+        PDPage page = new PDPage();
+        document.addPage(page);
+
+        PDPageContentStream content = new PDPageContentStream(document, page);
+
+        //content.setFont(PDType1Font.HELVETICA_BOLD, 14);
+        content.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA_BOLD), 14);
+
+        content.beginText();
+        content.newLineAtOffset(50, 750);
+        content.showText("REPORTE DE INVENTARIO - PETSHOP");
+        content.endText();
+
+      content.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 10);
+
+        int y = 720;
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            content.beginText();
+            content.newLineAtOffset(50, y);
+
+            String fila =
+                    model.getValueAt(i, 0) + " | " +
+                    model.getValueAt(i, 1) + " | " +
+                    model.getValueAt(i, 2) + " | " +
+                    model.getValueAt(i, 3) + " | " +
+                    model.getValueAt(i, 4) + " | $" +
+                    model.getValueAt(i, 5) + " | " +
+                    model.getValueAt(i, 6);
+
+            content.showText(fila);
+            content.endText();
+
+            y -= 15;
+        }
+
+        // TOTAL
+        content.beginText();
+        content.newLineAtOffset(50, y - 20);
+        content.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 12);
+
+        content.showText("Total de productos: " + model.getRowCount());
+        content.endText();
+
+        content.close();
+
+        File file = new File("Reporte_Inventario_Petshop.pdf");
+        document.save(file);
+        document.close();
+
+        JOptionPane.showMessageDialog(this,
+                "Reporte PDF generado correctamente:\n" + file.getAbsolutePath(),
+                "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this,
+                "Error al generar PDF: " + e.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -130,6 +201,7 @@ public class FrmEmployeeSummary extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem1 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -154,6 +226,9 @@ public class FrmEmployeeSummary extends javax.swing.JFrame {
         Optionmenu = new javax.swing.JMenu();
         itmUpdate = new javax.swing.JMenuItem();
         itmModify = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+
+        jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -354,6 +429,14 @@ public class FrmEmployeeSummary extends javax.swing.JFrame {
         });
         Optionmenu.add(itmModify);
 
+        jMenuItem2.setText("Imprirmir");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        Optionmenu.add(jMenuItem2);
+
         jMenuBar1.add(Optionmenu);
 
         setJMenuBar(jMenuBar1);
@@ -520,6 +603,11 @@ public class FrmEmployeeSummary extends javax.swing.JFrame {
 
     }//GEN-LAST:event_itmModifyActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        generarPDF();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -564,6 +652,8 @@ public class FrmEmployeeSummary extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
