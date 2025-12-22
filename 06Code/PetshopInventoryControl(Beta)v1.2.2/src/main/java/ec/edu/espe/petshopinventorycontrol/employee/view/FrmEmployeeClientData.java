@@ -1,0 +1,583 @@
+package ec.edu.espe.petshopinventorycontrol.employee.view;
+
+import com.itextpdf.kernel.pdf.*;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.properties.TextAlignment;
+import java.io.File;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.TableModel;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+/**
+ *
+ * @author Bryan Gudino, KNOWLEDGE ENCAPSULATE, @ESPE
+ */
+public class FrmEmployeeClientData extends javax.swing.JFrame {
+
+    // Servicio PDF (Lógica separada)
+    private final PdfInvoiceService pdfService = new PdfInvoiceService();
+
+    public FrmEmployeeClientData() {
+        initComponents();
+        setupListeners();
+    }
+
+    private void setupListeners() {
+        // Botón "Guardar" (Datos llenos)
+        if (btnSave != null) btnSave.addActionListener(evt -> processInvoice(false));
+        
+        // Botón "Consumidor Final"
+        if (btnFinish != null) btnFinish.addActionListener(evt -> processInvoice(true));
+        
+        // Botón "Regresar"
+        if (btnBackSummary != null) btnBackSummary.addActionListener(evt -> {
+            this.setVisible(false);
+            FrmEmployeeSummary.getInstance().setVisible(true);
+        });
+    }
+
+    private void processInvoice(boolean isFinalConsumer) {
+        String name, id, addr, email;
+
+        if (isFinalConsumer) {
+            name = "CONSUMIDOR FINAL"; id = "9999999999"; addr = "S/N"; email = "S/N";
+        } else {
+            if (txtClientId.getText().trim().isEmpty() || txtClientName.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Nombre y Cédula obligatorios.", "Error", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            name = txtClientName.getText();
+            id = txtClientId.getText();
+            addr = txtClientAddress.getText();
+            email = txtClientEmail.getText();
+        }
+
+        FrmEmployeeSummary summary = FrmEmployeeSummary.getInstance();
+        if (summary.getTable().getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Carrito vacío.", "Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        boolean success = pdfService.createPdf(name, id, addr, email, summary.getTable(), summary.calculateTotalSale());
+
+        if (success) {
+            summary.cleanTablePublic();
+            this.setVisible(false);
+            JOptionPane.showMessageDialog(this, "Venta Finalizada.");
+            clearMyFields();
+            FrmEmployeeSummary.getInstance().setVisible(true);
+        }
+    }
+
+    private void clearMyFields() {
+        if(txtClientId != null) txtClientId.setText("");
+        if(txtClientName != null) txtClientName.setText("");
+        if(txtClientAddress != null) txtClientAddress.setText("");
+        if(txtClientEmail != null) txtClientEmail.setText("");
+    }
+
+    void setTotal(double total) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    // CLASE INTERNA PARA PDF
+    public static class PdfInvoiceService {
+        public boolean createPdf(String client, String id, String addr, String email, JTable table, double total) {
+            try {
+                String path = System.getProperty("user.home") + "/Desktop/Factura_" + id + ".pdf";
+                PdfWriter writer = new PdfWriter(path);
+                PdfDocument pdf = new PdfDocument(writer);
+                Document doc = new Document(pdf);
+
+                doc.add(new Paragraph("PETSHOP SYSTEM").setBold().setFontSize(16).setTextAlignment(TextAlignment.CENTER));
+                doc.add(new Paragraph("Cliente: " + client + "\nRUC/CI: " + id + "\nDir: " + addr));
+                doc.add(new Paragraph("--------------------------------"));
+
+                float[] widths = {100F, 100F, 50F, 100F};
+                Table pdfTable = new Table(widths);
+                pdfTable.addHeaderCell("Cat."); pdfTable.addHeaderCell("Prod.");
+                pdfTable.addHeaderCell("Cant."); pdfTable.addHeaderCell("$$");
+
+                TableModel model = table.getModel();
+                for (int i = 0; i < model.getRowCount(); i++) {
+                    pdfTable.addCell(s(model.getValueAt(i, 0)));
+                    pdfTable.addCell(s(model.getValueAt(i, 2)));
+                    pdfTable.addCell(s(model.getValueAt(i, 6)));
+                    pdfTable.addCell("$" + s(model.getValueAt(i, 7)));
+                }
+                doc.add(pdfTable);
+                doc.add(new Paragraph("TOTAL: $" + String.format("%.2f", total)).setBold().setTextAlignment(TextAlignment.RIGHT));
+                doc.close();
+                return true;
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error PDF: " + e.getMessage());
+                return false;
+            }
+        }
+        private String s(Object o) { return o == null ? "" : o.toString(); }
+    }    
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        btnBackSummary = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
+        btnFinish = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        txtClientName = new javax.swing.JTextField();
+        txtClientAddress = new javax.swing.JTextField();
+        txtClientId = new javax.swing.JTextField();
+        txtClientEmail = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        lblTotal = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(0, 0, 119));
+
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 3, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("DATOS FACTURA ");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(188, 188, 188))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jLabel1)
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
+
+        jPanel2.setBackground(new java.awt.Color(0, 0, 119));
+
+        btnBackSummary.setText("Regresar al resumen");
+        btnBackSummary.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackSummaryActionPerformed(evt);
+            }
+        });
+
+        btnSave.setText("Guardar");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+
+        btnFinish.setText("Consumidor final");
+        btnFinish.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFinishActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(btnBackSummary)
+                .addGap(67, 67, 67)
+                .addComponent(btnFinish)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnSave)
+                .addGap(36, 36, 36))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(19, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBackSummary)
+                    .addComponent(btnSave)
+                    .addComponent(btnFinish))
+                .addGap(14, 14, 14))
+        );
+
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel2.setText("Datos:");
+
+        jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel3.setText("Nombres y apellidos:");
+
+        jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel6.setText("Domicilio:");
+
+        jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel7.setText("Correo electrónico:");
+
+        jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel8.setText("Numero de cedula:");
+
+        txtClientName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtClientNameActionPerformed(evt);
+            }
+        });
+        txtClientName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtClientNameKeyTyped(evt);
+            }
+        });
+
+        txtClientAddress.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtClientAddressKeyTyped(evt);
+            }
+        });
+
+        txtClientId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtClientIdActionPerformed(evt);
+            }
+        });
+        txtClientId.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtClientIdKeyTyped(evt);
+            }
+        });
+
+        txtClientEmail.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtClientEmailFocusLost(evt);
+            }
+        });
+        txtClientEmail.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtClientEmailKeyTyped(evt);
+            }
+        });
+
+        jLabel4.setText("Total:");
+
+        lblTotal.setText("$ 0.00");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGap(57, 57, 57)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel7)
+                                .addComponent(jLabel8)
+                                .addComponent(jLabel6))
+                            .addGap(18, 18, 18)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtClientId)
+                                .addComponent(txtClientAddress)
+                                .addComponent(txtClientEmail)))
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGap(46, 46, 46)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel3))
+                            .addGap(18, 18, 18)
+                            .addComponent(txtClientName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(180, 180, 180)
+                        .addComponent(jLabel4)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(67, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtClientName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(txtClientId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(txtClientAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtClientEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void txtClientIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClientIdActionPerformed
+
+    }//GEN-LAST:event_txtClientIdActionPerformed
+
+    private void btnFinishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinishActionPerformed
+
+//        javax.swing.JOptionPane.showMessageDialog(
+//                this,
+//                "TOTAL DE LA VENTA: $" + String.format("%.2f", total),
+//                "Consumidor Final",
+//                javax.swing.JOptionPane.INFORMATION_MESSAGE
+//        );
+//
+//        TableToMongo.saveTableToMongo(
+//                FrmEmployeeSummary.getInstance().getTable()
+//        );
+//
+//        FrmEmployeeSummary.getInstance().cleanTable();
+//
+//        FrmEmployeeSummary.getInstance().setVisible(true);
+//        this.dispose();
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnFinishActionPerformed
+
+
+    private void txtClientNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClientNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtClientNameActionPerformed
+
+    private void txtClientNameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClientNameKeyTyped
+
+        char c = evt.getKeyChar();
+
+        if (Character.isISOControl(c)) {
+            return;
+        }
+
+        if (!Character.isLetter(c) && c != ' ') {
+            evt.consume();
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "El nombre solo puede contener letras y espacios",
+                    "Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE
+            );
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtClientNameKeyTyped
+
+    private void txtClientIdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClientIdKeyTyped
+
+        char c = evt.getKeyChar();
+
+        if (Character.isISOControl(c)) {
+            return;
+        }
+
+        if (!Character.isDigit(c)) {
+            evt.consume();
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "La cédula solo puede contener números",
+                    "Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE
+            );
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtClientIdKeyTyped
+
+    private void txtClientAddressKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClientAddressKeyTyped
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtClientAddressKeyTyped
+
+    private void txtClientEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtClientEmailFocusLost
+
+        String email = txtClientEmail.getText().trim();
+
+        // Si está vacío, no validar todavía
+        if (email.isEmpty()) {
+            return;
+        }
+
+        boolean isValid = email.matches("^[A-Za-z0-9+_.-]+@[^@]+\\.com$");
+
+        if (!isValid) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Correo inválido.\nEjemplo válido: usuario@gmail.com",
+                    "Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE
+            );
+
+            // Selecciona todo para corregir fácilmente
+            txtClientEmail.selectAll();
+            txtClientEmail.requestFocus();
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtClientEmailFocusLost
+
+    private void txtClientEmailKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClientEmailKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtClientEmailKeyTyped
+
+    private void btnBackSummaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackSummaryActionPerformed
+
+        FrmEmployeeSummary.getInstance().setVisible(true);
+        this.dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBackSummaryActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+       
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+//    public static void generarFacturaPDF(
+//            String name,
+//            String id,
+//            String address,
+//            String email,
+//            double total,
+//            javax.swing.JTable table
+//    ) {
+//        try {
+//            // RUTA CORRECTA
+//            String folderPath = "src/main/resources/archives";
+//            java.io.File folder = new java.io.File(folderPath);
+//            if (!folder.exists()) {
+//                folder.mkdirs();
+//            }
+//
+//            String filePath = folderPath + "/Factura_" + id + ".pdf";
+//
+//            PdfWriter writer = new PdfWriter(filePath);
+//            PdfDocument pdf = new PdfDocument(writer);
+//            Document document = new Document(pdf);
+//
+//            // ====== ENCABEZADO ======
+//            document.add(new Paragraph("FACTURA")
+//                    .setBold()
+//                    .setFontSize(16));
+//
+//            document.add(new Paragraph("Cliente: " + name));
+//            document.add(new Paragraph("Cédula: " + id));
+//            document.add(new Paragraph("Dirección: " + address));
+//            document.add(new Paragraph("Email: " + email));
+//            document.add(new Paragraph(" "));
+//
+//            // ====== TABLA ======
+//            float[] columnWidths = {100, 80, 100, 100, 80, 60, 60};
+//            Table pdfTable = new Table(columnWidths);
+//
+//            // ENCABEZADOS
+//            pdfTable.addHeaderCell("Categoría");
+//            pdfTable.addHeaderCell("Animal");
+//            pdfTable.addHeaderCell("Producto");
+//            pdfTable.addHeaderCell("Marca");
+//            pdfTable.addHeaderCell("Sabor");
+//            pdfTable.addHeaderCell("Cantidad");
+//            pdfTable.addHeaderCell("Precio");
+//
+//            javax.swing.table.TableModel model = table.getModel();
+//
+//            for (int i = 0; i < model.getRowCount(); i++) {
+//                for (int j = 0; j < model.getColumnCount(); j++) {
+//                    Object value = model.getValueAt(i, j);
+//                    pdfTable.addCell(value == null ? "" : value.toString());
+//                }
+//            }
+//
+//            document.add(pdfTable);
+//
+//            // ====== TOTAL ======
+//            document.add(new Paragraph(" "));
+//            document.add(new Paragraph("TOTAL: $" + String.format("%.2f", total))
+//                    .setBold());
+//
+//            document.close();
+//
+//            javax.swing.JOptionPane.showMessageDialog(
+//                    null,
+//                    "Factura PDF generada correctamente\n" + filePath,
+//                    "PDF generado",
+//                    javax.swing.JOptionPane.INFORMATION_MESSAGE
+//            );
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            javax.swing.JOptionPane.showMessageDialog(
+//                    null,
+//                    "Error al generar el PDF",
+//                    "Error",
+//                    javax.swing.JOptionPane.ERROR_MESSAGE
+//            );
+//        }
+//    }
+
+    /**
+     * @param args the command line arguments
+     */
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBackSummary;
+    private javax.swing.JButton btnFinish;
+    private javax.swing.JButton btnSave;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel lblTotal;
+    private javax.swing.JTextField txtClientAddress;
+    private javax.swing.JTextField txtClientEmail;
+    private javax.swing.JTextField txtClientId;
+    private javax.swing.JTextField txtClientName;
+    // End of variables declaration//GEN-END:variables
+}
