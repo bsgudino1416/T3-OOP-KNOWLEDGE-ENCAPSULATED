@@ -1089,12 +1089,13 @@ private void saveCurrentProduct() {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(0, 0, 119));
+
         jLabel1.setFont(new java.awt.Font("Times New Roman", 3, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("MENÚ EMPLEADO");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -1406,6 +1407,8 @@ private void saveCurrentProduct() {
                 .addGap(28, 28, 28))
         );
 
+        jPanel5.setBackground(new java.awt.Color(0, 0, 119));
+
         btnBackMenu.setText("Regresar");
         btnBackMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1421,6 +1424,11 @@ private void saveCurrentProduct() {
         });
 
         btnSaveProduct.setText("Guardar");
+        btnSaveProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveProductActionPerformed(evt);
+            }
+        });
 
         btnViewReport.setText("Ver reporte");
 
@@ -1533,12 +1541,6 @@ private void saveCurrentProduct() {
 
         jMenu2.setText("Edit");
         jMenuBar1.add(jMenu2);
-
-        jMenu3.setText("jMenu3");
-        jMenuBar1.add(jMenu3);
-
-        jMenu4.setText("jMenu4");
-        jMenuBar1.add(jMenu4);
 
         setJMenuBar(jMenuBar1);
 
@@ -1783,6 +1785,11 @@ private void saveCurrentProduct() {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtStockCalculateActionPerformed
 
+    private void btnSaveProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveProductActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnSaveProductActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1842,8 +1849,6 @@ private void saveCurrentProduct() {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

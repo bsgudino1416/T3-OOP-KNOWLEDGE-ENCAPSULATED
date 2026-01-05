@@ -1089,8 +1089,6 @@ private void saveCurrentProduct() {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -1534,12 +1532,6 @@ private void saveCurrentProduct() {
         jMenu2.setText("Edit");
         jMenuBar1.add(jMenu2);
 
-        jMenu3.setText("jMenu3");
-        jMenuBar1.add(jMenu3);
-
-        jMenu4.setText("jMenu4");
-        jMenuBar1.add(jMenu4);
-
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1842,8 +1834,6 @@ private void saveCurrentProduct() {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
