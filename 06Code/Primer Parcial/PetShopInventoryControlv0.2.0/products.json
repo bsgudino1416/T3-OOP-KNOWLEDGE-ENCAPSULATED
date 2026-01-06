@@ -1,0 +1,14 @@
+[
+  {
+    "id": "CGG01",
+    "category": "FOOD",
+    "animalType": "gato grande",
+    "supplier": "cat"
+  },
+  {
+    "id": "SNG01",
+    "category": "SNACK",
+    "animalType": "cerdo grande",
+    "supplier": "Pig"
+  }
+]
