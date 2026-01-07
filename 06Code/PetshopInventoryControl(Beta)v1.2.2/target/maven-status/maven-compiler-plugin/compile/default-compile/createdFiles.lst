@@ -1,5 +1,6 @@
 ec\edu\espe\petshopinventorycontrol\employee\sale\FrmEmployeeChickenSection$8.class
 ec\edu\espe\petshopinventorycontrol\employee\view\FrmSupplier$7.class
+ec\edu\espe\petshopinventorycontrol\employee\view\FrmAddNewProduct$1.class
 ec\edu\espe\petshopinventorycontrol\employee\view\Formato.class
 ec\edu\espe\petshopinventorycontrol\employee\sale\FrmEmployeeDogSection$9.class
 ec\edu\espe\petshopinventorycontrol\employee\view\FrmAddProduct$9.class
@@ -35,6 +36,7 @@ ec\edu\espe\petshopinventorycontrol\employee\sale\FrmEmployeeDogSection$4.class
 ec\edu\espe\petshopinventorycontrol\employee\view\FrmEmployeeSale$12.class
 ec\edu\espe\petshopinventorycontrol\employee\sale\FrmEmployeePigSection$8.class
 ec\edu\espe\petshopinventorycontrol\employee\view\FrmEmployeeClientData$5.class
+ec\edu\espe\petshopinventorycontrol\employee\view\FrmSupplier$16.class
 ec\edu\espe\petshopinventorycontrol\employee\sale\FrmEmployeeChickenSection$9.class
 ec\edu\espe\petshopinventorycontrol\employee\view\FrmEmployeeSummary$7.class
 ec\edu\espe\petshopinventorycontrol\controller\PetShopMain.class
@@ -49,6 +51,7 @@ ec\edu\espe\petshopinventorycontrol\model\Invoice.class
 ec\edu\espe\petshopinventorycontrol\employee\view\FrmEmployeeSale$17.class
 ec\edu\espe\petshopinventorycontrol\employee\sale\FrmEmployeePigSection$3.class
 ec\edu\espe\petshopinventorycontrol\employee\view\FrmEmployee$2.class
+ec\edu\espe\petshopinventorycontrol\employee\view\FrmSupplier$15.class
 ec\edu\espe\petshopinventorycontrol\employee\view\FrmEmployeeClientData$4.class
 ec\edu\espe\petshopinventorycontrol\employee\view\FrmEmployeeSummary$1.class
 ec\edu\espe\petshopinventorycontrol\employee\view\FrmSupplier.class
@@ -65,6 +68,7 @@ ec\edu\espe\petshopinventorycontrol\employee\view\FrmEmployeeSummary$2.class
 ec\edu\espe\petshopinventorycontrol\employee\view\FrmNewPersonal$1.class
 ec\edu\espe\petshopinventorycontrol\employee\sale\FrmEmployeeChickenSection$4.class
 ec\edu\espe\petshopinventorycontrol\employee\view\FrmAddProduct$16.class
+ec\edu\espe\petshopinventorycontrol\employee\view\FrmSupplier$14.class
 ec\edu\espe\petshopinventorycontrol\model\Report.class
 ec\edu\espe\petshopinventorycontrol\employee\view\FrmEmployeeClientData$3.class
 ec\edu\espe\petshopinventorycontrol\employee\view\FrmSupplier$11.class
@@ -81,6 +85,7 @@ ec\edu\espe\petshopinventorycontrol\employee\view\FrmRegister$1.class
 ec\edu\espe\petshopinventorycontrol\model\Supplier.class
 ec\edu\espe\petshopinventorycontrol\employee\sale\FrmEmployeePigSection$1.class
 ec\edu\espe\petshopinventorycontrol\employee\view\FrmEmployeeSale.class
+ec\edu\espe\petshopinventorycontrol\employee\view\FrmSupplier$12.class
 ec\edu\espe\petshopinventorycontrol\employee\view\FrmEmployeeClientData$2.class
 ec\edu\espe\petshopinventorycontrol\employee\view\FrmEmployeeSummary$4.class
 ec\edu\espe\petshopinventorycontrol\employee\sale\FrmEmployeeConejilloSection$9.class
@@ -108,6 +113,7 @@ ec\edu\espe\petshopinventorycontrol\employee\view\FrmEmployeeSummary$9.class
 ec\edu\espe\petshopinventorycontrol\employee\view\FrmAddProduct$6.class
 ec\edu\espe\petshopinventorycontrol\employee\sale\FrmEmployeeHorseSection$8.class
 ec\edu\espe\petshopinventorycontrol\employee\sale\FrmEmployeePigSection$10.class
+ec\edu\espe\petshopinventorycontrol\employee\view\FrmAddNewProduct.class
 ec\edu\espe\petshopinventorycontrol\employee\view\FrmSupplier$4.class
 ec\edu\espe\petshopinventorycontrol\employee\view\FrmEmployeeSale$10.class
 ec\edu\espe\petshopinventorycontrol\employee\view\FrmRegister$5.class
@@ -117,6 +123,7 @@ ec\edu\espe\petshopinventorycontrol\employee\view\FrmEmployeeSale$15.class
 ec\edu\espe\petshopinventorycontrol\employee\view\Presentation$2.class
 ec\edu\espe\petshopinventorycontrol\employee\sale\FrmEmployeeCowSection$3.class
 ec\edu\espe\petshopinventorycontrol\employee\sale\FrmEmployeeCatSection$2.class
+ec\edu\espe\petshopinventorycontrol\employee\view\FrmSupplier$13.class
 ec\edu\espe\petshopinventorycontrol\employee\sale\FrmEmployeeConejilloSection$1.class
 ec\edu\espe\petshopinventorycontrol\employee\view\FrmAddProduct$15.class
 ec\edu\espe\petshopinventorycontrol\employee\view\FrmEmployeeSummary$13.class
@@ -164,6 +171,7 @@ ec\edu\espe\petshopinventorycontrol\employee\sale\FrmEmployeePigSection$6.class
 ec\edu\espe\petshopinventorycontrol\employee\sale\FrmEmployeeCowSection$4.class
 ec\edu\espe\petshopinventorycontrol\employee\sale\FrmEmployeeHorseSection$4.class
 ec\edu\espe\petshopinventorycontrol\employee\sale\FrmEmployeeCatSection$6.class
+ec\edu\espe\petshopinventorycontrol\employee\view\FrmSupplier$17.class
 ec\edu\espe\petshopinventorycontrol\employee\view\FrmEmployeeSummary.class
 ec\edu\espe\petshopinventorycontrol\employee\sale\FrmEmployeeDogSection$5.class
 ec\edu\espe\petshopinventorycontrol\employee\view\FrmEmployeeSale$2.class
