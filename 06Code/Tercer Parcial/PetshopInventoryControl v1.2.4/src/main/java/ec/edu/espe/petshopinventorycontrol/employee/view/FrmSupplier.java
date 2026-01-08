@@ -5,7 +5,7 @@
 package ec.edu.espe.petshopinventorycontrol.employee.view;
 
 import com.toedter.calendar.JDateChooser;
-import utils.MongoConnection;
+import ec.edu.espe.petshopinventorycontrol.utils.MongoConnection;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;

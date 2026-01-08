@@ -6,7 +6,7 @@ import org.bson.Document;
 import javax.swing.JOptionPane;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import utils.MongoConnection; // Esto funcionará solo si hiciste el Paso 1
+import ec.edu.espe.petshopinventorycontrol.utils.MongoConnection; // Esto funcionará solo si hiciste el Paso 1
 
 /**
  *

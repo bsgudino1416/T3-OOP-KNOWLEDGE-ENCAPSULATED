@@ -1,6 +1,6 @@
 package ec.edu.espe.petshopinventorycontrol.data;
 
-import utils.MongoConnection;
+import ec.edu.espe.petshopinventorycontrol.utils.MongoConnection;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import org.bson.Document;

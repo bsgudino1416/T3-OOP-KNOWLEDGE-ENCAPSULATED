@@ -3,7 +3,36 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package ec.edu.espe.petshopinventorycontrol.employee.view;
+
 import com.toedter.calendar.JDateChooser;
+import ec.edu.espe.petshopinventorycontrol.utils.MongoConnection;
+
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.FindOneAndUpdateOptions;
+import com.mongodb.client.model.ReturnDocument;
+import com.mongodb.client.model.Updates;
+
+import org.bson.Document;
+
+import java.awt.Color;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
+
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
+import com.mongodb.client.model.Sorts;
+
 
 /**
  *
@@ -11,11 +40,54 @@ import com.toedter.calendar.JDateChooser;
  */
 public class FrmSupplier extends javax.swing.JFrame {
 
+    private MongoDatabase db;
+    private MongoCollection<Document> colSuppliers;
+
+    private String currentSupplierId = null;
+    private boolean currentIdCommitted = false;
+
+    private final Color COLOR_OK = Color.WHITE;
+    private final Color COLOR_ERROR = new Color(255, 200, 200);
+
     /**
      * Creates new form FrmSupplier
      */
     public FrmSupplier() {
+
         initComponents();
+
+        initMongo();
+
+        txtIdSupplier.setEditable(false);
+        txtIdSupplier.setEnabled(true);
+        txtIdSupplier.setBackground(new Color(240, 240, 240));
+
+        setupInputFilters();
+
+        currentSupplierId = getNextAvailableSupplierId();
+        currentIdCommitted = false;
+        txtIdSupplier.setText(currentSupplierId);
+
+        currentIdCommitted = false;
+        txtIdSupplier.setText(currentSupplierId);
+
+//        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+//            public void actionPerformed(java.awt.event.ActionEvent evt) {
+//                jMenuItem1ActionPerformed(evt);
+//            }
+//        });
+//
+//        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+//            public void actionPerformed(java.awt.event.ActionEvent evt) {
+//                jMenuItem2ActionPerformed(evt);
+//            }
+//        });
+//
+//        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+//            public void actionPerformed(java.awt.event.ActionEvent evt) {
+//                jMenuItem3ActionPerformed(evt);
+//            }
+//        });
     }
 
     /**
@@ -30,7 +102,7 @@ public class FrmSupplier extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
+        btnbacksupplier = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txtIdSupplier = new javax.swing.JTextField();
@@ -57,8 +129,8 @@ public class FrmSupplier extends javax.swing.JFrame {
         itmNewRegisterSupplier = new javax.swing.JMenuItem();
         itmDeleteRegisterSupplier = new javax.swing.JMenuItem();
         itmSaveRegisterSupplier = new javax.swing.JMenuItem();
-        MnuOptions = new javax.swing.JMenu();
         itmDuplicateRegisterSupplier = new javax.swing.JMenuItem();
+        MnuOptions = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         MnuHelp = new javax.swing.JMenu();
@@ -77,9 +149,9 @@ public class FrmSupplier extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(211, 211, 211)
+                .addGap(257, 257, 257)
                 .addComponent(jLabel1)
-                .addContainerGap(337, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -91,10 +163,10 @@ public class FrmSupplier extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 119));
 
-        jButton2.setText("Regrresar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnbacksupplier.setText("Regresar");
+        btnbacksupplier.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnbacksupplierActionPerformed(evt);
             }
         });
 
@@ -102,17 +174,17 @@ public class FrmSupplier extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton2)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(btnbacksupplier)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton2)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addGap(14, 14, 14)
+                .addComponent(btnbacksupplier)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         jLabel2.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
@@ -229,7 +301,7 @@ public class FrmSupplier extends javax.swing.JFrame {
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtemailSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(113, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -295,22 +367,32 @@ public class FrmSupplier extends javax.swing.JFrame {
         });
         MnuFile.add(itmSaveRegisterSupplier);
 
-        jMenuBar1.add(MnuFile);
-
-        MnuOptions.setText("Opciones");
-
         itmDuplicateRegisterSupplier.setText("Duplicar Registro");
         itmDuplicateRegisterSupplier.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itmDuplicateRegisterSupplierActionPerformed(evt);
             }
         });
-        MnuOptions.add(itmDuplicateRegisterSupplier);
+        MnuFile.add(itmDuplicateRegisterSupplier);
+
+        jMenuBar1.add(MnuFile);
+
+        MnuOptions.setText("Opciones");
 
         jMenuItem1.setText("Grafica Proveedores");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         MnuOptions.add(jMenuItem1);
 
         jMenuItem2.setText("Informe Proveedores");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         MnuOptions.add(jMenuItem2);
 
         jMenuBar1.add(MnuOptions);
@@ -318,6 +400,11 @@ public class FrmSupplier extends javax.swing.JFrame {
         MnuHelp.setText("Ayuda");
 
         jMenuItem3.setText("Información");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         MnuHelp.add(jMenuItem3);
 
         jMenuBar1.add(MnuHelp);
@@ -362,32 +449,392 @@ public class FrmSupplier extends javax.swing.JFrame {
     }//GEN-LAST:event_txtemailSupplierActionPerformed
 
     private void itmNewRegisterSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmNewRegisterSupplierActionPerformed
-        // TODO add your handling code here:
+        newRegister();
     }//GEN-LAST:event_itmNewRegisterSupplierActionPerformed
 
     private void itmDeleteRegisterSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmDeleteRegisterSupplierActionPerformed
-        // TODO add your handling code here:
+        deleteRegisterUIOnly();
     }//GEN-LAST:event_itmDeleteRegisterSupplierActionPerformed
 
     private void itmSaveRegisterSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSaveRegisterSupplierActionPerformed
-        // TODO add your handling code here:
+        saveSupplierToMongo();
     }//GEN-LAST:event_itmSaveRegisterSupplierActionPerformed
 
     private void itmDuplicateRegisterSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmDuplicateRegisterSupplierActionPerformed
-        // TODO add your handling code here:
+        duplicateRegister();
     }//GEN-LAST:event_itmDuplicateRegisterSupplierActionPerformed
 
     private void txtTypeSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTypeSupplierActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTypeSupplierActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btnbacksupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbacksupplierActionPerformed
+        // new FrmEmployeeMenu().setVisible(true);
+        // this.dispose();
+    }//GEN-LAST:event_btnbacksupplierActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+
+        // Ejemplo (cuando tengas la clase):
+        // new FrmSupplierChart().setVisible(true);
+        // this.dispose();
+        JOptionPane.showMessageDialog(this,
+                "Pendiente: abrir ventana de Gráfica de Proveedores.",
+                "Navegación", JOptionPane.INFORMATION_MESSAGE);
+
+
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // Ejemplo (cuando tengas la clase):
+        // new FrmSupplierReport().setVisible(true);
+        // this.dispose();
+
+        JOptionPane.showMessageDialog(this,
+                "Pendiente: abrir ventana de Informe de Proveedores.",
+                "Navegación", JOptionPane.INFORMATION_MESSAGE);
+
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+
+        String info
+                = "Información\n"
+                + "El módulo de proveedores permite gestionar y organizar la información relacionada con las entidades que suministran productos o servicios al sistema. "
+                + "Desde esta sección se pueden registrar, consultar y actualizar datos clave que facilitan la integración con otros procesos. "
+                + "Su uso contribuye a mantener la información ordenada y coherente dentro del sistema.";
+
+        JTextArea textArea = new JTextArea(info);
+        textArea.setWrapStyleWord(true);
+        textArea.setLineWrap(true);
+        textArea.setEditable(false);
+        textArea.setCaretPosition(0);
+
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new java.awt.Dimension(520, 180));
+
+        JOptionPane.showMessageDialog(this, scrollPane, "Información", JOptionPane.INFORMATION_MESSAGE);
+
+
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments
      */
+    private void initMongo() {
+        db = MongoConnection.getDatabase();
+        colSuppliers = db.getCollection("suppliers");
+
+    }
+
+    private String getNextAvailableSupplierId() {
+        String dateKey = new SimpleDateFormat("ddMMyy").format(new Date());
+
+        Document last = colSuppliers.find(Filters.regex("idSupplier", "^" + dateKey + "-"))
+                .sort(Sorts.descending("idSupplier"))
+                .limit(1)
+                .first();
+
+        int nextSeq = 1;
+
+        if (last != null) {
+            String lastId = last.getString("idSupplier");
+            if (lastId != null && lastId.contains("-")) {
+                try {
+                    int lastSeq = Integer.parseInt(lastId.split("-")[1]);
+                    nextSeq = lastSeq + 1;
+                } catch (Exception ignored) {
+                    nextSeq = 1;
+                }
+            }
+        }
+
+        return String.format("%s-%03d", dateKey, nextSeq);
+    }
+
+    private void clearEditableFields() {
+        txtTypeSupplier.setText("");
+        txtPhoneSupplier.setText("");
+        txtPhone2Supplier.setText("");
+        txtNameSupplier.setText("");
+        txtCitySupplier.setText("");
+        txtStateSupplier.setText("");
+        txtEnterpriselSupplier.setText("");
+        txtemailSupplier.setText("");
+        jDateEntry.setDate(null);
+
+        resetFieldStyle(txtTypeSupplier);
+        resetFieldStyle(txtPhoneSupplier);
+        resetFieldStyle(txtPhone2Supplier);
+        resetFieldStyle(txtNameSupplier);
+        resetFieldStyle(txtCitySupplier);
+        resetFieldStyle(txtStateSupplier);
+        resetFieldStyle(txtEnterpriselSupplier);
+        resetFieldStyle(txtemailSupplier);
+
+    }
+
+    private void markFieldError(JTextField field) {
+        field.setBackground(COLOR_ERROR);
+        field.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+    }
+
+    private void resetFieldStyle(JTextField field) {
+        field.setBackground(COLOR_OK);
+        field.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1));
+    }
+
+    private boolean validateSupplierForm() {
+        boolean ok = true;
+
+        resetFieldStyle(txtTypeSupplier);
+        resetFieldStyle(txtPhoneSupplier);
+        resetFieldStyle(txtPhone2Supplier);
+        resetFieldStyle(txtNameSupplier);
+        resetFieldStyle(txtCitySupplier);
+        resetFieldStyle(txtStateSupplier);
+        resetFieldStyle(txtEnterpriselSupplier);
+        resetFieldStyle(txtemailSupplier);
+
+        if (txtTypeSupplier.getText().trim().isEmpty()) {
+            markFieldError(txtTypeSupplier);
+            ok = false;
+        }
+        if (txtPhoneSupplier.getText().trim().isEmpty()) {
+            markFieldError(txtPhoneSupplier);
+            ok = false;
+        }
+        if (txtPhone2Supplier.getText().trim().isEmpty()) {
+            markFieldError(txtPhone2Supplier);
+            ok = false;
+        }
+        if (txtNameSupplier.getText().trim().isEmpty()) {
+            markFieldError(txtNameSupplier);
+            ok = false;
+        }
+        if (txtCitySupplier.getText().trim().isEmpty()) {
+            markFieldError(txtCitySupplier);
+            ok = false;
+        }
+        if (txtStateSupplier.getText().trim().isEmpty()) {
+            markFieldError(txtStateSupplier);
+            ok = false;
+        }
+        if (txtEnterpriselSupplier.getText().trim().isEmpty()) {
+            markFieldError(txtEnterpriselSupplier);
+            ok = false;
+        }
+        if (txtemailSupplier.getText().trim().isEmpty()) {
+            markFieldError(txtemailSupplier);
+            ok = false;
+        }
+        if (jDateEntry.getDate() == null) {
+            ok = false;
+        }
+
+        if (!txtPhoneSupplier.getText().matches("^\\d{12}$")) {
+            markFieldError(txtPhoneSupplier);
+            ok = false;
+        }
+        if (!txtPhone2Supplier.getText().matches("^\\d{12}$")) {
+            markFieldError(txtPhone2Supplier);
+            ok = false;
+        }
+
+        String email = txtemailSupplier.getText().trim();
+        if (!email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}(.{0,})?$")) {
+            markFieldError(txtemailSupplier);
+            ok = false;
+        }
+
+        if (!ok) {
+            String extra = (jDateEntry.getDate() == null) ? "\n- Falta la fecha de ingreso." : "";
+            JOptionPane.showMessageDialog(this,
+                    "Revisa los campos en rojo. No se puede guardar." + extra,
+                    "Validación", JOptionPane.WARNING_MESSAGE);
+        }
+
+        return ok;
+    }
+
+    private Document buildSupplierDocument() {
+        return new Document("idSupplier", currentSupplierId)
+                .append("typeSupplier", txtTypeSupplier.getText().trim())
+                .append("phoneSupplier", txtPhoneSupplier.getText().trim())
+                .append("phone2Supplier", txtPhone2Supplier.getText().trim())
+                .append("nameSupplier", txtNameSupplier.getText().trim())
+                .append("citySupplier", txtCitySupplier.getText().trim())
+                .append("stateSupplier", txtStateSupplier.getText().trim())
+                .append("enterpriseSupplier", txtEnterpriselSupplier.getText().trim())
+                .append("emailSupplier", txtemailSupplier.getText().trim())
+                .append("entryDate", jDateEntry.getDate());
+    }
+
+    private void saveSupplierToMongo() {
+        if (!validateSupplierForm()) {
+            return;
+        }
+
+        try {
+
+            Document exists = colSuppliers.find(Filters.eq("idSupplier", currentSupplierId)).first();
+            if (exists != null) {
+                currentSupplierId = getNextAvailableSupplierId();
+                txtIdSupplier.setText(currentSupplierId);
+
+                JOptionPane.showMessageDialog(this,
+                        "El ID ya estaba ocupado. Se asignó uno nuevo: " + currentSupplierId,
+                        "ID Actualizado", JOptionPane.WARNING_MESSAGE);
+            }
+
+            colSuppliers.insertOne(buildSupplierDocument());
+            currentIdCommitted = true;
+
+            JOptionPane.showMessageDialog(this,
+                    "Proveedor guardado ✅\nID: " + currentSupplierId,
+                    "OK", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al guardar en MongoDB: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void newRegister() {
+        clearEditableFields();
+
+        if (currentIdCommitted) {
+
+            currentIdCommitted = false;
+        }
+        txtIdSupplier.setText(currentSupplierId);
+    }
+
+    private void deleteRegisterUIOnly() {
+        clearEditableFields();
+
+        txtIdSupplier.setText(currentSupplierId);
+    }
+
+    private void duplicateRegister() {
+
+        if (isAllEditableFieldsEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "No hay datos para duplicar. Primero llena los campos.",
+                    "Duplicar", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        currentSupplierId = getNextAvailableSupplierId();
+        currentIdCommitted = false;
+        txtIdSupplier.setText(currentSupplierId);
+
+        JOptionPane.showMessageDialog(this,
+                "Datos duplicados. Nuevo ID asignado: " + currentSupplierId,
+                "Duplicar", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private boolean isAllEditableFieldsEmpty() {
+        boolean textEmpty
+                = txtTypeSupplier.getText().trim().isEmpty()
+                && txtPhoneSupplier.getText().trim().isEmpty()
+                && txtPhone2Supplier.getText().trim().isEmpty()
+                && txtNameSupplier.getText().trim().isEmpty()
+                && txtCitySupplier.getText().trim().isEmpty()
+                && txtStateSupplier.getText().trim().isEmpty()
+                && txtEnterpriselSupplier.getText().trim().isEmpty()
+                && txtemailSupplier.getText().trim().isEmpty();
+
+        boolean dateEmpty = (jDateEntry.getDate() == null);
+
+        return textEmpty && dateEmpty;
+    }
+
+    private void setupInputFilters() {
+
+        setTextFilter(txtTypeSupplier, 50);
+        setTextFilter(txtNameSupplier, 50);
+        setTextFilter(txtCitySupplier, 50);
+        setTextFilter(txtStateSupplier, 50);
+        setTextFilter(txtEnterpriselSupplier, 50);
+
+        setNumericFilter(txtPhoneSupplier, 12);
+        setNumericFilter(txtPhone2Supplier, 12);
+
+        setEmailFilter(txtemailSupplier, 80);
+    }
+
+    private void setTextFilter(JTextField field, int max) {
+        ((AbstractDocument) field.getDocument()).setDocumentFilter(new DocumentFilter() {
+            @Override
+            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs)
+                    throws BadLocationException {
+                if (text == null) {
+                    return;
+                }
+
+                String current = fb.getDocument().getText(0, fb.getDocument().getLength());
+                String next = current.substring(0, offset) + text + current.substring(offset + length);
+
+                if (!text.matches("[A-Za-zÁÉÍÓÚÜÑáéíóúüñ\\s]*")) {
+                    return;
+                }
+                if (next.length() <= max) {
+                    super.replace(fb, offset, length, text, attrs);
+                }
+            }
+        });
+    }
+
+    private void setNumericFilter(JTextField field, int max) {
+        ((AbstractDocument) field.getDocument()).setDocumentFilter(new DocumentFilter() {
+            @Override
+            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs)
+                    throws BadLocationException {
+                if (text == null) {
+                    return;
+                }
+
+                if (!text.matches("\\d*")) {
+                    return;
+                }
+
+                String current = fb.getDocument().getText(0, fb.getDocument().getLength());
+                String next = current.substring(0, offset) + text + current.substring(offset + length);
+
+                if (next.length() <= max) {
+                    super.replace(fb, offset, length, text, attrs);
+                }
+            }
+        });
+    }
+
+    private void setEmailFilter(JTextField field, int max) {
+        ((AbstractDocument) field.getDocument()).setDocumentFilter(new DocumentFilter() {
+            @Override
+            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs)
+                    throws BadLocationException {
+                if (text == null) {
+                    return;
+                }
+
+                String current = fb.getDocument().getText(0, fb.getDocument().getLength());
+                String next = current.substring(0, offset) + text + current.substring(offset + length);
+
+                if (next.length() > max) {
+                    return;
+                }
+
+                if (!text.matches("[A-Za-z0-9@._%+\\-]*")) {
+                    return;
+                }
+
+                super.replace(fb, offset, length, text, attrs);
+            }
+        });
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -411,6 +858,9 @@ public class FrmSupplier extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(FrmSupplier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -424,11 +874,11 @@ public class FrmSupplier extends javax.swing.JFrame {
     private javax.swing.JMenu MnuFile;
     private javax.swing.JMenu MnuHelp;
     private javax.swing.JMenu MnuOptions;
+    private javax.swing.JButton btnbacksupplier;
     private javax.swing.JMenuItem itmDeleteRegisterSupplier;
     private javax.swing.JMenuItem itmDuplicateRegisterSupplier;
     private javax.swing.JMenuItem itmNewRegisterSupplier;
     private javax.swing.JMenuItem itmSaveRegisterSupplier;
-    private javax.swing.JButton jButton2;
     private com.toedter.calendar.JDateChooser jDateEntry;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
