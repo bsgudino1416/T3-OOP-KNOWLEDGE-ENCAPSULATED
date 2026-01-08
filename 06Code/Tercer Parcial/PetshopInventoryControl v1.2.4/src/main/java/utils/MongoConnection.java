@@ -1,4 +1,4 @@
-package ec.edu.espe.petshopinventorycontrol.data;
+package utils;
 
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoClient;
