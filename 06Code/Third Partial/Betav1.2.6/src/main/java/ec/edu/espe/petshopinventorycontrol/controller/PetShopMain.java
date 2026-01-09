@@ -1,6 +1,6 @@
 package ec.edu.espe.petshopinventorycontrol.controller;
 
-import ec.edu.espe.petshopinventorycontrol.employee.view.FrmLoginPetshop; 
+import ec.edu.espe.petshopinventorycontrol.view.FrmLoginPetshop; 
 
 public class PetShopMain {
 
