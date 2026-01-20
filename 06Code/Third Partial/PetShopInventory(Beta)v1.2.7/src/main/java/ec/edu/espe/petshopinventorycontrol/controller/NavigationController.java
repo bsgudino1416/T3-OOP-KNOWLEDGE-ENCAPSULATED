@@ -1,6 +1,6 @@
 package ec.edu.espe.petshopinventorycontrol.controller;
 
-import ec.edu.espe.petshopinventorycontrol.employee.view.*;
+import ec.edu.espe.petshopinventorycontrol.view.FrmEmployee;
 import javax.swing.JFrame;
 
 /**

@@ -1,7 +1,6 @@
-package ec.edu.espe.petshopinventorycontrol.utils;
+package Utils;
 
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoClient;
+
 import com.mongodb.client.MongoDatabase;
 
 /**
@@ -11,25 +10,19 @@ import com.mongodb.client.MongoDatabase;
 
 public class MongoConnection {
 
-    private static final String URI = "mongodb+srv://Steven:Steven2001@cluster0.mp8muds.mongodb.net/?appName=Cluster0t";
-    private static final String DATABASE_NAME = "PetShopInventoryDB";
+//    private static final String URI = "mongodb+srv://Steven:Steven2001@cluster0.mp8muds.mongodb.net/?appName=Cluster0t";
+//    private static final String DATABASE_NAME = "PetShopInventoryDB";
 
-    private static MongoClient mongoClient;
-    private static MongoDatabase database;
+    
+     private MongoConnection() {
+    }
 
-    // Inicializa la conexión (lazy)
     public static MongoDatabase getDatabase() {
-        if (database == null) {
-            mongoClient = MongoClients.create(URI);
-            database = mongoClient.getDatabase(DATABASE_NAME);
-        }
-        return database;
+        return ec.edu.espe.petshopinventorycontrol.controller.MongoConnection.getDatabase();
     }
 
     public static void close() {
-        if (mongoClient != null) {
-            mongoClient.close();
-        }
+        ec.edu.espe.petshopinventorycontrol.controller.MongoConnection.close();
     }
 }
 
