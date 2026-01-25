@@ -5,7 +5,7 @@
 package ec.edu.espe.petshopinventorycontrol.view;
 
 import com.toedter.calendar.JDateChooser;
-import ec.edu.espe.petshopinventorycontrol.utils.MongoConnection;
+
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -56,7 +56,7 @@ public class FrmSupplier extends javax.swing.JFrame {
 
         initComponents();
 
-        initMongo();
+        
 
         txtIdSupplier.setEditable(false);
         txtIdSupplier.setEnabled(true);
@@ -71,23 +71,7 @@ public class FrmSupplier extends javax.swing.JFrame {
         currentIdCommitted = false;
         txtIdSupplier.setText(currentSupplierId);
 
-//        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-//            public void actionPerformed(java.awt.event.ActionEvent evt) {
-//                jMenuItem1ActionPerformed(evt);
-//            }
-//        });
-//
-//        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-//            public void actionPerformed(java.awt.event.ActionEvent evt) {
-//                jMenuItem2ActionPerformed(evt);
-//            }
-//        });
-//
-//        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
-//            public void actionPerformed(java.awt.event.ActionEvent evt) {
-//                jMenuItem3ActionPerformed(evt);
-//            }
-//        });
+
     }
 
     /**
@@ -475,9 +459,7 @@ public class FrmSupplier extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
 
-        // Ejemplo (cuando tengas la clase):
-        // new FrmSupplierChart().setVisible(true);
-        // this.dispose();
+        
         JOptionPane.showMessageDialog(this,
                 "Pendiente: abrir ventana de Gráfica de Proveedores.",
                 "Navegación", JOptionPane.INFORMATION_MESSAGE);
@@ -486,9 +468,7 @@ public class FrmSupplier extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // Ejemplo (cuando tengas la clase):
-        // new FrmSupplierReport().setVisible(true);
-        // this.dispose();
+        
 
         JOptionPane.showMessageDialog(this,
                 "Pendiente: abrir ventana de Informe de Proveedores.",
@@ -521,11 +501,7 @@ public class FrmSupplier extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    private void initMongo() {
-        db = MongoConnection.getDatabase();
-        colSuppliers = db.getCollection("suppliers");
-
-    }
+    
 
     private String getNextAvailableSupplierId() {
         String dateKey = new SimpleDateFormat("ddMMyy").format(new Date());

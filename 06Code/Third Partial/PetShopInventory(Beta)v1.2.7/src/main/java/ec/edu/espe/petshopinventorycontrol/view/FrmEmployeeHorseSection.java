@@ -24,22 +24,20 @@ public class FrmEmployeeHorseSection extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmEmployeeHorseSection.class.getName());
 
-    /**
-     * Creates new form NewJFrame9
-     */
+    
     public FrmEmployeeHorseSection() {
         initComponents();
 
         cargarImagenHorse();
 
-// ==== SPINNERS DESACTIVADOS AL INICIO ====
+
         spinnerFoodLb.setEnabled(false);
         spinnerFoodLb.setValue(0);
 
         spinnerAccesory.setEnabled(false);
         spinnerAccesory.setValue(0);
 
-// ==== SPINNERS CONFIGURADOS (SIN NEGATIVOS) ====
+
         SpinnerNumberModel foodModel = new SpinnerNumberModel(0, 0, 50, 1);
         spinnerFoodLb.setModel(foodModel);
         ((JSpinner.DefaultEditor) spinnerFoodLb.getEditor()).getTextField().setEditable(false);
@@ -48,15 +46,15 @@ public class FrmEmployeeHorseSection extends javax.swing.JFrame {
         spinnerAccesory.setModel(accModel);
         ((JSpinner.DefaultEditor) spinnerAccesory.getEditor()).getTextField().setEditable(false);
 
-        // ==== LISTENERS COMIDA ====
+        
         ComboBoxMake.addActionListener(e -> actualizarSubprecioComidaCaballo());
         spinnerFoodLb.addChangeListener(e -> actualizarSubprecioComidaCaballo());
 
-// ==== LISTENERS ACCESORIOS ====
+
         listAccesory.addListSelectionListener(e -> actualizarSubprecioAccesorioCaballo());
         spinnerAccesory.addChangeListener(e -> actualizarSubprecioAccesorioCaballo());
 
-// ==== INICIALIZAR ====
+
         lblSubPriceFood.setText("$ 0.00");
         lblSubPriceAccesory.setText("$ 0.00");
         lblTotalHorse.setText("$ 0.00");
@@ -189,7 +187,7 @@ public class FrmEmployeeHorseSection extends javax.swing.JFrame {
             );
         }
 
-        // ===== ACCESORIOS CABALLO =====
+        
         if (listAccesory.getSelectedValue() != null) {
 
             int unidades = (int) spinnerAccesory.getValue();
@@ -577,7 +575,7 @@ public class FrmEmployeeHorseSection extends javax.swing.JFrame {
 
         guardarSeleccionHorse();
 
-        // ABRIR RESUMEN DE VENTA (VENTA ACTIVA)
+        
         ec.edu.espe.petshopinventorycontrol.controller.ActiveSale
                 .getSummary()
                 .setVisible(true);

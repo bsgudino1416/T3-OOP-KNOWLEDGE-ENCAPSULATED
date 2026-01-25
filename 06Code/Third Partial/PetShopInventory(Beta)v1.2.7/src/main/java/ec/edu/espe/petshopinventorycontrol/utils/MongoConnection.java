@@ -10,8 +10,7 @@ import com.mongodb.client.MongoDatabase;
 
 public class MongoConnection {
 
-//    private static final String URI = "mongodb+srv://Steven:Steven2001@cluster0.mp8muds.mongodb.net/?appName=Cluster0t";
-//    private static final String DATABASE_NAME = "PetShopInventoryDB";
+
 
     
      private MongoConnection() {

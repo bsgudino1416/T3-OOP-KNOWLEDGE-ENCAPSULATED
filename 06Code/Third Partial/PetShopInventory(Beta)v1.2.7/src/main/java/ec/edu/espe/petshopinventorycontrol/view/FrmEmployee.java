@@ -197,9 +197,7 @@ public class FrmEmployee extends javax.swing.JFrame {
 
     private void btnSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaleActionPerformed
 
-//    //FrmEmployeeSale.getInstance().setVisible(true);
-//    new FrmEmployee().setVisible(true);
-//    this.setVisible(false);
+
     FrmEmployeeSale sale = FrmEmployeeSale.getInstance();
     sale.setVisible(true);
     this.dispose();

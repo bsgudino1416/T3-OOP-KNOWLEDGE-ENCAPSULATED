@@ -165,12 +165,12 @@ public class Presentation extends javax.swing.JFrame {
 
             @Override
             protected void done() {
-                // Abrir Login
+                
                 FrmLoginPetshop login = new FrmLoginPetshop();
                 login.setLocationRelativeTo(null);
                 login.setVisible(true);
 
-                // Cerrar Presentation
+                
                 dispose();
             }
 

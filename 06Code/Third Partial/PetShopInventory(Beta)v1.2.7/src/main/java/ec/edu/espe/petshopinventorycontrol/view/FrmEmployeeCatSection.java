@@ -33,26 +33,26 @@ public class FrmEmployeeCatSection extends javax.swing.JFrame {
 
         cargarImagenCat();
 
-        // SPINNER DE COMIDA (0 a 50, solo números, SIN escribir texto)
+        
         SpinnerNumberModel foodModel = new SpinnerNumberModel(0, 0, 50, 1);
         spinnerFoodKg.setModel(foodModel);
         ((JSpinner.DefaultEditor) spinnerFoodKg.getEditor()).getTextField().setEditable(false);
 
-        // SPINNER DE ACCESORIOS (0 a 20, solo números)
+   
         SpinnerNumberModel accModel = new SpinnerNumberModel(0, 0, 20, 1);
         spinnerAccesory.setModel(accModel);
         ((JSpinner.DefaultEditor) spinnerAccesory.getEditor()).getTextField().setEditable(false);
 
-        // SPINNER DE JUGUETES (0 a 20, solo números)
+        
         SpinnerNumberModel toyModel = new SpinnerNumberModel(0, 0, 20, 1);
         spinnerToy.setModel(toyModel);
         ((JSpinner.DefaultEditor) spinnerToy.getEditor()).getTextField().setEditable(false);
 
-        //
+        
         spinnerAccesory.setEnabled(false);
         spinnerToy.setEnabled(false);
 
-        //
+        
         listAccesory.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 spinnerAccesory.setEnabled(listAccesory.getSelectedValue() != null);
@@ -67,29 +67,29 @@ public class FrmEmployeeCatSection extends javax.swing.JFrame {
             }
         });
 
-        // Actualizar subprecio cuando cambie marca, raza o sabor
+        
         ComboBoxMake.addActionListener(e -> actualizarSubprecioComida());
         ComboBoxRace.addActionListener(e -> actualizarSubprecioComida());
         ComboBoxFlavor.addActionListener(e -> actualizarSubprecioComida());
 
-        // Actualizar subprecio cuando cambie el spinner de peso
+       
         spinnerFoodKg.addChangeListener(e -> actualizarSubprecioComida());
 
-        // Inicializar el subprecio al abrir la ventana
+        
         actualizarSubprecioComida();
 
-        // Actualizar subprecio de accesorios cuando cambie selección o unidades
+        
         listAccesory.addListSelectionListener(e -> actualizarSubprecioAccesorio());
         spinnerAccesory.addChangeListener(e -> actualizarSubprecioAccesorio());
 
-        // Inicializar subprecio al abrir la ventana
+        
         actualizarSubprecioAccesorio();
 
-        // Actualizar subprecio de juguetes cuando cambie selección o unidades
+        
         listToy.addListSelectionListener(e -> actualizarSubprecioToy());
         spinnerToy.addChangeListener(e -> actualizarSubprecioToy());
 
-        // Inicializar subprecio al abrir la ventana
+        
         actualizarSubprecioToy();
 
         actualizarTotalCat();
@@ -98,7 +98,7 @@ public class FrmEmployeeCatSection extends javax.swing.JFrame {
 
     private void guardarSeleccionCat() {
 
-        // ===== COMIDA =====
+        
         int kg = (Integer) spinnerFoodKg.getValue();
         double subFood = Double.parseDouble(
                 lblSubPriceFood.getText().replace("$", "").replace(",", ".").trim()
@@ -116,7 +116,7 @@ public class FrmEmployeeCatSection extends javax.swing.JFrame {
             );
         }
 
-        // ===== ACCESORIOS =====
+        
         if (listAccesory.getSelectedValue() != null) {
             int units = (Integer) spinnerAccesory.getValue();
             double subAcc = Double.parseDouble(
@@ -136,7 +136,7 @@ public class FrmEmployeeCatSection extends javax.swing.JFrame {
             }
         }
 
-        // ===== JUGUETES =====
+        
         if (listToy.getSelectedValue() != null) {
             int units = (Integer) spinnerToy.getValue();
             double subToy = Double.parseDouble(
@@ -270,7 +270,6 @@ public class FrmEmployeeCatSection extends javax.swing.JFrame {
     private void actualizarSubprecioAccesorio() {
         String accesorioSeleccionado = listAccesory.getSelectedValue();
 
-        // Si no hay nada seleccionado, no hacemos nada
         if (accesorioSeleccionado == null) {
             lblSubPriceAccesory.setText("$ 0.00");
             return;
@@ -307,7 +306,7 @@ public class FrmEmployeeCatSection extends javax.swing.JFrame {
             return;
         }
 
-        // Determinar el precio unitario según el juguete
+        
         double precioUnitario = switch (toySeleccionado) {
             case "Pelota" ->
                 3.0;
@@ -319,32 +318,32 @@ public class FrmEmployeeCatSection extends javax.swing.JFrame {
                 0;
         };
 
-        // Obtener la cantidad del spinner
+        
         int unidades = (Integer) spinnerToy.getValue();
 
-        // Calcular subprecio
+        
         double subprecio = precioUnitario * unidades;
 
-        // Actualizar etiqueta
+        
         lblSubPriceToy.setText(String.format("$ %.2f", subprecio));
         actualizarTotalCat();
     }
 
     private void actualizarTotalCat() {
-        // Tomar subtotales como Strings y quitar "$"
+        
         String foodText = lblSubPriceFood.getText().replace("$", "").replace(",", ".").trim();
         String accText = lblSubPriceAccesory.getText().replace("$", "").replace(",", ".").trim();
         String toyText = lblSubPriceToy.getText().replace("$", "").replace(",", ".").trim();
 
-        // Convertir a double
+        
         double comida = foodText.isEmpty() ? 0 : Double.parseDouble(foodText);
         double accesorio = accText.isEmpty() ? 0 : Double.parseDouble(accText);
         double juguete = toyText.isEmpty() ? 0 : Double.parseDouble(toyText);
 
-        // Sumar
+        
         double total = comida + accesorio + juguete;
 
-        // Mostrar total
+        
         lblTotalCat.setText("$ " + String.format("%.2f", total));
     }
 
@@ -780,7 +779,7 @@ public class FrmEmployeeCatSection extends javax.swing.JFrame {
 
         guardarSeleccionCat();
 
-        // ABRIR RESUMEN DE VENTA (VENTA ACTIVA)
+        
         ec.edu.espe.petshopinventorycontrol.controller.ActiveSale
                 .getSummary()
                 .setVisible(true);

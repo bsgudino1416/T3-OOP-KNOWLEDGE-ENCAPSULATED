@@ -10,7 +10,7 @@ public class TextValidationUtil {
     };
 
     private TextValidationUtil() {
-        // Evita instancias
+        
     }
 
     public static boolean containsBadWords(String text) {

@@ -26,13 +26,13 @@ public class FrmEmployeeClientData extends javax.swing.JFrame {
     }
 
     private void setupListeners() {
-        // Botón "Guardar" (Datos llenos)
+        
         if (btnSave != null) btnSave.addActionListener(evt -> processInvoice(false));
         
-        // Botón "Consumidor Final"
+        
         if (btnFinish != null) btnFinish.addActionListener(evt -> processInvoice(true));
         
-        // Botón "Regresar"
+       
         if (btnBackSummary != null) btnBackSummary.addActionListener(evt -> {
             this.setVisible(false);
             FrmEmployeeSummary.getInstance().setVisible(true);
@@ -83,7 +83,7 @@ public class FrmEmployeeClientData extends javax.swing.JFrame {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    // CLASE INTERNA PARA PDF
+    
     public static class PdfInvoiceService {
         public boolean createPdf(String client, String id, String addr, String email, JTable table, double total) {
             try {
@@ -364,23 +364,7 @@ public class FrmEmployeeClientData extends javax.swing.JFrame {
 
     private void btnFinishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinishActionPerformed
 
-//        javax.swing.JOptionPane.showMessageDialog(
-//                this,
-//                "TOTAL DE LA VENTA: $" + String.format("%.2f", total),
-//                "Consumidor Final",
-//                javax.swing.JOptionPane.INFORMATION_MESSAGE
-//        );
-//
-//        TableToMongo.saveTableToMongo(
-//                FrmEmployeeSummary.getInstance().getTable()
-//        );
-//
-//        FrmEmployeeSummary.getInstance().cleanTable();
-//
-//        FrmEmployeeSummary.getInstance().setVisible(true);
-//        this.dispose();
-        // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_btnFinishActionPerformed
 
 
@@ -437,7 +421,7 @@ public class FrmEmployeeClientData extends javax.swing.JFrame {
 
         String email = txtClientEmail.getText().trim();
 
-        // Si está vacío, no validar todavía
+        
         if (email.isEmpty()) {
             return;
         }
@@ -474,87 +458,7 @@ public class FrmEmployeeClientData extends javax.swing.JFrame {
        
     }//GEN-LAST:event_btnSaveActionPerformed
 
-//    public static void generarFacturaPDF(
-//            String name,
-//            String id,
-//            String address,
-//            String email,
-//            double total,
-//            javax.swing.JTable table
-//    ) {
-//        try {
-//            // RUTA CORRECTA
-//            String folderPath = "src/main/resources/archives";
-//            java.io.File folder = new java.io.File(folderPath);
-//            if (!folder.exists()) {
-//                folder.mkdirs();
-//            }
-//
-//            String filePath = folderPath + "/Factura_" + id + ".pdf";
-//
-//            PdfWriter writer = new PdfWriter(filePath);
-//            PdfDocument pdf = new PdfDocument(writer);
-//            Document document = new Document(pdf);
-//
-//            // ====== ENCABEZADO ======
-//            document.add(new Paragraph("FACTURA")
-//                    .setBold()
-//                    .setFontSize(16));
-//
-//            document.add(new Paragraph("Cliente: " + name));
-//            document.add(new Paragraph("Cédula: " + id));
-//            document.add(new Paragraph("Dirección: " + address));
-//            document.add(new Paragraph("Email: " + email));
-//            document.add(new Paragraph(" "));
-//
-//            // ====== TABLA ======
-//            float[] columnWidths = {100, 80, 100, 100, 80, 60, 60};
-//            Table pdfTable = new Table(columnWidths);
-//
-//            // ENCABEZADOS
-//            pdfTable.addHeaderCell("Categoría");
-//            pdfTable.addHeaderCell("Animal");
-//            pdfTable.addHeaderCell("Producto");
-//            pdfTable.addHeaderCell("Marca");
-//            pdfTable.addHeaderCell("Sabor");
-//            pdfTable.addHeaderCell("Cantidad");
-//            pdfTable.addHeaderCell("Precio");
-//
-//            javax.swing.table.TableModel model = table.getModel();
-//
-//            for (int i = 0; i < model.getRowCount(); i++) {
-//                for (int j = 0; j < model.getColumnCount(); j++) {
-//                    Object value = model.getValueAt(i, j);
-//                    pdfTable.addCell(value == null ? "" : value.toString());
-//                }
-//            }
-//
-//            document.add(pdfTable);
-//
-//            // ====== TOTAL ======
-//            document.add(new Paragraph(" "));
-//            document.add(new Paragraph("TOTAL: $" + String.format("%.2f", total))
-//                    .setBold());
-//
-//            document.close();
-//
-//            javax.swing.JOptionPane.showMessageDialog(
-//                    null,
-//                    "Factura PDF generada correctamente\n" + filePath,
-//                    "PDF generado",
-//                    javax.swing.JOptionPane.INFORMATION_MESSAGE
-//            );
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            javax.swing.JOptionPane.showMessageDialog(
-//                    null,
-//                    "Error al generar el PDF",
-//                    "Error",
-//                    javax.swing.JOptionPane.ERROR_MESSAGE
-//            );
-//        }
-//    }
+
 
     /**
      * @param args the command line arguments

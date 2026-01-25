@@ -29,26 +29,26 @@ public class FrmEmployeeDogSection extends javax.swing.JFrame {
 
         cargarImagenDog();
 
-        // SPINNER DE COMIDA (0 a 50, solo números, SIN escribir texto)
+        
         SpinnerNumberModel foodModel = new SpinnerNumberModel(0, 0, 50, 1);
         spinnerFoodKg.setModel(foodModel);
         ((JSpinner.DefaultEditor) spinnerFoodKg.getEditor()).getTextField().setEditable(false);
 
-        // SPINNER DE ACCESORIOS (0 a 20, solo números)
+        
         SpinnerNumberModel accModel = new SpinnerNumberModel(0, 0, 20, 1);
         spinnerAccesory.setModel(accModel);
         ((JSpinner.DefaultEditor) spinnerAccesory.getEditor()).getTextField().setEditable(false);
 
-        // SPINNER DE JUGUETES (0 a 20, solo números)
+       
         SpinnerNumberModel toyModel = new SpinnerNumberModel(0, 0, 20, 1);
         spinnerToy.setModel(toyModel);
         ((JSpinner.DefaultEditor) spinnerToy.getEditor()).getTextField().setEditable(false);
 
-        //
+       
         spinnerAccesory.setEnabled(false);
         spinnerToy.setEnabled(false);
 
-        //
+        
         listAccesory.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 spinnerAccesory.setEnabled(listAccesory.getSelectedValue() != null);
@@ -63,28 +63,28 @@ public class FrmEmployeeDogSection extends javax.swing.JFrame {
             }
         });
 
-        // Actualizar subprecio cuando cambie marca, raza o sabor
+       
         ComboBoxMake.addActionListener(e -> actualizarSubprecioComida());
         ComboBoxRace.addActionListener(e -> actualizarSubprecioComida());
         ComboBoxFlavor.addActionListener(e -> actualizarSubprecioComida());
 
-        // Actualizar subprecio cuando cambie el spinner de peso
+        
         spinnerFoodKg.addChangeListener(e -> actualizarSubprecioComida());
 
-        // Inicializar
+       
         actualizarSubprecioComida();
 
-        // Accesorios
+      
         listAccesory.addListSelectionListener(e -> actualizarSubprecioAccesorio());
         spinnerAccesory.addChangeListener(e -> actualizarSubprecioAccesorio());
         actualizarSubprecioAccesorio();
 
-        // Juguetes
+        
         listToy.addListSelectionListener(e -> actualizarSubprecioToy());
         spinnerToy.addChangeListener(e -> actualizarSubprecioToy());
         actualizarSubprecioToy();
 
-        // Total
+        
         actualizarTotalDog();
     }
 
@@ -236,7 +236,7 @@ public class FrmEmployeeDogSection extends javax.swing.JFrame {
 
     private void guardarSeleccionDog() {
 
-        // ===== COMIDA =====
+        
         String marca = ComboBoxMake.getSelectedItem().toString();
         String raza = ComboBoxRace.getSelectedItem().toString();
         String sabor = ComboBoxFlavor.getSelectedItem().toString();
@@ -261,7 +261,7 @@ public class FrmEmployeeDogSection extends javax.swing.JFrame {
             );
         }
 
-        // ===== ACCESORIO =====
+        
         if (listAccesory.getSelectedValue() != null) {
             int accQty = (int) spinnerAccesory.getValue();
 
@@ -285,7 +285,7 @@ public class FrmEmployeeDogSection extends javax.swing.JFrame {
             }
         }
 
-        // ===== JUGUETE =====
+       
         if (listToy.getSelectedValue() != null) {
             int toyQty = (int) spinnerToy.getValue();
 
@@ -763,7 +763,7 @@ public class FrmEmployeeDogSection extends javax.swing.JFrame {
 
         guardarSeleccionDog();
 
-        // ABRIR RESUMEN DE VENTA (VENTA ACTIVA)
+        
         ec.edu.espe.petshopinventorycontrol.controller.ActiveSale
                 .getSummary()
                 .setVisible(true);
@@ -772,7 +772,7 @@ public class FrmEmployeeDogSection extends javax.swing.JFrame {
 
         javax.swing.JOptionPane.showMessageDialog(this,
                 "Productos de perro agregados a la venta");
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnSaveReporteActionPerformed
 
     private void MenuItemCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemCatActionPerformed

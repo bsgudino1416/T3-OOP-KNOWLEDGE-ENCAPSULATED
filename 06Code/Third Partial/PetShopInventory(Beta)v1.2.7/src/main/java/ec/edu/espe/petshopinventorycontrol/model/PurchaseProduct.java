@@ -6,7 +6,7 @@ public class PurchaseProduct {
     private String productName;
     private String productType;
     private String animal;
-    private String quantity;      // Ej: "3 Quintales"
+    private String quantity;      
     private double totalCost;
 
     public PurchaseProduct(
