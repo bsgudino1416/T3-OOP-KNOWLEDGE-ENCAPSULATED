@@ -10,4 +10,8 @@ package ec.edu.espe.petshopinventorycontrol.controller;
  */
 public interface EmployeeSummaryView {
     void refreshTotals();
+
+    public void addProductToTable(String animales_de_granja, String cerdo, String comida, String balanceado, String text, int libras, double foodPrice);
+
+    public void setVisible(boolean b);
 }

@@ -7,14 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
-import ec.edu.espe.petshopinventorycontrol.view.FrmEmployeeCatSection;
-import ec.edu.espe.petshopinventorycontrol.view.FrmEmployeeDogSection;
-import ec.edu.espe.petshopinventorycontrol.view.FrmEmployeeConejilloSection;
-import ec.edu.espe.petshopinventorycontrol.view.FrmEmployeeCowSection;
-import ec.edu.espe.petshopinventorycontrol.view.FrmEmployeeHorseSection;
-import ec.edu.espe.petshopinventorycontrol.view.FrmEmployeePigSection;
-import ec.edu.espe.petshopinventorycontrol.view.FrmEmployeeChickenSection;
-import ec.edu.espe.petshopinventorycontrol.view.FrmEmployeeSummary;
+
 
 /**
  *

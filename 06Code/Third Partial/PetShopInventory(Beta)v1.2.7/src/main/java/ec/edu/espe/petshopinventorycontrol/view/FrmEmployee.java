@@ -1,7 +1,5 @@
 package ec.edu.espe.petshopinventorycontrol.view;
 
-import ec.edu.espe.petshopinventorycontrol.view.FrmEmployeeSale;
-import ec.edu.espe.petshopinventorycontrol.view.FrmAddProduct;
 
 /**
  *
