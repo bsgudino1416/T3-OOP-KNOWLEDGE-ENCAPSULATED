@@ -28,7 +28,7 @@ public class FrmRegister extends javax.swing.JFrame {
             return false;
         }
         s = s.trim();
-        // permite letras (incluye acentos) y un espacio opcional: máximo 2 palabras
+        
         return s.matches("^[A-Za-zÀ-ÿ]+(?:\\s[A-Za-zÀ-ÿ]+)?$");
     }
 
@@ -37,7 +37,7 @@ public class FrmRegister extends javax.swing.JFrame {
             return false;
         }
         email = email.trim();
-// Validación simple: contiene @ y termina en .com
+
         return email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.com$");
     }
 
@@ -46,7 +46,7 @@ public class FrmRegister extends javax.swing.JFrame {
             return false;
         }
         s = s.trim();
-// Solo letras y números, longitud entre 5 y 10
+
         return s.matches("^[A-Za-z0-9]{5,10}$");
     }
 

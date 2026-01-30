@@ -24,9 +24,7 @@ public class FrmEmployeePigSection extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmEmployeePigSection.class.getName());
 
-    /**
-     * Creates new form NewJFrame8
-     */
+    
     public FrmEmployeePigSection() {
         initComponents();
 
@@ -39,7 +37,7 @@ public class FrmEmployeePigSection extends javax.swing.JFrame {
         spinnerAccesory.setEnabled(false);
         spinnerAccesory.setValue(0);
 
-// ==== SPINNERS CONFIGURADOS (SIN NEGATIVOS) ====
+
         SpinnerNumberModel foodModel = new SpinnerNumberModel(0, 0, 50, 1);
         spinnerFoodLb.setModel(foodModel);
         ((JSpinner.DefaultEditor) spinnerFoodLb.getEditor()).getTextField().setEditable(false);
@@ -48,15 +46,15 @@ public class FrmEmployeePigSection extends javax.swing.JFrame {
         spinnerAccesory.setModel(accModel);
         ((JSpinner.DefaultEditor) spinnerAccesory.getEditor()).getTextField().setEditable(false);
 
-        // ==== LISTENERS COMIDA ====
+        
         ComboBoxMake.addActionListener(e -> actualizarSubprecioComidaCerdo());
         spinnerFoodLb.addChangeListener(e -> actualizarSubprecioComidaCerdo());
 
-// ==== LISTENERS ACCESORIOS ====
+
         listAccesory.addListSelectionListener(e -> actualizarSubprecioAccesorioCerdo());
         spinnerAccesory.addChangeListener(e -> actualizarSubprecioAccesorioCerdo());
 
-// ==== INICIALIZAR ====
+
         lblSubPriceFood.setText("$ 0.00");
         lblSubPriceAccesory.setText("$ 0.00");
         lblTotalPig.setText("$ 0.00");
@@ -170,7 +168,7 @@ public class FrmEmployeePigSection extends javax.swing.JFrame {
 
     private void guardarSeleccionPig() {
 
-        // ===== COMIDA CERDO =====
+        
         String balanceado = ComboBoxMake.getSelectedItem().toString();
         int libras = (int) spinnerFoodLb.getValue();
 
@@ -193,7 +191,7 @@ public class FrmEmployeePigSection extends javax.swing.JFrame {
             );
         }
 
-        // ===== ACCESORIOS CERDO =====
+        
         if (listAccesory.getSelectedValue() != null) {
 
             int unidades = (int) spinnerAccesory.getValue();
@@ -583,7 +581,7 @@ public class FrmEmployeePigSection extends javax.swing.JFrame {
 
         guardarSeleccionPig();
 
-        // ABRIR RESUMEN DE VENTA (VENTA ACTIVA)
+        
         ec.edu.espe.petshopinventorycontrol.controller.ActiveSale
                 .getSummary()
                 .setVisible(true);

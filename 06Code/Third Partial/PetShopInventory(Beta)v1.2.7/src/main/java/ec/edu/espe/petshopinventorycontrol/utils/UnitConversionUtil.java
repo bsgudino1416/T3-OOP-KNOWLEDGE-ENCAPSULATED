@@ -12,7 +12,7 @@ public class UnitConversionUtil {
 
         double stock = 0;
 
-        // ---------- COMIDA ----------
+        
         if (saleUnit.equals("Libra")) {
 
             if (purchaseUnit.equals("Libra"))
@@ -37,7 +37,7 @@ public class UnitConversionUtil {
                 stock = quantity * 45.3592;
         }
 
-        // ---------- ACCESORIOS / JUGUETES ----------
+        
         else if (saleUnit.equals("Unidad")) {
 
             if (purchaseUnit.equals("Docena"))

@@ -1,7 +1,5 @@
 package ec.edu.espe.petshopinventorycontrol.view;
 
-import ec.edu.espe.petshopinventorycontrol.view.FrmEmployeeSale;
-import ec.edu.espe.petshopinventorycontrol.view.FrmAddProduct;
 
 /**
  *
@@ -197,9 +195,7 @@ public class FrmEmployee extends javax.swing.JFrame {
 
     private void btnSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaleActionPerformed
 
-//    //FrmEmployeeSale.getInstance().setVisible(true);
-//    new FrmEmployee().setVisible(true);
-//    this.setVisible(false);
+
     FrmEmployeeSale sale = FrmEmployeeSale.getInstance();
     sale.setVisible(true);
     this.dispose();

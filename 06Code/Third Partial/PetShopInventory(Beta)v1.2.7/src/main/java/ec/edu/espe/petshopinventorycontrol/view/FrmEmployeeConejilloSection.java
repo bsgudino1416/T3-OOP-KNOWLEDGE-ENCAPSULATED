@@ -7,14 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
-import ec.edu.espe.petshopinventorycontrol.view.FrmEmployeeCatSection;
-import ec.edu.espe.petshopinventorycontrol.view.FrmEmployeeDogSection;
-import ec.edu.espe.petshopinventorycontrol.view.FrmEmployeeConejilloSection;
-import ec.edu.espe.petshopinventorycontrol.view.FrmEmployeeCowSection;
-import ec.edu.espe.petshopinventorycontrol.view.FrmEmployeeHorseSection;
-import ec.edu.espe.petshopinventorycontrol.view.FrmEmployeePigSection;
-import ec.edu.espe.petshopinventorycontrol.view.FrmEmployeeChickenSection;
-import ec.edu.espe.petshopinventorycontrol.view.FrmEmployeeSummary;
+
 
 /**
  *
@@ -35,7 +28,7 @@ public class FrmEmployeeConejilloSection extends javax.swing.JFrame {
         spinnerAccesory.setEnabled(false); // Deshabilitado al inicio
         spinnerAccesory.setValue(0);
 
-        // ==== SPINNERS CONFIGURADOS ====
+        
         SpinnerNumberModel foodModel = new SpinnerNumberModel(0, 0, 50, 1);
         spinnerFoodLb.setModel(foodModel);
         ((JSpinner.DefaultEditor) spinnerFoodLb.getEditor()).getTextField().setEditable(false);
@@ -44,16 +37,16 @@ public class FrmEmployeeConejilloSection extends javax.swing.JFrame {
         spinnerAccesory.setModel(accModel);
         ((JSpinner.DefaultEditor) spinnerAccesory.getEditor()).getTextField().setEditable(false);
 
-        // ==== LISTENER PARA COMIDA ====
+        
         ComboBoxMake.addActionListener(e -> actualizarSubprecioComida());
         ComboBoxRace.addActionListener(e -> actualizarSubprecioComida());
         spinnerFoodLb.addChangeListener(e -> actualizarSubprecioComida());
 
-        // ==== LISTENER PARA ACCESORIOS ====
+        
         listAccesory.addListSelectionListener(e -> actualizarSubprecioAccesorio());
         spinnerAccesory.addChangeListener(e -> actualizarSubprecioAccesorio());
 
-        // Inicializa valores
+        
         actualizarSubprecioComida();
         actualizarSubprecioAccesorio();
         actualizarTotal();
@@ -78,7 +71,7 @@ public class FrmEmployeeConejilloSection extends javax.swing.JFrame {
         String race = ComboBoxRace.getSelectedItem().toString();
         int lb = (int) spinnerFoodLb.getValue();
 
-        // ==== Precio real por libra ====
+        
         double preciolb = 0.35;
 
         double subprecio = preciolb * lb;
@@ -91,7 +84,7 @@ public class FrmEmployeeConejilloSection extends javax.swing.JFrame {
 
         String seleccionado = listAccesory.getSelectedValue();
 
-        // ==== Si NO hay selección ====
+        
         if (seleccionado == null) {
             spinnerAccesory.setEnabled(false);
             spinnerAccesory.setValue(0);
@@ -100,7 +93,7 @@ public class FrmEmployeeConejilloSection extends javax.swing.JFrame {
             return;
         }
 
-        // === Si SÍ hay selección, habilitar unidades ===
+        
         spinnerAccesory.setEnabled(true);
 
         int unidades = (int) spinnerAccesory.getValue();
@@ -163,7 +156,7 @@ public class FrmEmployeeConejilloSection extends javax.swing.JFrame {
                         .trim()
         );
 
-        // ===== ACCESORIO =====
+        
         String accessory = listAccesory.getSelectedValue() != null
                 ? listAccesory.getSelectedValue()
                 : "";
@@ -177,7 +170,7 @@ public class FrmEmployeeConejilloSection extends javax.swing.JFrame {
                         .trim()
         );
 
-        // ===== AGREGAR A VENTA ACTIVA =====
+        
         if (foodPrice > 0) {
             ActiveSale.getSummary().addProductToTable(
                     "Mascota de casa",
@@ -570,7 +563,7 @@ public class FrmEmployeeConejilloSection extends javax.swing.JFrame {
 
         guardarSeleccionConejillo();
 
-        // ABRIR RESUMEN DE VENTA (VENTA ACTIVA)
+       
         ec.edu.espe.petshopinventorycontrol.controller.ActiveSale
                 .getSummary()
                 .setVisible(true);

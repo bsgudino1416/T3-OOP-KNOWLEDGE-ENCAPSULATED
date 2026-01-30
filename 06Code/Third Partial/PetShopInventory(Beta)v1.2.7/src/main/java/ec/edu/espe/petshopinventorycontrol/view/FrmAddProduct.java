@@ -38,11 +38,11 @@ public class FrmAddProduct extends javax.swing.JFrame {
     public FrmAddProduct() {
         initComponents();
         
-    // ===== ID AUTOMÁTICO =====
+   
     configureProductId();
     txtProductId.setText("");
 
-    // ===== SPINNER CANTIDAD =====
+    
     SpinnerNumberModel qtyModel = new SpinnerNumberModel(1, 1, 10, 1);
     spinnerPurchaseQuantity.setModel(qtyModel);
     spinnerPurchaseQuantity.setEnabled(false);
@@ -51,7 +51,7 @@ public class FrmAddProduct extends javax.swing.JFrame {
     spinnerPurchaseQuantity.setEditor(editor);
     ((JFormattedTextField) editor.getTextField()).setEditable(false);
 
-    // ===== CAMPOS SOLO LECTURA =====
+    
     txtCostPerPound.setEditable(false);
     txtCostPerPound.setBackground(new java.awt.Color(230, 230, 230));
 
@@ -60,21 +60,18 @@ public class FrmAddProduct extends javax.swing.JFrame {
 
     attachTotalCostListener();
     
-    // ===== LISTENERS =====
+    
     spinnerPurchaseQuantity.addChangeListener(e -> tryCalculateCosts());
 
-    // ===== BLOQUEAR TODO AL INICIO =====
+    
     lockInitialFields();
 
     cmbPurchaseUnit.setEnabled(false);
-    
-    //========PRECIO DE VENTA==============
-    
-    //UNIDAD DE VENTA
+   
 
     cmbSaleUnit.setEnabled(false);
     cmbSaleUnit.removeAllItems();
-    //-------
+    
 
     SpinnerNumberModel profitModel = new SpinnerNumberModel(0.0, 0.0, 100.0, 0.1);
     spinnerProfitPercent.setModel(profitModel);
@@ -100,14 +97,14 @@ public class FrmAddProduct extends javax.swing.JFrame {
     }
 });
 
-// ---------- ACTUALIZAR PRECIO SUGERIDO ----------
+
     spinnerProfitPercent.addChangeListener(e -> updateSuggestedPrice());
 
-//------------PRECIO CON IVA-------------
+
 
     txtFinalPrice.setEditable(false);
     
-//-----------Stock calculate-----------
+
     cmbSaleUnit.addActionListener(e -> updateStockCalculate());
     cmbPurchaseUnit.addActionListener(e -> updateStockCalculate());
     spinnerPurchaseQuantity.addChangeListener(e -> updateStockCalculate());
@@ -124,27 +121,26 @@ btnSaveProduct.addActionListener(e -> openSummaryWindow());
 
 }
     
-//======summary this====
+
 private void openSummaryWindow() {
     if (summary == null) {
-        summary = new FrmSummaryProduct(this); // pasamos la ventana actual
+        summary = new FrmSummaryProduct(this); 
     }
-    summary.setLocationRelativeTo(this);  // centra la ventana
-    summary.setVisible(true);             // muestra la ventana de resumen
-    this.setVisible(false);               // oculta AddProduct temporalmente
+    summary.setLocationRelativeTo(this);  
+    summary.setVisible(true);             
+    this.setVisible(false);               
 }
     
     
-//======ConfigureForm==========
+
 private void configureForm() {
-    // Configuraciones iniciales del formulario
+    
     txtStockCalculate.setFocusable(false);
     txtStockCalculate.setBackground(new java.awt.Color(230, 230, 230));
 }
 
     
-//========PRICE TO SELL==============   
-//UNIDAD DE VENTA 
+ 
     
 private void updateSaleUnitOptions() {
     cmbSaleUnit.removeAllItems();
@@ -199,7 +195,7 @@ cmbSaleUnit.removeAllItems();
 
     cmbSaleUnit.setEnabled(true);
 }
-///////////////////
+
 private void updateSuggestedPrice() {
 
     Object selected = cmbSaleUnit.getSelectedItem();
@@ -263,7 +259,7 @@ private void updateSuggestedPrice() {
 }
 
 
-///////////////////////////////
+
 
 private void updateFinalPriceWithIVA() {
 
@@ -290,10 +286,6 @@ private void updateFinalPriceWithIVA() {
     }
 }
 
-//=============================================
-
-
-//===============ID==================
 private void updateProductId() {
 
     if (cmbProductType.getSelectedItem() == null) return;
@@ -351,9 +343,6 @@ private String getSizeStageCode(String size) {
     }
 }
 
-//===================================
-
-//===========STOCK CALCULATE=============
 private void updateStockCalculate() {
 
     Object saleObj = cmbSaleUnit.getSelectedItem();
@@ -383,7 +372,7 @@ private void updateStockCalculate() {
         txtStockCalculate.setText("");
     }
 }
-//======================================    
+   
 private boolean isFlavorValidSilently() {
     return txtFlavor.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+");
 }
@@ -465,7 +454,7 @@ private void updatePurchaseUnitOptions() {
     return txt.getText().matches("\\d+(\\.\\d+)?");
     }
 
-//////////////////////////////////////////////    
+   
     private void calculateCostPerKg() {
 
     if (txtCostPerPound.getText().isEmpty()) {
@@ -489,7 +478,7 @@ private void updatePurchaseUnitOptions() {
     }
 }
         
-/////////////////////////////////////////
+
     
 private void calculateCostPerPound() {
 
@@ -526,7 +515,7 @@ private void calculateCostPerPound() {
     calculateCostPerKg();
 }
         
-/////////////////////    
+  
     private void lockInitialFields() {
     cmbProductType.setEnabled(false);
     cmbAnimal.setEnabled(false);
@@ -545,7 +534,7 @@ private void calculateCostPerPound() {
     long timestamp = System.currentTimeMillis();
     return "PRD-" + timestamp;
     }
-//////////////////
+
     
     private boolean validateMakeName() {
     String make = txtMakeName.getText().trim();
@@ -559,8 +548,7 @@ private void calculateCostPerPound() {
     return true;
 }
     
-/////////////////////////////////    
-//------------------------------------------------------------------------
+
 private void showError(String message) {
     javax.swing.JOptionPane.showMessageDialog(
         this,
@@ -578,7 +566,6 @@ private boolean validateProductType() {
     }
     return true;
 }
-//////////////////
 
 private void updateFlavorAvailability() {
     Object selected = cmbProductType.getSelectedItem();
@@ -593,9 +580,7 @@ private void updateFlavorAvailability() {
         txtFlavor.setText("");
     }
 }
-///////////////////////
 
-/////////////////////
 private boolean validateAnimal() {
 
     String animal = cmbAnimal.getSelectedItem() == null
@@ -613,7 +598,7 @@ private boolean validateAnimal() {
     return true;
 }
 
-/////////////////////////////////
+
 
 private void updateOtherAnimalField() {
     boolean isOther = cmbAnimal.getSelectedItem().toString().equals("Otro");
@@ -673,7 +658,7 @@ private boolean validateSizeStage() {
 
     return true;
 }
-//////////////////////////
+
 
 private boolean validateFlavor() {
 
@@ -692,7 +677,7 @@ private boolean validateFlavor() {
     return true;
 }
 
-///////////////////////
+
 private boolean validateForm() {
     // call all validates prev
     if (!validateMakeName()
@@ -703,7 +688,7 @@ private boolean validateForm() {
         || !validateTotalCost()){
     return false;
     }
-    // All validates correct
+    
     return true;
 }
 
@@ -736,11 +721,11 @@ private void updateFieldsByProductType() {
 
     String type = cmbProductType.getSelectedItem().toString();
 
-    // Flavor
+    
     boolean hasFlavor = type.equals("Comida") || type.equals("Snack");
     txtFlavor.setEnabled(hasFlavor);
 
-    // TAMANO / ETAPA
+   
     boolean hasSize = type.equals("Comida");
     cmbSizeStage.setEnabled(hasSize);
 
@@ -748,7 +733,7 @@ private void updateFieldsByProductType() {
         cmbSizeStage.setSelectedIndex(-1);
     }
 
-    // SELL TO UNITY
+    
     cmbPurchaseUnit.removeAllItems();
 
     switch (type) {
@@ -777,7 +762,7 @@ private void updateFieldsByProductType() {
     cmbPurchaseUnit.setEnabled(true);
 }
 
-//============Buttons====================
+
 private boolean isFormComplete() {
 
     if (txtMakeName.getText().trim().isEmpty()) return false;
@@ -1433,7 +1418,7 @@ private void saveCurrentProduct() {
 
     if (option != JOptionPane.YES_OPTION) return;
 
-    // ===== LIMPIAR CAMPOS =====
+    
     txtProductId.setText("");
     txtMakeName.setText("");
     txtOtherAnimal.setText("");
@@ -1445,7 +1430,7 @@ private void saveCurrentProduct() {
     txtFinalPrice.setText("");
     txtStockCalculate.setText("");
 
-    // ===== SPINNER CANTIDAD (FIX REAL) =====
+   
     SpinnerNumberModel qtyModel = new SpinnerNumberModel(1, 1, 24, 1);
     spinnerPurchaseQuantity.setModel(qtyModel);
 
@@ -1458,10 +1443,10 @@ private void saveCurrentProduct() {
     spinnerPurchaseQuantity.setEnabled(true);
     spinnerPurchaseQuantity.setValue(1);
 
-    // ===== SPINNER GANANCIA =====
+    
     spinnerProfitPercent.setValue(0.0);
 
-    // ===== COMBOS =====
+    
     cmbProductType.setSelectedIndex(0);
     cmbAnimal.setSelectedIndex(0);
     cmbSizeStage.setSelectedIndex(0);
@@ -1568,12 +1553,12 @@ private void saveCurrentProduct() {
 
     char c = evt.getKeyChar();
 
-    // Permitir solo números y punto
+    
     if (!Character.isDigit(c) && c != '.') {
         evt.consume();
     }
 
-    // Permitir solo un punto decimal
+   
     if (c == '.' && txtTotalCost.getText().contains(".")) {
         evt.consume();
     }
@@ -1637,7 +1622,7 @@ private void saveCurrentProduct() {
 
         saveCurrentProduct();
 
-        // Abrir FrmSummaryProduct y pasar referencia de este
+        
         if (summary == null) {
             summary = new FrmSummaryProduct(this); // 
         }

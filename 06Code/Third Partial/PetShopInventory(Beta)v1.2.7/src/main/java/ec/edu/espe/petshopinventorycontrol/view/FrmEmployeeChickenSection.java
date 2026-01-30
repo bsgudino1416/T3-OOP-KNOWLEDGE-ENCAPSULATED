@@ -33,14 +33,14 @@ public class FrmEmployeeChickenSection extends javax.swing.JFrame {
 
         cargarImagenChicken();
 
-        // ==== SPINNERS DESACTIVADOS AL INICIO ====
+        
         spinnerFoodLb.setEnabled(false);
         spinnerFoodLb.setValue(0);
 
         spinnerAccesory.setEnabled(false);
         spinnerAccesory.setValue(0);
 
-// ==== SPINNERS CONFIGURADOS (SIN NEGATIVOS) ====
+
         SpinnerNumberModel foodModel = new SpinnerNumberModel(0, 0, 50, 1);
         spinnerFoodLb.setModel(foodModel);
         ((JSpinner.DefaultEditor) spinnerFoodLb.getEditor()).getTextField().setEditable(false);
@@ -49,15 +49,15 @@ public class FrmEmployeeChickenSection extends javax.swing.JFrame {
         spinnerAccesory.setModel(accModel);
         ((JSpinner.DefaultEditor) spinnerAccesory.getEditor()).getTextField().setEditable(false);
 
-        // ==== LISTENERS COMIDA ====
+      
         ComboBoxMake.addActionListener(e -> actualizarSubprecioComidaPollo());
         spinnerFoodLb.addChangeListener(e -> actualizarSubprecioComidaPollo());
 
-// ==== LISTENERS ACCESORIOS ====
+
         listAccesory.addListSelectionListener(e -> actualizarSubprecioAccesorioPollo());
         spinnerAccesory.addChangeListener(e -> actualizarSubprecioAccesorioPollo());
 
-// ==== INICIALIZAR ====
+
         lblSubPriceFood.setText("$ 0.00");
         lblSubPriceAccesory.setText("$ 0.00");
         lblTotalChicken.setText("$ 0.00");
@@ -171,7 +171,7 @@ public class FrmEmployeeChickenSection extends javax.swing.JFrame {
 
     private void guardarSeleccionChicken() {
 
-        // === COMIDA ===
+        
         String food = ComboBoxMake.getSelectedItem() != null
                 ? ComboBoxMake.getSelectedItem().toString()
                 : "";
@@ -185,7 +185,7 @@ public class FrmEmployeeChickenSection extends javax.swing.JFrame {
                         .trim()
         );
 
-        // === ACCESORIO ===
+        
         String acc = listAccesory.getSelectedValue() != null
                 ? listAccesory.getSelectedValue()
                 : "";
@@ -199,7 +199,7 @@ public class FrmEmployeeChickenSection extends javax.swing.JFrame {
                         .trim()
         );
 
-        // === AGREGAR SOLO SI TIENE PRECIO ===
+       
         if (foodPrice > 0) {
             ActiveSale.getSummary().addProductToTable(
                     "Granja",
@@ -591,7 +591,7 @@ public class FrmEmployeeChickenSection extends javax.swing.JFrame {
 
         guardarSeleccionChicken();
 
-        // ABRIR RESUMEN DE VENTA (VENTA ACTIVA)
+       
         ec.edu.espe.petshopinventorycontrol.controller.ActiveSale
                 .getSummary()
                 .setVisible(true);

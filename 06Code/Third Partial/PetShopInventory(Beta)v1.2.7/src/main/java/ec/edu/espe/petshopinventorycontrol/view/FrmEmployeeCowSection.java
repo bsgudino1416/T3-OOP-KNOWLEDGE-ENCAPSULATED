@@ -32,14 +32,14 @@ public class FrmEmployeeCowSection extends javax.swing.JFrame {
 
         cargarImagenCow();
 
-        // ==== SPINNERS DESACTIVADOS AL INICIO ====
+        
         spinnerFoodLb.setEnabled(false);
         spinnerFoodLb.setValue(0);
 
         spinnerAccesory.setEnabled(false);
         spinnerAccesory.setValue(0);
 
-// ==== SPINNERS CONFIGURADOS (SIN NEGATIVOS) ====
+
         SpinnerNumberModel foodModel = new SpinnerNumberModel(0, 0, 50, 1);
         spinnerFoodLb.setModel(foodModel);
         ((JSpinner.DefaultEditor) spinnerFoodLb.getEditor()).getTextField().setEditable(false);
@@ -48,16 +48,15 @@ public class FrmEmployeeCowSection extends javax.swing.JFrame {
         spinnerAccesory.setModel(accModel);
         ((JSpinner.DefaultEditor) spinnerAccesory.getEditor()).getTextField().setEditable(false);
 
-        // ==== LISTENERS COMIDA ====
+        
         ComboBoxMake.addActionListener(e -> actualizarSubprecioComidaVaca());
         spinnerFoodLb.addChangeListener(e -> actualizarSubprecioComidaVaca());
 
-// ==== LISTENERS ACCESORIOS ====
+
         listAccesory.addListSelectionListener(e -> actualizarSubprecioAccesorioVaca());
         spinnerAccesory.addChangeListener(e -> actualizarSubprecioAccesorioVaca());
 
-// ==== INICIALIZAR ====
-        lblSubPriceFood.setText("$ 0.00");
+// ==== INICIALIZAR ====        lblSubPriceFood.setText("$ 0.00");
         lblSubPriceAccesory.setText("$ 0.00");
         lblTotalCow.setText("$ 0.00");
     }
@@ -180,7 +179,7 @@ public class FrmEmployeeCowSection extends javax.swing.JFrame {
                         .trim()
         );
 
-        // ===== ACCESORIO =====
+       
         String accessory = listAccesory.getSelectedValue() != null
                 ? listAccesory.getSelectedValue()
                 : "";
@@ -194,7 +193,7 @@ public class FrmEmployeeCowSection extends javax.swing.JFrame {
                         .trim()
         );
 
-        // ===== AGREGAR A VENTA ACTIVA =====
+        
         if (foodPrice > 0) {
             ActiveSale.getSummary().addProductToTable(
                     "Ganado",
@@ -580,7 +579,7 @@ public class FrmEmployeeCowSection extends javax.swing.JFrame {
 
         guardarSeleccionCow();
 
-        // ABRIR RESUMEN DE VENTA (VENTA ACTIVA)
+       
         ec.edu.espe.petshopinventorycontrol.controller.ActiveSale
                 .getSummary()
                 .setVisible(true);

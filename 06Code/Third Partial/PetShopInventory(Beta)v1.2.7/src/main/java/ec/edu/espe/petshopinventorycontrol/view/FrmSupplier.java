@@ -5,7 +5,7 @@
 package ec.edu.espe.petshopinventorycontrol.view;
 
 import com.toedter.calendar.JDateChooser;
-import ec.edu.espe.petshopinventorycontrol.utils.MongoConnection;
+
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -56,7 +56,7 @@ public class FrmSupplier extends javax.swing.JFrame {
 
         initComponents();
 
-        initMongo();
+        
 
         txtIdSupplier.setEditable(false);
         txtIdSupplier.setEnabled(true);
@@ -71,23 +71,7 @@ public class FrmSupplier extends javax.swing.JFrame {
         currentIdCommitted = false;
         txtIdSupplier.setText(currentSupplierId);
 
-//        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-//            public void actionPerformed(java.awt.event.ActionEvent evt) {
-//                jMenuItem1ActionPerformed(evt);
-//            }
-//        });
-//
-//        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-//            public void actionPerformed(java.awt.event.ActionEvent evt) {
-//                jMenuItem2ActionPerformed(evt);
-//            }
-//        });
-//
-//        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
-//            public void actionPerformed(java.awt.event.ActionEvent evt) {
-//                jMenuItem3ActionPerformed(evt);
-//            }
-//        });
+
     }
 
     /**
@@ -101,8 +85,6 @@ public class FrmSupplier extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        btnbacksupplier = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txtIdSupplier = new javax.swing.JTextField();
@@ -124,10 +106,11 @@ public class FrmSupplier extends javax.swing.JFrame {
         txtemailSupplier = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jDateEntry = new com.toedter.calendar.JDateChooser();
+        jPanel2 = new javax.swing.JPanel();
+        btnbacksupplier = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         MnuFile = new javax.swing.JMenu();
         itmNewRegisterSupplier = new javax.swing.JMenuItem();
-        itmDeleteRegisterSupplier = new javax.swing.JMenuItem();
         itmSaveRegisterSupplier = new javax.swing.JMenuItem();
         itmDuplicateRegisterSupplier = new javax.swing.JMenuItem();
         MnuOptions = new javax.swing.JMenu();
@@ -159,32 +142,6 @@ public class FrmSupplier extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addComponent(jLabel1)
                 .addContainerGap(17, Short.MAX_VALUE))
-        );
-
-        jPanel2.setBackground(new java.awt.Color(0, 0, 119));
-
-        btnbacksupplier.setText("Regresar");
-        btnbacksupplier.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnbacksupplierActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(btnbacksupplier)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(btnbacksupplier)
-                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         jLabel2.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
@@ -233,7 +190,7 @@ public class FrmSupplier extends javax.swing.JFrame {
         });
 
         jLabel9.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
-        jLabel9.setText("Empresa:");
+        jLabel9.setText("Marca:");
 
         jLabel11.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         jLabel11.setText("Correo electronico:");
@@ -246,6 +203,32 @@ public class FrmSupplier extends javax.swing.JFrame {
 
         jLabel10.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         jLabel10.setText("Fecha de ingreso: ");
+
+        jPanel2.setBackground(new java.awt.Color(0, 0, 119));
+
+        btnbacksupplier.setText("Regresar");
+        btnbacksupplier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnbacksupplierActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(btnbacksupplier)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(btnbacksupplier)
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -302,6 +285,7 @@ public class FrmSupplier extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtemailSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(113, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -338,7 +322,9 @@ public class FrmSupplier extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10)
                     .addComponent(jDateEntry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         MnuFile.setText("Archivo");
@@ -350,14 +336,6 @@ public class FrmSupplier extends javax.swing.JFrame {
             }
         });
         MnuFile.add(itmNewRegisterSupplier);
-
-        itmDeleteRegisterSupplier.setText("Borrar Registro");
-        itmDeleteRegisterSupplier.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itmDeleteRegisterSupplierActionPerformed(evt);
-            }
-        });
-        MnuFile.add(itmDeleteRegisterSupplier);
 
         itmSaveRegisterSupplier.setText("Guardar Registro");
         itmSaveRegisterSupplier.addActionListener(new java.awt.event.ActionListener() {
@@ -416,7 +394,6 @@ public class FrmSupplier extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -425,8 +402,7 @@ public class FrmSupplier extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(59, 59, 59))
         );
 
         pack();
@@ -452,10 +428,6 @@ public class FrmSupplier extends javax.swing.JFrame {
         newRegister();
     }//GEN-LAST:event_itmNewRegisterSupplierActionPerformed
 
-    private void itmDeleteRegisterSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmDeleteRegisterSupplierActionPerformed
-        deleteRegisterUIOnly();
-    }//GEN-LAST:event_itmDeleteRegisterSupplierActionPerformed
-
     private void itmSaveRegisterSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSaveRegisterSupplierActionPerformed
         saveSupplierToMongo();
     }//GEN-LAST:event_itmSaveRegisterSupplierActionPerformed
@@ -475,9 +447,7 @@ public class FrmSupplier extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
 
-        // Ejemplo (cuando tengas la clase):
-        // new FrmSupplierChart().setVisible(true);
-        // this.dispose();
+        
         JOptionPane.showMessageDialog(this,
                 "Pendiente: abrir ventana de Gráfica de Proveedores.",
                 "Navegación", JOptionPane.INFORMATION_MESSAGE);
@@ -486,9 +456,7 @@ public class FrmSupplier extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // Ejemplo (cuando tengas la clase):
-        // new FrmSupplierReport().setVisible(true);
-        // this.dispose();
+        
 
         JOptionPane.showMessageDialog(this,
                 "Pendiente: abrir ventana de Informe de Proveedores.",
@@ -521,11 +489,7 @@ public class FrmSupplier extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    private void initMongo() {
-        db = MongoConnection.getDatabase();
-        colSuppliers = db.getCollection("suppliers");
-
-    }
+    
 
     private String getNextAvailableSupplierId() {
         String dateKey = new SimpleDateFormat("ddMMyy").format(new Date());
@@ -875,7 +839,6 @@ public class FrmSupplier extends javax.swing.JFrame {
     private javax.swing.JMenu MnuHelp;
     private javax.swing.JMenu MnuOptions;
     private javax.swing.JButton btnbacksupplier;
-    private javax.swing.JMenuItem itmDeleteRegisterSupplier;
     private javax.swing.JMenuItem itmDuplicateRegisterSupplier;
     private javax.swing.JMenuItem itmNewRegisterSupplier;
     private javax.swing.JMenuItem itmSaveRegisterSupplier;
