@@ -40,20 +40,20 @@
             <Property name="text" type="java.lang.String" value="Opciones"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+            <MenuItem class="javax.swing.JMenuItem" name="itmGraphicSupplier">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Grafica Proveedores"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itmGraphicSupplierActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
+            <MenuItem class="javax.swing.JMenuItem" name="itmReportSupplier">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Informe Proveedores"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem2ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itmReportSupplierActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -406,7 +406,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                      <Component id="btnbacksupplier" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnReturnLobby" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -415,19 +415,19 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                      <Component id="btnbacksupplier" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnReturnLobby" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="16" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="btnbacksupplier">
+            <Component class="javax.swing.JButton" name="btnReturnLobby">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Regresar"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnbacksupplierActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReturnLobbyActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

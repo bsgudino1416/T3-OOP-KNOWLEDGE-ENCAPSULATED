@@ -8,6 +8,7 @@ import org.bson.Document;
 
 import static com.mongodb.client.model.Filters.regex;
 import static com.mongodb.client.model.Sorts.descending;
+import static com.mongodb.client.model.Sorts.ascending;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,5 +53,36 @@ public final class MongoSupplierGateway {
             }
         }
         return enterprises;
+    }
+
+    public List<Document> findAllOrdered() {
+        List<Document> result = new ArrayList<>();
+        for (Document doc : suppliers.find().sort(ascending("_id"))) {
+            result.add(doc);
+        }
+        if (!result.isEmpty()) {
+            return result;
+        }
+
+        MongoDatabase db = MongoConfig.getDatabase();
+        String[] fallbacks = new String[]{
+            "supplier",
+            "Suppliers",
+            "suppliers"
+        };
+        for (String name : fallbacks) {
+            if (name.equalsIgnoreCase(MongoConfig.SUPPLIER_COLLECTION)) {
+                continue;
+            }
+            List<Document> alt = new ArrayList<>();
+            MongoCollection<Document> col = db.getCollection(name);
+            for (Document doc : col.find().sort(ascending("_id"))) {
+                alt.add(doc);
+            }
+            if (!alt.isEmpty()) {
+                return alt;
+            }
+        }
+        return result;
     }
 }

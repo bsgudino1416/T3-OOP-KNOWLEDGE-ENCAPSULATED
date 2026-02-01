@@ -9,8 +9,9 @@ public interface RegisterView {
     String getUsername();
     String getPassword();
     String getConfirmPassword();
-
-    void showMessage(String message, String title, int messageType);
+    void showInfo(String message);
+    void showWarning(String message);
+    void showError(String message);
     void openLogin();
     void close();
 }

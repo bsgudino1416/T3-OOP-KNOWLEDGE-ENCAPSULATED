@@ -1,7 +1,9 @@
 package ec.edu.espe.petshopinventorycontrol.view;
 
+import ec.edu.espe.petshopinventorycontrol.utils.ScrollUtils;
 import ec.edu.espe.petshopinventorycontrol.controller.StockService;
 import ec.edu.espe.petshopinventorycontrol.controller.StockValidator;
+import ec.edu.espe.petshopinventorycontrol.controller.ReportService;
 import ec.edu.espe.petshopinventorycontrol.model.mongo.MongoProductGateway;
 import ec.edu.espe.petshopinventorycontrol.model.mongo.MongoStockGateway;
 
@@ -23,6 +25,7 @@ public class FrmStock extends javax.swing.JFrame {
             new MongoProductGateway(),
             new StockValidator()
     );
+    private final ReportService reportService = ReportService.defaultService();
 
     private final Color errorColor = new Color(204, 0, 0);
     private String lastGainValueText = "";
@@ -32,12 +35,14 @@ public class FrmStock extends javax.swing.JFrame {
      */
     public FrmStock() {
         initComponents();
+        ScrollUtils.applyScrollBars(this);
         configureReadOnlyFields();
         loadCategoriesFromProducts();
         generateAndSetNewStockId();
         setupComboListeners();
         setupGainListeners();
         setupUnitCostListener();
+        configureGraphicMenu();
     }
 
   private void setupUnitCostListener() {
@@ -65,6 +70,16 @@ public class FrmStock extends javax.swing.JFrame {
         txtCostUnit.setEditable(false);
         txtPriceUnit.setEditable(false);
     }
+
+    private void configureGraphicMenu() {
+        itmgraphicStock.addActionListener(e -> openGraphicStock());
+    }
+
+    private void openGraphicStock() {
+        new FrmGraphicStock().setVisible(true);
+        dispose();
+    }
+
 
     private void generateAndSetNewStockId() {
         updateStockIdFromSelection();
@@ -275,13 +290,14 @@ public class FrmStock extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        btnReturnLobby = new javax.swing.JButton();
         jMenuBar3 = new javax.swing.JMenuBar();
         MnuFile2 = new javax.swing.JMenu();
         itmNewRegisterProduct = new javax.swing.JMenuItem();
         itmSaveRegisterProduct = new javax.swing.JMenuItem();
         MnuOptions = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        itmgraphicStock = new javax.swing.JMenuItem();
+        itmReportStock = new javax.swing.JMenuItem();
         MnuHelp = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
 
@@ -451,15 +467,28 @@ public class FrmStock extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 119));
 
+        btnReturnLobby.setText("Regresar");
+        btnReturnLobby.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReturnLobbyActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 675, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(btnReturnLobby)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 75, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(btnReturnLobby)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         MnuFile2.setText("Archivo");
@@ -484,17 +513,22 @@ public class FrmStock extends javax.swing.JFrame {
 
         MnuOptions.setText("Opciones");
 
-        jMenuItem1.setText("Grafica Stock");
-        MnuOptions.add(jMenuItem1);
+        itmgraphicStock.setText("Grafica Stock");
+        MnuOptions.add(itmgraphicStock);
 
-        jMenuItem2.setText("Informe Stock");
-        MnuOptions.add(jMenuItem2);
+        itmReportStock.setText("Informe Stock");
+        itmReportStock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmReportStockActionPerformed(evt);
+            }
+        });
+        MnuOptions.add(itmReportStock);
 
         jMenuBar3.add(MnuOptions);
 
         MnuHelp.setText("Ayuda");
 
-        jMenuItem3.setText("Informacion");
+        jMenuItem3.setText("Información");
         MnuHelp.add(jMenuItem3);
 
         jMenuBar3.add(MnuHelp);
@@ -659,6 +693,15 @@ public class FrmStock extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCostUnitActionPerformed
 
+    private void btnReturnLobbyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnLobbyActionPerformed
+        new FrmLobby().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnReturnLobbyActionPerformed
+
+    private void itmReportStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmReportStockActionPerformed
+        reportService.exportStockReport(this);
+    }//GEN-LAST:event_itmReportStockActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -699,12 +742,15 @@ public class FrmStock extends javax.swing.JFrame {
     private javax.swing.JMenu MnuFile2;
     private javax.swing.JMenu MnuHelp;
     private javax.swing.JMenu MnuOptions;
+    private javax.swing.JButton btnReturnLobby;
     private javax.swing.JComboBox<String> cmbBrand;
     private javax.swing.JComboBox<String> cmbCategory;
     private javax.swing.JComboBox<String> cmbGain;
     private javax.swing.JComboBox<String> cmbNameofProduct;
     private javax.swing.JMenuItem itmNewRegisterProduct;
+    private javax.swing.JMenuItem itmReportStock;
     private javax.swing.JMenuItem itmSaveRegisterProduct;
+    private javax.swing.JMenuItem itmgraphicStock;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel14;
@@ -718,8 +764,6 @@ public class FrmStock extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenuBar jMenuBar3;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -730,4 +774,5 @@ public class FrmStock extends javax.swing.JFrame {
     private javax.swing.JTextField txtUnitEntry;
     // End of variables declaration//GEN-END:variables
 }
+
 

@@ -4,12 +4,8 @@
  */
 package ec.edu.espe.petshopinventorycontrol.view;
 
-import ec.edu.espe.petshopinventorycontrol.controller.PersonalService;
-import ec.edu.espe.petshopinventorycontrol.controller.PersonalValidator;
-import ec.edu.espe.petshopinventorycontrol.model.mongo.MongoPersonalGateway;
-import java.util.Date;
-import java.util.Map;
-import javax.swing.JOptionPane;
+import ec.edu.espe.petshopinventorycontrol.utils.ScrollUtils;
+import ec.edu.espe.petshopinventorycontrol.controller.PersonalController;
 
 /**
  *
@@ -17,20 +13,29 @@ import javax.swing.JOptionPane;
  */
 public class FrmNewPersonal extends javax.swing.JFrame {
 
-    private final PersonalService personalService = new PersonalService(
-            new MongoPersonalGateway(),
-            new PersonalValidator()
-    );
+    private final PersonalController controller;
 
     /**
      * Creates new form FrmNewPersonal
      */
     public FrmNewPersonal() {
         initComponents();
-        configureReadOnlyFields();
+        ScrollUtils.applyScrollBars(this);
+        controller = new PersonalController(this, new PersonalController.Bindings(
+                txtIdPersonal,
+                txtCiPersonal,
+                txtName,
+                txtAdress,
+                cmbPost,
+                cmbSchedule,
+                cmbDay,
+                cmbState,
+                DateofIncorporated
+        ));
         configureMenu();
-        resetSelections();
-        generateAndSetNewPersonalId();
+        configureReportMenu();
+        configureGraphicMenu();
+        controller.onInit();
     }
 
     private void configureReadOnlyFields() {
@@ -41,136 +46,19 @@ public class FrmNewPersonal extends javax.swing.JFrame {
         itmNewRegisterSupplier.setText("Nuevo Registro");
         itmSaveRegisterSupplier.setText("Guardar Registro");
         itmDeleteRegisterSupplier.setVisible(false);
-        itmDuplicateRegisterSupplier.setText("Duplicar Registro");
-        jMenuItem1.setText("Grafica Personal");
-        jMenuItem2.setText("Informe Personal");
+      
+        itmGraphicPersonal.setText("Grafica Personal");
+        itmReport.setText("Informe Personal");
         jMenuItem3.setText("Informacion");
     }
 
-    private void resetSelections() {
-        cmbPost.setSelectedIndex(-1);
-        cmbSchedule.setSelectedIndex(-1);
-        cmbDay.setSelectedIndex(-1);
-        cmbState.setSelectedIndex(-1);
+    private void configureGraphicMenu() {
+        itmGraphicPersonal.addActionListener(e -> controller.onOpenGraphicPersonal());
+        itmGraphicRegister.addActionListener(e -> controller.onOpenGraphicRegister());
     }
 
-    private void generateAndSetNewPersonalId() {
-        txtIdPersonal.setText(getNextPersonalId());
-    }
-
-    private String getNextPersonalId() {
-        try {
-            return personalService.generateNextPersonalId(new Date());
-        } catch (Exception ex) {
-            String prefix = new java.text.SimpleDateFormat("ddMMyy").format(new Date());
-            String fallback = prefix + "-001";
-            JOptionPane.showMessageDialog(
-                    this,
-                    "MongoDB no esta disponible.\nUsando ID alterno: " + fallback,
-                    "Error de conexion MongoDB",
-                    JOptionPane.WARNING_MESSAGE
-            );
-            return fallback;
-        }
-    }
-
-    private void clearPersonalFields(boolean keepId) {
-        if (!keepId) {
-            txtIdPersonal.setText("");
-        }
-        txtCiPersonal.setText("");
-        txtName.setText("");
-        txtAdress.setText("");
-        DateofIncorporated.setDate(null);
-        resetSelections();
-    }
-
-    private void savePersonal() {
-        Map<String, String> errors = personalService.validateFields(
-                txtIdPersonal.getText(),
-                txtCiPersonal.getText(),
-                txtName.getText(),
-                getSelectedValue(cmbPost),
-                getSelectedValue(cmbSchedule),
-                getSelectedValue(cmbDay),
-                txtAdress.getText(),
-                getSelectedValue(cmbState),
-                DateofIncorporated.getDate()
-        );
-
-        if (!errors.isEmpty()) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Todos los campos deben estar completos y validos.",
-                    "Error de validacion",
-                    JOptionPane.WARNING_MESSAGE
-            );
-            return;
-        }
-
-        try {
-            personalService.savePersonal(
-                    txtIdPersonal.getText(),
-                    txtCiPersonal.getText(),
-                    txtName.getText(),
-                    getSelectedValue(cmbPost),
-                    getSelectedValue(cmbSchedule),
-                    getSelectedValue(cmbDay),
-                    txtAdress.getText(),
-                    getSelectedValue(cmbState),
-                    DateofIncorporated.getDate()
-            );
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Personal guardado correctamente.",
-                    "Exito",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
-
-            clearPersonalFields(false);
-            generateAndSetNewPersonalId();
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Error inesperado: " + ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
-        }
-    }
-
-    private void duplicatePersonal() {
-        String newId = getNextPersonalId();
-        String newCi = JOptionPane.showInputDialog(
-                this,
-                "Ingrese nueva cedula:",
-                "Duplicar Registro",
-                JOptionPane.QUESTION_MESSAGE
-        );
-        if (newCi == null) {
-            return;
-        }
-        if (!personalService.isNumericCi(newCi)) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Cedula invalida. Solo numeros.",
-                    "Error de validacion",
-                    JOptionPane.WARNING_MESSAGE
-            );
-            return;
-        }
-        txtIdPersonal.setText(newId);
-        txtCiPersonal.setText(newCi.trim());
-    }
-
-    private String getSelectedValue(javax.swing.JComboBox<String> combo) {
-        Object selected = combo.getSelectedItem();
-        if (selected == null) {
-            return null;
-        }
-        String value = selected.toString().trim();
-        return value.isEmpty() ? null : value;
+    private void configureReportMenu() {
+        itmReport.addActionListener(e -> controller.onReport());
     }
 
     /**
@@ -185,6 +73,7 @@ public class FrmNewPersonal extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        btnReturnLobby = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtIdPersonal = new javax.swing.JTextField();
@@ -210,9 +99,9 @@ public class FrmNewPersonal extends javax.swing.JFrame {
         itmDeleteRegisterSupplier = new javax.swing.JMenuItem();
         itmSaveRegisterSupplier = new javax.swing.JMenuItem();
         MnuOptions = new javax.swing.JMenu();
-        itmDuplicateRegisterSupplier = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        itmGraphicPersonal = new javax.swing.JMenuItem();
+        itmGraphicRegister = new javax.swing.JMenuItem();
+        itmReport = new javax.swing.JMenuItem();
         MnuHelp = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
 
@@ -243,15 +132,28 @@ public class FrmNewPersonal extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 119));
 
+        btnReturnLobby.setText("Regresar");
+        btnReturnLobby.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReturnLobbyActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addComponent(btnReturnLobby)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 75, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(btnReturnLobby)
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         jLabel1.setText("Id Personal:");
@@ -272,13 +174,13 @@ public class FrmNewPersonal extends javax.swing.JFrame {
 
         cmbDay.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Matutino", "Vespertino" }));
 
-        jLabel8.setText("Direccion:");
+        jLabel8.setText("Dirreccion:");
 
         jLabel9.setText("Estado:");
 
         cmbState.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Vinculado", "Desvinculado" }));
 
-        jLabel11.setText("Fecha de incorporacion:");
+        jLabel11.setText("Fecha de incorporación:");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -393,25 +295,20 @@ public class FrmNewPersonal extends javax.swing.JFrame {
 
         MnuOptions.setText("Opciones");
 
-        itmDuplicateRegisterSupplier.setText("Duplicar Registro");
-        itmDuplicateRegisterSupplier.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itmDuplicateRegisterSupplierActionPerformed(evt);
-            }
-        });
-        MnuOptions.add(itmDuplicateRegisterSupplier);
+        itmGraphicPersonal.setText("Grafica Personal");
+        MnuOptions.add(itmGraphicPersonal);
 
-        jMenuItem1.setText("Grafica Proveedores");
-        MnuOptions.add(jMenuItem1);
+        itmGraphicRegister.setText("Grafica Registros");
+        MnuOptions.add(itmGraphicRegister);
 
-        jMenuItem2.setText("Informe Proveedores");
-        MnuOptions.add(jMenuItem2);
+        itmReport.setText("Informe Personal");
+        MnuOptions.add(itmReport);
 
         jMenuBar1.add(MnuOptions);
 
         MnuHelp.setText("Ayuda");
 
-        jMenuItem3.setText("Informacion");
+        jMenuItem3.setText("Información");
         MnuHelp.add(jMenuItem3);
 
         jMenuBar1.add(MnuHelp);
@@ -447,22 +344,20 @@ public class FrmNewPersonal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void itmNewRegisterSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmNewRegisterSupplierActionPerformed
-        clearPersonalFields(true);
-        generateAndSetNewPersonalId();
+        controller.onNew();
     }//GEN-LAST:event_itmNewRegisterSupplierActionPerformed
 
     private void itmDeleteRegisterSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmDeleteRegisterSupplierActionPerformed
-        clearPersonalFields(false);
-        generateAndSetNewPersonalId();
+        controller.onNew();
     }//GEN-LAST:event_itmDeleteRegisterSupplierActionPerformed
 
     private void itmSaveRegisterSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSaveRegisterSupplierActionPerformed
-        savePersonal();
+        controller.onSave();
     }//GEN-LAST:event_itmSaveRegisterSupplierActionPerformed
 
-    private void itmDuplicateRegisterSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmDuplicateRegisterSupplierActionPerformed
-        duplicatePersonal();
-    }//GEN-LAST:event_itmDuplicateRegisterSupplierActionPerformed
+    private void btnReturnLobbyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnLobbyActionPerformed
+        controller.onReturnLobby();
+    }//GEN-LAST:event_btnReturnLobbyActionPerformed
 
     /**
      * @param args the command line arguments
@@ -504,13 +399,16 @@ public class FrmNewPersonal extends javax.swing.JFrame {
     private javax.swing.JMenu MnuFile;
     private javax.swing.JMenu MnuHelp;
     private javax.swing.JMenu MnuOptions;
+    private javax.swing.JButton btnReturnLobby;
     private javax.swing.JComboBox<String> cmbDay;
     private javax.swing.JComboBox<String> cmbPost;
     private javax.swing.JComboBox<String> cmbSchedule;
     private javax.swing.JComboBox<String> cmbState;
     private javax.swing.JMenuItem itmDeleteRegisterSupplier;
-    private javax.swing.JMenuItem itmDuplicateRegisterSupplier;
+    private javax.swing.JMenuItem itmGraphicPersonal;
+    private javax.swing.JMenuItem itmGraphicRegister;
     private javax.swing.JMenuItem itmNewRegisterSupplier;
+    private javax.swing.JMenuItem itmReport;
     private javax.swing.JMenuItem itmSaveRegisterSupplier;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -523,8 +421,6 @@ public class FrmNewPersonal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

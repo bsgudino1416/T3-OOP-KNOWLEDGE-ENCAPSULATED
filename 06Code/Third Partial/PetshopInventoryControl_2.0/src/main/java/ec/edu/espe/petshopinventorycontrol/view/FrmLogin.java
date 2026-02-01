@@ -1,30 +1,25 @@
 package ec.edu.espe.petshopinventorycontrol.view;
 
+import ec.edu.espe.petshopinventorycontrol.controller.LoginController;
+import ec.edu.espe.petshopinventorycontrol.controller.LoginView;
+import ec.edu.espe.petshopinventorycontrol.utils.ScrollUtils;
+
 /**
  *
  * @author Steven Loza @ESPE
  */
-public class FrmLogin extends javax.swing.JFrame {
+public class FrmLogin extends javax.swing.JFrame implements LoginView {
+
+    private final LoginController controller = new LoginController(this);
 
     /**
      * Creates new form FrmLogin
      */
     public FrmLogin() {
         initComponents();
+        ScrollUtils.applyScrollBars(this);
         bttnCreate.setText("Crear cuenta");
-
-        bttnCreate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bttnCreateActionPerformed(evt);
-            }
-        });
-
-    }
-
-    private void bttnCreateActionPerformed(java.awt.event.ActionEvent evt) {
-        FrmRegister register = new FrmRegister();
-        register.setVisible(true);
-        this.dispose();
+        bttnCreate.addActionListener(e -> controller.onCreateAccount());
     }
 
     /**
@@ -61,7 +56,7 @@ public class FrmLogin extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(199, Short.MAX_VALUE)
                 .addComponent(bttnSigIn)
                 .addGap(149, 149, 149))
         );
@@ -75,8 +70,11 @@ public class FrmLogin extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Usuario:");
 
+        jLabel4.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Contraseña:");
 
         txtUserLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -103,7 +101,7 @@ public class FrmLogin extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(146, 146, 146)
                         .addComponent(jLabel2)))
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -137,11 +135,11 @@ public class FrmLogin extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
+                .addContainerGap()
                 .addComponent(bttnSignIn)
-                .addGap(70, 70, 70)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(bttnCreate)
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -169,11 +167,11 @@ public class FrmLogin extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(12, 12, 12))
+                .addContainerGap())
         );
 
         pack();
@@ -184,63 +182,65 @@ public class FrmLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUserLoginActionPerformed
 
     private void bttnSignInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnSignInActionPerformed
-try {
-        String username = txtUserLogin.getText();
-        String password = new String(txtPassLogin.getPassword());
+        controller.onSignIn();
+    }//GEN-LAST:event_bttnSignInActionPerformed
 
-        if (username == null || username.trim().isEmpty() || password == null || password.isEmpty()) {
-            javax.swing.JOptionPane.showMessageDialog(
-                    this,
-                    "Ingresa usuario y contrasena.",
-                    "Error de validacion",
-                    javax.swing.JOptionPane.WARNING_MESSAGE
-            );
-            return;
-        }
+    @Override
+    public String getUsername() {
+        return txtUserLogin.getText();
+    }
 
-        ec.edu.espe.petshopinventorycontrol.model.services.LoginRequest request =
-                new ec.edu.espe.petshopinventorycontrol.model.services.LoginRequest(username, password);
+    @Override
+    public String getPassword() {
+        return new String(txtPassLogin.getPassword());
+    }
 
-        java.util.Optional<ec.edu.espe.petshopinventorycontrol.model.services.UserAccount> userOpt =
-                ec.edu.espe.petshopinventorycontrol.controller.AuthDependencies
-                        .getAuthService()
-                        .login(request);
-
-        if (userOpt.isEmpty()) {
-            javax.swing.JOptionPane.showMessageDialog(
-                    this,
-                    "Usuario o contrasena incorrectos.",
-                    "Acceso denegado",
-                    javax.swing.JOptionPane.WARNING_MESSAGE
-            );
-            return;
-        }
-
-        ec.edu.espe.petshopinventorycontrol.model.services.UserAccount user = userOpt.get();
-        String fullName = user.getFirstName() + " " + user.getLastName();
-
+    @Override
+    public void showWarning(String message) {
         javax.swing.JOptionPane.showMessageDialog(
                 this,
-                "Inicio de sesion correcto. Bienvenido, " + fullName + "!",
+                message,
+                "Error de validacion",
+                javax.swing.JOptionPane.WARNING_MESSAGE
+        );
+    }
+
+    @Override
+    public void showInfo(String message) {
+        javax.swing.JOptionPane.showMessageDialog(
+                this,
+                message,
                 "Bienvenido",
                 javax.swing.JOptionPane.INFORMATION_MESSAGE
         );
+    }
 
-        // ✅ Aquí debes abrir tu ventana principal del sistema
-        // Ejemplo (ajusta al nombre real de tu sistema):
-        // FrmLobby lobby = new FrmLobby();
-        // lobby.setVisible(true);
-        // this.dispose();
-
-    } catch (Exception ex) {
+    @Override
+    public void showError(String message) {
         javax.swing.JOptionPane.showMessageDialog(
                 this,
-                "Error inesperado: " + ex.getMessage(),
+                message,
                 "Error",
                 javax.swing.JOptionPane.ERROR_MESSAGE
         );
     }
-    }//GEN-LAST:event_bttnSignInActionPerformed
+
+    @Override
+    public void openLobby() {
+        FrmLobby lobby = new FrmLobby();
+        lobby.setVisible(true);
+    }
+
+    @Override
+    public void openRegister() {
+        FrmRegister register = new FrmRegister();
+        register.setVisible(true);
+    }
+
+    @Override
+    public void close() {
+        dispose();
+    }
 
     /**
      * @param args the command line arguments
@@ -291,3 +291,5 @@ try {
     private javax.swing.JTextField txtUserLogin;
     // End of variables declaration//GEN-END:variables
 }
+
+

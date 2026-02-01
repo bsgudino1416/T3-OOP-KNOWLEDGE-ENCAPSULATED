@@ -5,10 +5,13 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import ec.edu.espe.petshopinventorycontrol.model.services.UserAccount;
 import ec.edu.espe.petshopinventorycontrol.model.services.UserRepository;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.bson.Document;
 
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Sorts.ascending;
 
 public final class MongoUserRepository implements UserRepository {
 
@@ -61,5 +64,28 @@ public final class MongoUserRepository implements UserRepository {
         );
         return Optional.of(user);
     }
-}
 
+    @Override
+    public List<UserAccount> findAllOrdered() {
+        List<UserAccount> result = new ArrayList<>();
+        for (Document doc : users.find().sort(ascending("_id"))) {
+            if (doc == null) {
+                continue;
+            }
+            UserAccount user = new UserAccount(
+                    doc.getString("firstName"),
+                    doc.getString("lastName"),
+                    doc.getString("address"),
+                    doc.getString("email"),
+                    doc.getString("gender"),
+                    doc.getString("usernameHash"),
+                    doc.getString("usernameEncrypted"),
+                    doc.getString("passwordHash"),
+                    doc.getString("passwordSalt"),
+                    doc.getInteger("passwordIterations", 0)
+            );
+            result.add(user);
+        }
+        return result;
+    }
+}

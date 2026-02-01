@@ -13,7 +13,7 @@ public final class MongoConfig {
 
     // Colecciones (deja estos nombres tal cual uses en Compass/Atlas)
     public static final String SUPPLIER_COLLECTION = "Supplier";
-    public static final String PRODUCT_COLLECTION  = "Product";
+    public static final String PRODUCT_COLLECTION  = "inventory";
     public static final String PERSONAL_COLLECTION = "Personal";
 
     private static MongoClient client;
