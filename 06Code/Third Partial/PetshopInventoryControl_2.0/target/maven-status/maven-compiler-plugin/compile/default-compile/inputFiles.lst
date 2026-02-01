@@ -1,4 +1,5 @@
 C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventoryControl_2.0\src\main\java\ec\edu\espe\petshopinventorycontrol\controller\AuthDependencies.java
+C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventoryControl_2.0\src\main\java\ec\edu\espe\petshopinventorycontrol\controller\AuthResult.java
 C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventoryControl_2.0\src\main\java\ec\edu\espe\petshopinventorycontrol\controller\AuthService.java
 C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventoryControl_2.0\src\main\java\ec\edu\espe\petshopinventorycontrol\controller\BillController.java
 C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventoryControl_2.0\src\main\java\ec\edu\espe\petshopinventorycontrol\controller\BillIdGenerator.java
@@ -37,6 +38,7 @@ C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventor
 C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventoryControl_2.0\src\main\java\ec\edu\espe\petshopinventorycontrol\controller\ProductGraphicService.java
 C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventoryControl_2.0\src\main\java\ec\edu\espe\petshopinventorycontrol\controller\ProductService.java
 C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventoryControl_2.0\src\main\java\ec\edu\espe\petshopinventorycontrol\controller\ProductValidator.java
+C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventoryControl_2.0\src\main\java\ec\edu\espe\petshopinventorycontrol\controller\QrCodeService.java
 C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventoryControl_2.0\src\main\java\ec\edu\espe\petshopinventorycontrol\controller\RegisterController.java
 C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventoryControl_2.0\src\main\java\ec\edu\espe\petshopinventorycontrol\controller\RegisterField.java
 C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventoryControl_2.0\src\main\java\ec\edu\espe\petshopinventorycontrol\controller\RegisterGraphicService.java
@@ -76,12 +78,15 @@ C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventor
 C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventoryControl_2.0\src\main\java\ec\edu\espe\petshopinventorycontrol\model\RegisterRecord.java
 C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventoryControl_2.0\src\main\java\ec\edu\espe\petshopinventorycontrol\model\Report.java
 C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventoryControl_2.0\src\main\java\ec\edu\espe\petshopinventorycontrol\model\services\AesGcmCryptoService.java
+C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventoryControl_2.0\src\main\java\ec\edu\espe\petshopinventorycontrol\model\services\Base32Codec.java
 C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventoryControl_2.0\src\main\java\ec\edu\espe\petshopinventorycontrol\model\services\CryptoService.java
 C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventoryControl_2.0\src\main\java\ec\edu\espe\petshopinventorycontrol\model\services\HashingService.java
 C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventoryControl_2.0\src\main\java\ec\edu\espe\petshopinventorycontrol\model\services\LoginRequest.java
 C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventoryControl_2.0\src\main\java\ec\edu\espe\petshopinventorycontrol\model\services\PasswordHasher.java
 C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventoryControl_2.0\src\main\java\ec\edu\espe\petshopinventorycontrol\model\services\RegistrationRequest.java
 C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventoryControl_2.0\src\main\java\ec\edu\espe\petshopinventorycontrol\model\services\SecretKeyProvider.java
+C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventoryControl_2.0\src\main\java\ec\edu\espe\petshopinventorycontrol\model\services\TwoFactorService.java
+C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventoryControl_2.0\src\main\java\ec\edu\espe\petshopinventorycontrol\model\services\TwoFactorSetup.java
 C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventoryControl_2.0\src\main\java\ec\edu\espe\petshopinventorycontrol\model\services\UserAccount.java
 C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventoryControl_2.0\src\main\java\ec\edu\espe\petshopinventorycontrol\model\services\UserRepository.java
 C:\Users\User\T3-OOP-KNOWLEDGE-ENCAPSULATED\06Code\Third Partial\PetshopInventoryControl_2.0\src\main\java\ec\edu\espe\petshopinventorycontrol\model\StockRecord.java

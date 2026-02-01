@@ -46,6 +46,7 @@ ec\edu\espe\petshopinventorycontrol\controller\GraphicSupplierController$1.class
 ec\edu\espe\petshopinventorycontrol\controller\RegisterView.class
 ec\edu\espe\petshopinventorycontrol\view\FrmGraphicProduct$3.class
 ec\edu\espe\petshopinventorycontrol\controller\ProductService.class
+ec\edu\espe\petshopinventorycontrol\model\services\TwoFactorSetup.class
 ec\edu\espe\petshopinventorycontrol\controller\RegisterController.class
 ec\edu\espe\petshopinventorycontrol\controller\StockFormController.class
 ec\edu\espe\petshopinventorycontrol\view\FrmProduct$6.class
@@ -103,6 +104,7 @@ ec\edu\espe\petshopinventorycontrol\view\FrmNewPersonal$5.class
 ec\edu\espe\petshopinventorycontrol\view\FrmBill$16.class
 ec\edu\espe\petshopinventorycontrol\view\FrmStock$8.class
 ec\edu\espe\petshopinventorycontrol\view\FrmSupplier$12.class
+ec\edu\espe\petshopinventorycontrol\model\services\Base32Codec.class
 ec\edu\espe\petshopinventorycontrol\view\Presentation.class
 ec\edu\espe\petshopinventorycontrol\view\FrmProduct$5.class
 ec\edu\espe\petshopinventorycontrol\controller\GraphicPersonalController$1.class
@@ -126,6 +128,7 @@ ec\edu\espe\petshopinventorycontrol\model\services\HashingService.class
 ec\edu\espe\petshopinventorycontrol\view\FrmRegister$2.class
 ec\edu\espe\petshopinventorycontrol\view\FrmGraphicProduct.class
 ec\edu\espe\petshopinventorycontrol\view\FrmGraphicRegister$1.class
+ec\edu\espe\petshopinventorycontrol\model\services\TwoFactorService.class
 ec\edu\espe\petshopinventorycontrol\view\FrmProduct$11.class
 ec\edu\espe\petshopinventorycontrol\controller\LoginView.class
 ec\edu\espe\petshopinventorycontrol\controller\GraphicStockView.class
@@ -151,6 +154,7 @@ ec\edu\espe\petshopinventorycontrol\view\FrmGraphicProduct$2.class
 ec\edu\espe\petshopinventorycontrol\controller\LobbyController.class
 ec\edu\espe\petshopinventorycontrol\controller\ProductFormController.class
 ec\edu\espe\petshopinventorycontrol\model\mongo\MongoStockGateway.class
+ec\edu\espe\petshopinventorycontrol\controller\QrCodeService.class
 ec\edu\espe\petshopinventorycontrol\controller\SupplierField.class
 ec\edu\espe\petshopinventorycontrol\view\FrmProduct$8.class
 ec\edu\espe\petshopinventorycontrol\utils\ChartUtils.class
@@ -167,6 +171,7 @@ ec\edu\espe\petshopinventorycontrol\view\FrmRegister.class
 ec\edu\espe\petshopinventorycontrol\model\Inventory$1.class
 ec\edu\espe\petshopinventorycontrol\view\FrmProduct$16.class
 ec\edu\espe\petshopinventorycontrol\view\FrmRegister$1.class
+ec\edu\espe\petshopinventorycontrol\controller\AuthResult$Status.class
 ec\edu\espe\petshopinventorycontrol\model\services\AesGcmCryptoService.class
 ec\edu\espe\petshopinventorycontrol\model\services\CryptoService.class
 ec\edu\espe\petshopinventorycontrol\view\FrmProduct$2.class
@@ -193,6 +198,7 @@ ec\edu\espe\petshopinventorycontrol\view\FrmProductsExpired$2.class
 ec\edu\espe\petshopinventorycontrol\view\FrmSupplier$2.class
 ec\edu\espe\petshopinventorycontrol\model\ProductRecord.class
 ec\edu\espe\petshopinventorycontrol\view\FrmStock$2.class
+ec\edu\espe\petshopinventorycontrol\controller\AuthResult.class
 ec\edu\espe\petshopinventorycontrol\controller\GraphicRegisterController.class
 ec\edu\espe\petshopinventorycontrol\model\OrderDetail.class
 ec\edu\espe\petshopinventorycontrol\controller\StockGraphicService.class

@@ -21,10 +21,22 @@ public final class UserAccount {
     private final String passwordHash;       // PBKDF2 (NO reversible)
     private final String passwordSalt;       // Base64
     private final int passwordIterations;
+    private final boolean twoFactorEnabled;
+    private final String twoFactorSecretEncrypted;
 
     public UserAccount(String firstName, String lastName, String address, String email, String gender,
             String usernameHash, String usernameEncrypted,
             String passwordHash, String passwordSalt, int passwordIterations) {
+        this(firstName, lastName, address, email, gender,
+                usernameHash, usernameEncrypted,
+                passwordHash, passwordSalt, passwordIterations,
+                false, null);
+    }
+
+    public UserAccount(String firstName, String lastName, String address, String email, String gender,
+            String usernameHash, String usernameEncrypted,
+            String passwordHash, String passwordSalt, int passwordIterations,
+            boolean twoFactorEnabled, String twoFactorSecretEncrypted) {
 
         this.firstName = requireNonBlank(firstName, "firstName");
         this.lastName = requireNonBlank(lastName, "lastName");
@@ -38,6 +50,8 @@ public final class UserAccount {
         this.passwordHash = requireNonBlank(passwordHash, "passwordHash");
         this.passwordSalt = requireNonBlank(passwordSalt, "passwordSalt");
         this.passwordIterations = passwordIterations;
+        this.twoFactorEnabled = twoFactorEnabled;
+        this.twoFactorSecretEncrypted = twoFactorSecretEncrypted;
     }
 
     private static String requireNonBlank(String v, String name) {
@@ -85,6 +99,14 @@ public final class UserAccount {
 
     public int getPasswordIterations() {
         return passwordIterations;
+    }
+
+    public boolean isTwoFactorEnabled() {
+        return twoFactorEnabled;
+    }
+
+    public String getTwoFactorSecretEncrypted() {
+        return twoFactorSecretEncrypted;
     }
 
     @Override

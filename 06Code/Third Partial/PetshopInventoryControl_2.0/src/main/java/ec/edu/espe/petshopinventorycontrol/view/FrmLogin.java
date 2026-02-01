@@ -226,6 +226,42 @@ public class FrmLogin extends javax.swing.JFrame implements LoginView {
     }
 
     @Override
+    public boolean confirmEnableTwoFactor() {
+        int option = javax.swing.JOptionPane.showConfirmDialog(
+                this,
+                "¿Deseas activar autenticacion de dos factores (2FA)?",
+                "Activar 2FA",
+                javax.swing.JOptionPane.YES_NO_OPTION
+        );
+        return option == javax.swing.JOptionPane.YES_OPTION;
+    }
+
+    @Override
+    public String promptTwoFactorCode(String message) {
+        return javax.swing.JOptionPane.showInputDialog(
+                this,
+                message
+        );
+    }
+
+    @Override
+    public void showTwoFactorSetup(java.awt.image.BufferedImage qrImage, String secret, String uri) {
+        javax.swing.JPanel panel = new javax.swing.JPanel();
+        panel.setLayout(new javax.swing.BoxLayout(panel, javax.swing.BoxLayout.Y_AXIS));
+        if (qrImage != null) {
+            panel.add(new javax.swing.JLabel(new javax.swing.ImageIcon(qrImage)));
+        }
+        panel.add(new javax.swing.JLabel("Secret: " + secret));
+        panel.add(new javax.swing.JLabel("URI: " + uri));
+        javax.swing.JOptionPane.showMessageDialog(
+                this,
+                panel,
+                "Configurar Google Authenticator",
+                javax.swing.JOptionPane.INFORMATION_MESSAGE
+        );
+    }
+
+    @Override
     public void openLobby() {
         FrmLobby lobby = new FrmLobby();
         lobby.setVisible(true);

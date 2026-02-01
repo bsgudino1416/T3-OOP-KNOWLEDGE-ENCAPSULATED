@@ -40,7 +40,9 @@ public final class MongoUserRepository implements UserRepository {
                 .append("usernameEncrypted", user.getUsernameEncrypted())
                 .append("passwordHash", user.getPasswordHash())
                 .append("passwordSalt", user.getPasswordSalt())
-                .append("passwordIterations", user.getPasswordIterations());
+                .append("passwordIterations", user.getPasswordIterations())
+                .append("twoFactorEnabled", user.isTwoFactorEnabled())
+                .append("twoFactorSecretEncrypted", user.getTwoFactorSecretEncrypted());
 
         users.insertOne(doc);
     }
@@ -60,7 +62,9 @@ public final class MongoUserRepository implements UserRepository {
                 doc.getString("usernameEncrypted"),
                 doc.getString("passwordHash"),
                 doc.getString("passwordSalt"),
-                doc.getInteger("passwordIterations", 0)
+                doc.getInteger("passwordIterations", 0),
+                doc.getBoolean("twoFactorEnabled", false),
+                doc.getString("twoFactorSecretEncrypted")
         );
         return Optional.of(user);
     }
@@ -82,10 +86,22 @@ public final class MongoUserRepository implements UserRepository {
                     doc.getString("usernameEncrypted"),
                     doc.getString("passwordHash"),
                     doc.getString("passwordSalt"),
-                    doc.getInteger("passwordIterations", 0)
+                    doc.getInteger("passwordIterations", 0),
+                    doc.getBoolean("twoFactorEnabled", false),
+                    doc.getString("twoFactorSecretEncrypted")
             );
             result.add(user);
         }
         return result;
+    }
+
+    @Override
+    public void updateTwoFactor(String usernameHash, boolean enabled, String secretEncrypted) {
+        users.updateOne(
+                eq("usernameHash", usernameHash),
+                new Document("$set", new Document()
+                        .append("twoFactorEnabled", enabled)
+                        .append("twoFactorSecretEncrypted", secretEncrypted))
+        );
     }
 }

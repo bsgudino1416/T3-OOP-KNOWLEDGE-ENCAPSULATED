@@ -30,11 +30,11 @@ public final class AuthDependencies {
                 new RegistrationValidator(),
                 new HashingService(),
                 crypto,
-                new PasswordHasher()
+                new PasswordHasher(),
+                new TwoFactorService(crypto, "PetshopInventoryControl")
         );
     }
     return authService;
 }
 
 }
-

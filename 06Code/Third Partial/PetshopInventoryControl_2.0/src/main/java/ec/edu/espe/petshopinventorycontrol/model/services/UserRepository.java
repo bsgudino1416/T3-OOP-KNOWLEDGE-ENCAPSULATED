@@ -8,4 +8,5 @@ public interface UserRepository {
     void save(UserAccount user);
     Optional<UserAccount> findByUsernameHash(String usernameHash);
     List<UserAccount> findAllOrdered();
+    void updateTwoFactor(String usernameHash, boolean enabled, String secretEncrypted);
 }
