@@ -333,8 +333,7 @@ public final class MongoProductGateway {
      * se llama diferente.
      */
     private MongoCollection<Document> productsCollection() {
-        MongoDatabase db = MongoConfig.getDatabase();
-        return db.getCollection("Product");
+        return products;
     }
 
 }

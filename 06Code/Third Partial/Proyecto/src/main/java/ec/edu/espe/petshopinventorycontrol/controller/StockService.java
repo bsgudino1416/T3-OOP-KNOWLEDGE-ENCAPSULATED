@@ -160,16 +160,32 @@ public class StockService {
             throw new IllegalStateException("Producto no encontrado para actualizar stock.");
         }
 
-        Double available = productGateway.readQuantity(productDoc);
-        if (available == null) {
-            throw new IllegalStateException("Cantidad disponible no registrada para este producto.");
-        }
-        if (unitsToProcess > available) {
-            throw new IllegalStateException("No hay cantidad disponible. Disponible: " + format(available));
-        }
+        String unit = productGateway.readUnit(productDoc);
+        if (isPoundsUnit(unit)) {
+            Double availablePounds = productGateway.readTotalPounds(productDoc);
+            if (availablePounds == null) {
+                throw new IllegalStateException("Total de libras no registrado para este producto.");
+            }
+            if (unitsToProcess > availablePounds) {
+                throw new IllegalStateException("No hay libras disponibles. Disponible: " + format(availablePounds));
+            }
+            double remainingPounds = availablePounds - unitsToProcess;
+            productGateway.updateProductById(
+                    productDoc.get("_id"),
+                    new Document("TotalPounds", format(remainingPounds))
+            );
+        } else {
+            Double available = productGateway.readQuantity(productDoc);
+            if (available == null) {
+                throw new IllegalStateException("Cantidad disponible no registrada para este producto.");
+            }
+            if (unitsToProcess > available) {
+                throw new IllegalStateException("No hay cantidad disponible. Disponible: " + format(available));
+            }
 
-        double remaining = available - unitsToProcess;
-        productGateway.updateProductById(productDoc.get("_id"), new Document("Quantity", remaining));
+            double remaining = available - unitsToProcess;
+            productGateway.updateProductById(productDoc.get("_id"), new Document("Quantity", remaining));
+        }
 
         Document doc = new Document()
                 .append("idStock", idStock)
@@ -240,6 +256,10 @@ public class StockService {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    private boolean isPoundsUnit(String unit) {
+        return unit != null && unit.trim().equalsIgnoreCase("Libras");
     }
 
     public static final class ProductCostResult {
