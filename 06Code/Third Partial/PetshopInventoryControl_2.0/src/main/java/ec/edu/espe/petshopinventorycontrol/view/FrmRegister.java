@@ -4,6 +4,10 @@
  */
 package ec.edu.espe.petshopinventorycontrol.view;
 
+import ec.edu.espe.petshopinventorycontrol.controller.RegisterController;
+import ec.edu.espe.petshopinventorycontrol.controller.RegisterView;
+import ec.edu.espe.petshopinventorycontrol.utils.ScrollUtils;
+import ec.edu.espe.petshopinventorycontrol.controller.ReportService;
 import ec.edu.espe.petshopinventorycontrol.view.FrmLogin;
 
 /**
@@ -11,13 +15,30 @@ import ec.edu.espe.petshopinventorycontrol.view.FrmLogin;
  * @author Steven Loza @ESPE
  */
 
-public class FrmRegister extends javax.swing.JFrame {
+public class FrmRegister extends javax.swing.JFrame implements RegisterView {
+    private final ReportService reportService = ReportService.defaultService();
+    private final RegisterController controller = new RegisterController(this);
 
     /**
      * Creates new form FrmRegister
      */
     public FrmRegister() {
         initComponents();
+        ScrollUtils.applyScrollBars(this);
+        configureReportMenu();
+    }
+
+    private void configureReportMenu() {
+        javax.swing.JMenuBar bar = getJMenuBar();
+        if (bar == null) {
+            bar = new javax.swing.JMenuBar();
+            setJMenuBar(bar);
+        }
+        javax.swing.JMenu menu = new javax.swing.JMenu("Opciones");
+        javax.swing.JMenuItem reportItem = new javax.swing.JMenuItem("Informe Registro");
+        reportItem.addActionListener(e -> reportService.exportRegisterReport(this));
+        menu.add(reportItem);
+        bar.add(menu);
     }
 
     /**
@@ -65,7 +86,7 @@ public class FrmRegister extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(200, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addGap(190, 190, 190))
         );
@@ -208,7 +229,7 @@ public class FrmRegister extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(46, 46, 46)
                 .addComponent(bttnRegister)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 154, Short.MAX_VALUE)
                 .addComponent(bttnExitRegister)
                 .addGap(103, 103, 103))
         );
@@ -227,17 +248,12 @@ public class FrmRegister extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -247,7 +263,7 @@ public class FrmRegister extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -264,68 +280,95 @@ public class FrmRegister extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCreateUserRegisterActionPerformed
 
     private void bttnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnRegisterActionPerformed
-    
-        try {
-            String firstName = txtNameRegister.getText();
-            String lastName = txtLastNameRegister1.getText();
-            String address = txtAdressRegister.getText();
-            String email = txtemailRegister.getText();
-            String gender = String.valueOf(jComboBox1.getSelectedItem());
-            String username = txtCreateUserRegister.getText();
-            String password = txtCreatePassRegister.getText();
-            String confirmPassword = txtLastConfirmPassRegister.getText();
-
-            ec.edu.espe.petshopinventorycontrol.model.services.RegistrationRequest request
-                    = new ec.edu.espe.petshopinventorycontrol.model.services.RegistrationRequest(
-                            firstName, lastName, address, email, gender, username, password, confirmPassword
-                    );
-
-            ec.edu.espe.petshopinventorycontrol.controller.AuthDependencies
-                    .getAuthService()
-                    .register(request);
-
-            javax.swing.JOptionPane.showMessageDialog(
-                    this,
-                    "Cuenta creada correctamente.",
-                    "Exito",
-                    javax.swing.JOptionPane.INFORMATION_MESSAGE
-            );
-
-            FrmLogin login = new FrmLogin();
-            login.setVisible(true);
-            this.dispose();
-
-        } catch (IllegalArgumentException ex) {
-            javax.swing.JOptionPane.showMessageDialog(
-                    this,
-                    ex.getMessage(),
-                    "Error de validacion",
-                    javax.swing.JOptionPane.WARNING_MESSAGE
-            );
-        } catch (IllegalStateException ex) {
-            javax.swing.JOptionPane.showMessageDialog(
-                    this,
-                    ex.getMessage(),
-                    "Error de registro",
-                    javax.swing.JOptionPane.ERROR_MESSAGE
-            );
-        } catch (Exception ex) {
-            javax.swing.JOptionPane.showMessageDialog(
-                    this,
-                    "Error inesperado: " + ex.getMessage(),
-                    "Error",
-                    javax.swing.JOptionPane.ERROR_MESSAGE
-            );
-        }
+        controller.onRegister();
    
     }//GEN-LAST:event_bttnRegisterActionPerformed
 
     private void bttnExitRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnExitRegisterActionPerformed
-        // TODO add your handling code here:                                                 
+        controller.onExit();
+    }//GEN-LAST:event_bttnExitRegisterActionPerformed
+
+    @Override
+    public String getFirstName() {
+        return txtNameRegister.getText();
+    }
+
+    @Override
+    public String getLastName() {
+        return txtLastNameRegister1.getText();
+    }
+
+    @Override
+    public String getAddress() {
+        return txtAdressRegister.getText();
+    }
+
+    @Override
+    public String getEmail() {
+        return txtemailRegister.getText();
+    }
+
+    @Override
+    public String getGender() {
+        Object value = jComboBox1.getSelectedItem();
+        return value == null ? "" : String.valueOf(value);
+    }
+
+    @Override
+    public String getUsername() {
+        return txtCreateUserRegister.getText();
+    }
+
+    @Override
+    public String getPassword() {
+        return txtCreatePassRegister.getText();
+    }
+
+    @Override
+    public String getConfirmPassword() {
+        return txtLastConfirmPassRegister.getText();
+    }
+
+    @Override
+    public void showInfo(String message) {
+        javax.swing.JOptionPane.showMessageDialog(
+                this,
+                message,
+                "Registro exitoso",
+                javax.swing.JOptionPane.INFORMATION_MESSAGE
+        );
+    }
+
+    @Override
+    public void showWarning(String message) {
+        javax.swing.JOptionPane.showMessageDialog(
+                this,
+                message,
+                "Validacion",
+                javax.swing.JOptionPane.WARNING_MESSAGE
+        );
+    }
+
+    @Override
+    public void showError(String message) {
+        javax.swing.JOptionPane.showMessageDialog(
+                this,
+                message,
+                "Error",
+                javax.swing.JOptionPane.ERROR_MESSAGE
+        );
+    }
+
+    @Override
+    public void openLogin() {
         FrmLogin login = new FrmLogin();
         login.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_bttnExitRegisterActionPerformed
+    }
+
+    @Override
+    public void close() {
+        dispose();
+    }
 
     /**
      * @param args the command line arguments
@@ -387,3 +430,4 @@ public class FrmRegister extends javax.swing.JFrame {
     private javax.swing.JTextField txtemailRegister;
     // End of variables declaration//GEN-END:variables
 }
+

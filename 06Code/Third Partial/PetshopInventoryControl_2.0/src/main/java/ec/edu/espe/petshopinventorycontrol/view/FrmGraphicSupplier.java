@@ -4,17 +4,53 @@
  */
 package ec.edu.espe.petshopinventorycontrol.view;
 
+import ec.edu.espe.petshopinventorycontrol.utils.ScrollUtils;
+import ec.edu.espe.petshopinventorycontrol.controller.GraphicSupplierController;
+import ec.edu.espe.petshopinventorycontrol.controller.GraphicSupplierView;
+import ec.edu.espe.petshopinventorycontrol.controller.SupplierGraphicService;
+import ec.edu.espe.petshopinventorycontrol.model.mongo.MongoSupplierGateway;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.Icon;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.table.TableModel;
+
 /**
  *
  * @author Steven Loza @ESPE
  */
-public class FrmGraphicSupplier extends javax.swing.JFrame {
+public class FrmGraphicSupplier extends javax.swing.JFrame implements GraphicSupplierView {
+
+    private final GraphicSupplierController controller;
+    private boolean initializing = true;
+
+    private JPanel filterPanel;
+    private javax.swing.JComboBox<String> cmbFilterField1;
+    private javax.swing.JComboBox<String> cmbFilterValue1;
+    private javax.swing.JComboBox<String> cmbFilterField2;
+    private javax.swing.JComboBox<String> cmbFilterValue2;
+    private javax.swing.JComboBox<String> cmbChartType;
+    private javax.swing.JComboBox<String> cmbChartField;
+    private javax.swing.JButton btnReturn;
 
     /**
      * Creates new form FrmGraphicSupplier
      */
     public FrmGraphicSupplier() {
         initComponents();
+        ScrollUtils.applyScrollBars(this);
+        controller = new GraphicSupplierController(
+                new SupplierGraphicService(new MongoSupplierGateway())
+        );
+        initCustomLayout();
+        configureListeners();
+        controller.onInit(this);
+        initializing = false;
     }
 
     /**
@@ -45,16 +81,16 @@ public class FrmGraphicSupplier extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(302, 302, 302)
+                .addGap(296, 296, 296)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addGap(45, 45, 45)
                 .addComponent(jLabel1)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         GraphicSupplier.setText("GRAFICA");
@@ -79,21 +115,21 @@ public class FrmGraphicSupplier extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(339, 339, 339)
-                        .addComponent(GraphicSupplier))
+                        .addGap(38, 38, 38)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(49, Short.MAX_VALUE))
+                        .addGap(342, 342, 342)
+                        .addComponent(GraphicSupplier)))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addGap(19, 19, 19)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(97, 97, 97)
+                .addGap(89, 89, 89)
                 .addComponent(GraphicSupplier)
-                .addContainerGap(148, Short.MAX_VALUE))
+                .addContainerGap(173, Short.MAX_VALUE))
         );
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 119));
@@ -136,6 +172,227 @@ public class FrmGraphicSupplier extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void initCustomLayout() {
+        filterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JLabel lblFilter1 = new JLabel("Filtro 1:");
+        JLabel lblFilter2 = new JLabel("Filtro 2:");
+        JLabel lblChartType = new JLabel("Grafica:");
+        JLabel lblChartField = new JLabel("Campo:");
+
+        cmbFilterField1 = new javax.swing.JComboBox<>();
+        cmbFilterValue1 = new javax.swing.JComboBox<>();
+        cmbFilterValue1.setEditable(true);
+
+        cmbFilterField2 = new javax.swing.JComboBox<>();
+        cmbFilterValue2 = new javax.swing.JComboBox<>();
+        cmbFilterValue2.setEditable(true);
+
+        cmbChartType = new javax.swing.JComboBox<>();
+        cmbChartField = new javax.swing.JComboBox<>();
+
+        filterPanel.add(lblFilter1);
+        filterPanel.add(cmbFilterField1);
+        filterPanel.add(cmbFilterValue1);
+        filterPanel.add(lblFilter2);
+        filterPanel.add(cmbFilterField2);
+        filterPanel.add(cmbFilterValue2);
+        filterPanel.add(lblChartType);
+        filterPanel.add(cmbChartType);
+        filterPanel.add(lblChartField);
+        filterPanel.add(cmbChartField);
+
+        GraphicSupplier.setHorizontalAlignment(SwingConstants.CENTER);
+        jScrollPane1.setPreferredSize(new Dimension(720, 160));
+        GraphicSupplier.setPreferredSize(new Dimension(720, 240));
+
+        jPanel3.removeAll();
+        jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.Y_AXIS));
+        jPanel3.add(filterPanel);
+        jPanel3.add(jScrollPane1);
+        jPanel3.add(GraphicSupplier);
+        jPanel3.revalidate();
+        jPanel3.repaint();
+
+        btnReturn = new javax.swing.JButton("Regresar");
+        jPanel1.removeAll();
+        jPanel1.setLayout(new FlowLayout(FlowLayout.LEFT));
+        jPanel1.add(btnReturn);
+        jPanel1.revalidate();
+        jPanel1.repaint();
+    }
+
+    private void configureListeners() {
+        cmbFilterField1.addActionListener(e -> {
+            if (initializing) {
+                return;
+            }
+            controller.onFilterFieldChanged(this, 1);
+            controller.onApplyFilters(this);
+        });
+        cmbFilterField2.addActionListener(e -> {
+            if (initializing) {
+                return;
+            }
+            controller.onFilterFieldChanged(this, 2);
+            controller.onApplyFilters(this);
+        });
+        cmbFilterValue1.addActionListener(e -> {
+            if (initializing) {
+                return;
+            }
+            controller.onApplyFilters(this);
+        });
+        cmbFilterValue2.addActionListener(e -> {
+            if (initializing) {
+                return;
+            }
+            controller.onApplyFilters(this);
+        });
+        cmbChartType.addActionListener(e -> {
+            if (initializing) {
+                return;
+            }
+            controller.onApplyFilters(this);
+        });
+        cmbChartField.addActionListener(e -> {
+            if (initializing) {
+                return;
+            }
+            controller.onApplyFilters(this);
+        });
+        btnReturn.addActionListener(e -> {
+            new FrmSupplier().setVisible(true);
+            dispose();
+        });
+    }
+
+    @Override
+    public String getFilterField1() {
+        return getComboSelection(cmbFilterField1);
+    }
+
+    @Override
+    public String getFilterValue1() {
+        return getComboSelection(cmbFilterValue1);
+    }
+
+    @Override
+    public String getFilterField2() {
+        return getComboSelection(cmbFilterField2);
+    }
+
+    @Override
+    public String getFilterValue2() {
+        return getComboSelection(cmbFilterValue2);
+    }
+
+    @Override
+    public String getChartType() {
+        return getComboSelection(cmbChartType);
+    }
+
+    @Override
+    public String getChartField() {
+        return getComboSelection(cmbChartField);
+    }
+
+    @Override
+    public int getChartWidth() {
+        int width = GraphicSupplier.getWidth();
+        return width > 0 ? width : 720;
+    }
+
+    @Override
+    public int getChartHeight() {
+        int height = GraphicSupplier.getHeight();
+        return height > 0 ? height : 240;
+    }
+
+    @Override
+    public void setFilterFieldOptions(List<String> options) {
+        setComboOptions(cmbFilterField1, options);
+        setComboOptions(cmbFilterField2, options);
+        selectComboItem(cmbFilterField1, "Id");
+        selectComboItem(cmbFilterField2, "Nombre");
+    }
+
+    @Override
+    public void setFilterValueOptions1(List<String> options) {
+        setComboOptions(cmbFilterValue1, options);
+    }
+
+    @Override
+    public void setFilterValueOptions2(List<String> options) {
+        setComboOptions(cmbFilterValue2, options);
+    }
+
+    @Override
+    public void setChartTypeOptions(List<String> options) {
+        setComboOptions(cmbChartType, options);
+        selectComboItem(cmbChartType, "Barras");
+    }
+
+    @Override
+    public void setChartFieldOptions(List<String> options) {
+        setComboOptions(cmbChartField, options);
+        selectComboItem(cmbChartField, "Empresa");
+    }
+
+    @Override
+    public void setTableModel(TableModel model) {
+        tblGraphicSupplier.setModel(model);
+    }
+
+    @Override
+    public void setChartIcon(Icon icon) {
+        GraphicSupplier.setIcon(icon);
+        GraphicSupplier.setText("");
+    }
+
+    @Override
+    public void setChartMessage(String message) {
+        GraphicSupplier.setIcon(null);
+        GraphicSupplier.setText(message);
+    }
+
+    @Override
+    public void showMessage(String message, String title, int messageType) {
+        JOptionPane.showMessageDialog(this, message, title, messageType);
+    }
+
+    private void setComboOptions(javax.swing.JComboBox<String> combo, List<String> options) {
+        String[] data = options == null ? new String[0] : options.toArray(new String[0]);
+        combo.setModel(new DefaultComboBoxModel<>(data));
+        if (combo.getItemCount() > 0) {
+            combo.setSelectedIndex(0);
+        }
+    }
+
+    private String getComboSelection(javax.swing.JComboBox<String> combo) {
+        if (combo == null) {
+            return null;
+        }
+        Object selected = combo.isEditable() ? combo.getEditor().getItem() : combo.getSelectedItem();
+        if (selected == null) {
+            return null;
+        }
+        String value = selected.toString().trim();
+        return value.isEmpty() ? null : value;
+    }
+
+    private void selectComboItem(javax.swing.JComboBox<String> combo, String label) {
+        if (combo == null || label == null) {
+            return;
+        }
+        for (int i = 0; i < combo.getItemCount(); i++) {
+            String item = combo.getItemAt(i);
+            if (label.equalsIgnoreCase(item)) {
+                combo.setSelectedIndex(i);
+                return;
+            }
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -182,3 +439,4 @@ public class FrmGraphicSupplier extends javax.swing.JFrame {
     private javax.swing.JTable tblGraphicSupplier;
     // End of variables declaration//GEN-END:variables
 }
+

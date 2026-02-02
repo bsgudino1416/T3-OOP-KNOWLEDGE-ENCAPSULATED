@@ -1,10 +1,14 @@
 package ec.edu.espe.petshopinventorycontrol.model.mongo;
 
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
 import static com.mongodb.client.model.Filters.regex;
 import static com.mongodb.client.model.Sorts.descending;
+import static com.mongodb.client.model.Sorts.ascending;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class MongoPersonalGateway {
 
@@ -32,5 +36,36 @@ public final class MongoPersonalGateway {
             return;
         }
         collection.insertOne(personalDoc);
+    }
+
+    public List<Document> findAllOrdered() {
+        List<Document> result = new ArrayList<>();
+        for (Document doc : collection.find().sort(ascending("_id"))) {
+            result.add(doc);
+        }
+        if (!result.isEmpty()) {
+            return result;
+        }
+
+        MongoDatabase db = MongoConfig.getDatabase();
+        String[] fallbacks = new String[]{
+            "personal",
+            "Personals",
+            "personals"
+        };
+        for (String name : fallbacks) {
+            if (name.equalsIgnoreCase(MongoConfig.PERSONAL_COLLECTION)) {
+                continue;
+            }
+            List<Document> alt = new ArrayList<>();
+            MongoCollection<Document> col = db.getCollection(name);
+            for (Document doc : col.find().sort(ascending("_id"))) {
+                alt.add(doc);
+            }
+            if (!alt.isEmpty()) {
+                return alt;
+            }
+        }
+        return result;
     }
 }

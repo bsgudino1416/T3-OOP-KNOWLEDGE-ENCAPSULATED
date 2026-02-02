@@ -4,6 +4,7 @@
  */
 package ec.edu.espe.petshopinventorycontrol.view;
 
+import ec.edu.espe.petshopinventorycontrol.utils.ScrollUtils;
 import ec.edu.espe.petshopinventorycontrol.controller.*;
 import ec.edu.espe.petshopinventorycontrol.model.mongo.*;
 import java.util.*;
@@ -23,6 +24,7 @@ public class FrmProduct extends javax.swing.JFrame {
             new MongoProductGateway(),
             new ProductValidator()
     );
+    private final ReportService reportService = ReportService.defaultService();
 
     private boolean lastSaveExitoful = false;
     private final java.awt.Color errorColor = new java.awt.Color(204, 0, 0);
@@ -32,18 +34,30 @@ public class FrmProduct extends javax.swing.JFrame {
      */
     public FrmProduct() {
         initComponents();
+        ScrollUtils.applyScrollBars(this);
         splQuiantity.setModel(new javax.swing.SpinnerNumberModel(0, null, null, 1));
         configureReadOnlyFields();
         resetProductSelections();
         setupDynamicBehaviors();
         generateAndSetNewProductId();
         loadSuppliersIntoCombo();
+        configureGraphicMenu();
     }
 
     private void configureReadOnlyFields() {
         txtIdProduct.setEditable(false);
-        jTextField13.setEditable(false);
+        txtInvesmentCost.setEditable(false);
     }
+
+    private void configureGraphicMenu() {
+        itmGraphicProduct.addActionListener(e -> openGraphicProduct());
+    }
+
+    private void openGraphicProduct() {
+        new FrmGraphicProduct().setVisible(true);
+        dispose();
+    }
+
 
     private void resetProductSelections() {
         cmbTypeProduct.setSelectedIndex(-1);
@@ -226,15 +240,15 @@ public class FrmProduct extends javax.swing.JFrame {
         if (q instanceof Number) {
             qty = ((Number) q).doubleValue();
         } else {
-            jTextField13.setText("");
+            txtInvesmentCost.setText("");
             return;
         }
 
         try {
             double cost = Double.parseDouble(costText.trim());   // permite negativos
-            jTextField13.setText(String.valueOf(cost * qty));
+            txtInvesmentCost.setText(String.valueOf(cost * qty));
         } catch (Exception ex) {
-            jTextField13.setText("");
+            txtInvesmentCost.setText("");
         }
     }
 
@@ -243,7 +257,7 @@ public class FrmProduct extends javax.swing.JFrame {
 //        txtSubtypeProduct.setText("");
         txtBrandProduct.setText("");
         txtCostProduct.setText("");
-        jTextField13.setText("");
+        txtInvesmentCost.setText("");
 
         cmbSupplier.setSelectedIndex(cmbSupplier.getItemCount() > 0 ? 0 : -1);
         resetProductSelections();
@@ -264,7 +278,7 @@ public class FrmProduct extends javax.swing.JFrame {
 //        txtSubtypeProduct.setText("");
         txtBrandProduct.setText("");
         txtCostProduct.setText("");
-        jTextField13.setText("");
+        txtInvesmentCost.setText("");
 
         cmbSupplier.setSelectedIndex(cmbSupplier.getItemCount() > 0 ? 0 : -1);
         resetProductSelections();
@@ -284,7 +298,7 @@ public class FrmProduct extends javax.swing.JFrame {
 //        clearError(txtSubtypeProduct);
         clearError(txtBrandProduct);
         clearError(txtCostProduct);
-        clearError(jTextField13);
+        clearError(txtInvesmentCost);
 
         clearErrorCombo(cmbSupplier);
         clearErrorCombo(cmbTypeProduct);
@@ -381,7 +395,7 @@ public class FrmProduct extends javax.swing.JFrame {
             markErrorSpinner(splQuiantity);
         }
         if (errors.containsKey("jTextField13")) {
-            markError(jTextField13);
+            markError(txtInvesmentCost);
         }
         if (errors.containsKey("jDateChooser1")) {
             markErrorDate(jDateChooser1);
@@ -452,7 +466,7 @@ public class FrmProduct extends javax.swing.JFrame {
         cmbTypeProduct = new javax.swing.JComboBox<>();
         cmbUnit = new javax.swing.JComboBox<>();
         splQuiantity = new javax.swing.JSpinner();
-        jTextField13 = new javax.swing.JTextField();
+        txtInvesmentCost = new javax.swing.JTextField();
         txtBrandProduct = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         txtPounds = new javax.swing.JTextField();
@@ -460,14 +474,15 @@ public class FrmProduct extends javax.swing.JFrame {
         txtTotalPounds = new javax.swing.JTextField();
         cmbTypeAnimal = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
+        btnReturnLobby = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         MnuFile = new javax.swing.JMenu();
         itmNewRegisterProduct = new javax.swing.JMenuItem();
         itmSaveRegisterProduct = new javax.swing.JMenuItem();
         MnuOptions = new javax.swing.JMenu();
         itmDuplicateRegisterProduct = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        itmGraphicProduct = new javax.swing.JMenuItem();
+        itmReportProduct = new javax.swing.JMenuItem();
         MnuHelp = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
 
@@ -543,9 +558,9 @@ public class FrmProduct extends javax.swing.JFrame {
 
         cmbUnit.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Libras", "Unidades" }));
 
-        jTextField13.addActionListener(new java.awt.event.ActionListener() {
+        txtInvesmentCost.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField13ActionPerformed(evt);
+                txtInvesmentCostActionPerformed(evt);
             }
         });
 
@@ -646,7 +661,7 @@ public class FrmProduct extends javax.swing.JFrame {
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtInvesmentCost, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtTotalPounds, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE))))))
         );
@@ -692,7 +707,7 @@ public class FrmProduct extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtInvesmentCost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel15)
@@ -712,15 +727,28 @@ public class FrmProduct extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 119));
 
+        btnReturnLobby.setText("Regresar");
+        btnReturnLobby.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReturnLobbyActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addComponent(btnReturnLobby)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 75, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(btnReturnLobby)
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         MnuFile.setText("Archivo");
@@ -753,17 +781,22 @@ public class FrmProduct extends javax.swing.JFrame {
         });
         MnuOptions.add(itmDuplicateRegisterProduct);
 
-        jMenuItem1.setText("Grafica Producto");
-        MnuOptions.add(jMenuItem1);
+        itmGraphicProduct.setText("Grafica Producto");
+        MnuOptions.add(itmGraphicProduct);
 
-        jMenuItem2.setText("Informe Producto");
-        MnuOptions.add(jMenuItem2);
+        itmReportProduct.setText("Informe Producto");
+        itmReportProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmReportProductActionPerformed(evt);
+            }
+        });
+        MnuOptions.add(itmReportProduct);
 
         jMenuBar1.add(MnuOptions);
 
         MnuHelp.setText("Ayuda");
 
-        jMenuItem3.setText("Informacion");
+        jMenuItem3.setText("Información");
         MnuHelp.add(jMenuItem3);
 
         jMenuBar1.add(MnuHelp);
@@ -809,9 +842,9 @@ public class FrmProduct extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCostProductActionPerformed
 
-    private void jTextField13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField13ActionPerformed
+    private void txtInvesmentCostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtInvesmentCostActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField13ActionPerformed
+    }//GEN-LAST:event_txtInvesmentCostActionPerformed
 
     private void itmNewRegisterProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmNewRegisterProductActionPerformed
 
@@ -845,7 +878,7 @@ public class FrmProduct extends javax.swing.JFrame {
         String unit = (String) cmbUnit.getSelectedItem();
         Object qtyValue = splQuiantity.getValue();
 
-        String investmentText = jTextField13.getText();
+        String investmentText = txtInvesmentCost.getText();
         String poundsText = txtPounds.getText();
         String totalPoundsText = txtTotalPounds.getText();
 
@@ -972,6 +1005,15 @@ public class FrmProduct extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTotalPoundsActionPerformed
 
+    private void btnReturnLobbyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnLobbyActionPerformed
+        new FrmLobby().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnReturnLobbyActionPerformed
+
+    private void itmReportProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmReportProductActionPerformed
+        reportService.exportProductReport(this);
+    }//GEN-LAST:event_itmReportProductActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1011,12 +1053,15 @@ public class FrmProduct extends javax.swing.JFrame {
     private javax.swing.JMenu MnuFile;
     private javax.swing.JMenu MnuHelp;
     private javax.swing.JMenu MnuOptions;
+    private javax.swing.JButton btnReturnLobby;
     private javax.swing.JComboBox<String> cmbSupplier;
     private javax.swing.JComboBox<String> cmbTypeAnimal;
     private javax.swing.JComboBox<String> cmbTypeProduct;
     private javax.swing.JComboBox<String> cmbUnit;
     private javax.swing.JMenuItem itmDuplicateRegisterProduct;
+    private javax.swing.JMenuItem itmGraphicProduct;
     private javax.swing.JMenuItem itmNewRegisterProduct;
+    private javax.swing.JMenuItem itmReportProduct;
     private javax.swing.JMenuItem itmSaveRegisterProduct;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;
@@ -1036,19 +1081,18 @@ public class FrmProduct extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JTextField jTextField13;
     private javax.swing.JSpinner splQuiantity;
     private javax.swing.JTextField txtBrandProduct;
     private javax.swing.JTextField txtCostProduct;
     private javax.swing.JTextField txtIdProduct;
+    private javax.swing.JTextField txtInvesmentCost;
     private javax.swing.JTextField txtNameProduct;
     private javax.swing.JTextField txtPounds;
     private javax.swing.JTextField txtTotalPounds;
     // End of variables declaration//GEN-END:variables
 }
+

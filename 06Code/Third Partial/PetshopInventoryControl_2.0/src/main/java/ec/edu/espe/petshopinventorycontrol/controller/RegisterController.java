@@ -4,7 +4,13 @@ import ec.edu.espe.petshopinventorycontrol.model.services.RegistrationRequest;
 
 public final class RegisterController {
 
-    public void onRegister(RegisterView view) {
+    private final RegisterView view;
+
+    public RegisterController(RegisterView view) {
+        this.view = view;
+    }
+
+    public void onRegister() {
         try {
             RegistrationRequest request = new RegistrationRequest(
                     view.getFirstName(),
@@ -18,37 +24,17 @@ public final class RegisterController {
             );
 
             AuthDependencies.getAuthService().register(request);
-
-            view.showMessage(
-                    "Cuenta creada correctamente.",
-                    "Exito",
-                    javax.swing.JOptionPane.INFORMATION_MESSAGE
-            );
-
+            view.showInfo("Cuenta creada correctamente.");
             view.openLogin();
             view.close();
         } catch (IllegalArgumentException ex) {
-            view.showMessage(
-                    ex.getMessage(),
-                    "Error de validacion",
-                    javax.swing.JOptionPane.WARNING_MESSAGE
-            );
-        } catch (IllegalStateException ex) {
-            view.showMessage(
-                    ex.getMessage(),
-                    "Error de registro",
-                    javax.swing.JOptionPane.ERROR_MESSAGE
-            );
+            view.showWarning(ex.getMessage());
         } catch (Exception ex) {
-            view.showMessage(
-                    "Error inesperado: " + ex.getMessage(),
-                    "Error",
-                    javax.swing.JOptionPane.ERROR_MESSAGE
-            );
+            view.showError("Error inesperado: " + ex.getMessage());
         }
     }
 
-    public void onExit(RegisterView view) {
+    public void onExit() {
         view.openLogin();
         view.close();
     }

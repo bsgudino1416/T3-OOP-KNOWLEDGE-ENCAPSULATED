@@ -4,6 +4,8 @@
  */
 package ec.edu.espe.petshopinventorycontrol.view;
 
+import ec.edu.espe.petshopinventorycontrol.utils.ScrollUtils;
+
 /**
  *
  * @author Steven Loza @ESPE
@@ -15,6 +17,7 @@ public class Formato extends javax.swing.JFrame {
      */
     public Formato() {
         initComponents();
+        ScrollUtils.applyScrollBars(this);
     }
 
     /**
@@ -141,3 +144,4 @@ public class Formato extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     // End of variables declaration//GEN-END:variables
 }
+

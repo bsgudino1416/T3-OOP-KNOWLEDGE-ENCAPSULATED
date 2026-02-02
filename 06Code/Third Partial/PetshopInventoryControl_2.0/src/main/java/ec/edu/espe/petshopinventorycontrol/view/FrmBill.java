@@ -4,84 +4,54 @@
  */
 package ec.edu.espe.petshopinventorycontrol.view;
 
-import ec.edu.espe.petshopinventorycontrol.controller.BillIdGenerator;
-import ec.edu.espe.petshopinventorycontrol.controller.BillService;
-import ec.edu.espe.petshopinventorycontrol.model.mongo.MongoProductGateway;
-import ec.edu.espe.petshopinventorycontrol.model.mongo.MongoStockGateway;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.text.DecimalFormat;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
+import ec.edu.espe.petshopinventorycontrol.utils.ScrollUtils;
+import ec.edu.espe.petshopinventorycontrol.controller.BillController;
 
 /**
  *
  * @author Steven Loza @ESPE
  */
 public class FrmBill extends javax.swing.JFrame {
-
-    private static final double IVA_RATE = 0.15;
-
-    private final BillService billService = new BillService(
-            new MongoStockGateway(),
-            new MongoProductGateway()
-    );
-    private final BillIdGenerator billIdGenerator = new BillIdGenerator();
-    private final DecimalFormat moneyFormat = new DecimalFormat("0.00");
-    private DefaultTableModel billTableModel;
+    private final BillController controller;
 
     /**
      * Creates new form FrmFactura
      */
     public FrmBill() {
         initComponents();
-        configureReadOnlyFields();
-        configureBillTable();
-        setupCodeLookup();
+        ScrollUtils.applyScrollBars(this);
+        controller = new BillController(this, new BillController.Bindings(
+                txtidBill,
+                txtName,
+                txtCI,
+                txtPhone,
+                txtEmail,
+                txtAdress,
+                DateBill,
+                txtPersonal,
+                txtCodeProduct,
+                txtQuantityBill,
+                txtNameproductBill,
+                txtPriceUnit,
+                txtSubtotal,
+                txtIVA,
+                txttotalBill,
+                tableBill
+        ));
+        configureMenu();
+        configureReportMenu();
+        configureReturnButton();
         setupAddButton();
         setupSaveButton();
-        configureMenu();
-        generateBillId();
-    }
-
-    private void configureReadOnlyFields() {
-        txtidBill.setEditable(false);
-        txtPriceUnit.setEditable(false);
-        txtSubtotal.setEditable(false);
-        txtIVA.setEditable(false);
-        txttotalBill.setEditable(false);
-    }
-
-    private void configureBillTable() {
-        billTableModel = new DefaultTableModel(
-                new Object[]{"No", "Producto", "Cantidad", "Precio Unitario", "Total"},
-                0
-        ) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-        tableBill.setModel(billTableModel);
-        updateTotals();
-    }
-
-    private void setupCodeLookup() {
-        txtCodeProduct.addActionListener(e -> lookupProductByCode());
-        txtCodeProduct.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusLost(FocusEvent e) {
-                lookupProductByCode();
-            }
-        });
+        controller.onInit();
     }
 
     private void setupAddButton() {
-        btnAddTable.addActionListener(e -> addItemToTable());
+        btnAddTable.addActionListener(e -> controller.onAddItem());
     }
 
     private void setupSaveButton() {
-        btnBill.addActionListener(e -> saveBill());
+        btnBill.addActionListener(e -> controller.onSave());
     }
 
     private void configureMenu() {
@@ -89,188 +59,17 @@ public class FrmBill extends javax.swing.JFrame {
         itmSaveRegisterSupplier.setText("Guardar Registro");
         itmDeleteRegisterSupplier.setVisible(false);
         itmDuplicateRegisterSupplier.setText("Duplicar Registro");
-        jMenuItem1.setText("Grafica Factura");
-        jMenuItem2.setText("Informe Factura");
+        itmGraphicBill.setText("Grafica Factura");
+        itmReportBill.setText("Informe Factura");
         jMenuItem3.setText("Informacion");
     }
 
-    private boolean lookupProductByCode() {
-        String code = txtCodeProduct.getText();
-        if (isBlank(code)) {
-            clearProductSelection();
-            return false;
-        }
-
-        BillService.ItemInfo item = billService.findItemByCode(code);
-        if (item == null) {
-            clearProductSelection();
-            JOptionPane.showMessageDialog(
-                    this,
-                    "El codigo no existe en stock.",
-                    "Producto no disponible",
-                    JOptionPane.WARNING_MESSAGE
-            );
-            return false;
-        }
-
-        txtNameproductBill.setText(item.name());
-        txtPriceUnit.setText(formatMoney(item.unitPrice()));
-        return true;
+    private void configureReportMenu() {
+        itmReportBill.addActionListener(e -> controller.onReport());
     }
 
-    private void clearProductSelection() {
-        txtNameproductBill.setText("");
-        txtPriceUnit.setText("");
-    }
-
-    private void addItemToTable() {
-        if (isBlank(txtCodeProduct.getText())) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Ingrese el codigo del producto.",
-                    "Validacion",
-                    JOptionPane.WARNING_MESSAGE
-            );
-            return;
-        }
-        if (!lookupProductByCode()) {
-            return;
-        }
-
-        String name = txtNameproductBill.getText();
-        Double unitPrice = parseDouble(txtPriceUnit.getText());
-        Double quantity = parseDouble(txtQuantityBill.getText());
-
-        if (isBlank(name) || unitPrice == null) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Seleccione un producto valido.",
-                    "Validacion",
-                    JOptionPane.WARNING_MESSAGE
-            );
-            return;
-        }
-        if (quantity == null || quantity <= 0) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Cantidad invalida.",
-                    "Validacion",
-                    JOptionPane.WARNING_MESSAGE
-            );
-            return;
-        }
-
-        double lineTotal = unitPrice * quantity;
-        int index = billTableModel.getRowCount() + 1;
-        billTableModel.addRow(new Object[]{
-            index,
-            name,
-            formatMoney(quantity),
-            formatMoney(unitPrice),
-            formatMoney(lineTotal)
-        });
-
-        updateTotals();
-        txtCodeProduct.setText("");
-        txtQuantityBill.setText("");
-        clearProductSelection();
-    }
-
-    private void updateTotals() {
-        double subtotal = 0;
-        for (int i = 0; i < billTableModel.getRowCount(); i++) {
-            Object value = billTableModel.getValueAt(i, 4);
-            Double total = parseDouble(value == null ? null : value.toString());
-            if (total != null) {
-                subtotal += total;
-            }
-        }
-
-        double iva = subtotal * IVA_RATE;
-        double total = subtotal + iva;
-
-        txtSubtotal.setText(formatMoney(subtotal));
-        txtIVA.setText(formatMoney(iva));
-        txttotalBill.setText(formatMoney(total));
-    }
-
-    private void clearBillForm(boolean keepId) {
-        if (!keepId) {
-            generateBillId();
-        }
-        txtName.setText("");
-        txtCI.setText("");
-        txtPhone.setText("");
-        txtEmail.setText("");
-        txtAdress.setText("");
-        DateBill.setDate(null);
-        txtPersonal.setText("");
-        txtCodeProduct.setText("");
-        txtQuantityBill.setText("");
-        clearProductSelection();
-        if (billTableModel != null) {
-            billTableModel.setRowCount(0);
-        }
-        updateTotals();
-    }
-
-    private void generateBillId() {
-        txtidBill.setText(billIdGenerator.nextId());
-    }
-
-    private void saveBill() {
-        if (billTableModel.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Agrega al menos un producto.",
-                    "Validacion",
-                    JOptionPane.WARNING_MESSAGE
-            );
-            return;
-        }
-        if (isBlank(txtidBill.getText())
-                || isBlank(txtName.getText())
-                || isBlank(txtCI.getText())
-                || isBlank(txtPhone.getText())
-                || isBlank(txtEmail.getText())
-                || isBlank(txtAdress.getText())
-                || DateBill.getDate() == null
-                || isBlank(txtPersonal.getText())) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Completa los datos de la factura.",
-                    "Validacion",
-                    JOptionPane.WARNING_MESSAGE
-            );
-            return;
-        }
-
-        JOptionPane.showMessageDialog(
-                this,
-                "Factura guardada correctamente.",
-                "Exito",
-                JOptionPane.INFORMATION_MESSAGE
-        );
-        clearBillForm(false);
-    }
-
-    private Double parseDouble(String value) {
-        if (isBlank(value)) {
-            return null;
-        }
-        try {
-            return Double.parseDouble(value.trim().replace(",", "."));
-        } catch (Exception ex) {
-            return null;
-        }
-    }
-
-    private String formatMoney(double value) {
-        return moneyFormat.format(value);
-    }
-
-    private boolean isBlank(String value) {
-        return value == null || value.trim().isEmpty();
+    private void configureReturnButton() {
+        btnReturnLobby.addActionListener(e -> controller.onReturnLobby());
     }
 
     /**
@@ -286,7 +85,7 @@ public class FrmBill extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
+        btnReturnLobby = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -329,8 +128,8 @@ public class FrmBill extends javax.swing.JFrame {
         itmSaveRegisterSupplier = new javax.swing.JMenuItem();
         MnuOptions = new javax.swing.JMenu();
         itmDuplicateRegisterSupplier = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        itmGraphicBill = new javax.swing.JMenuItem();
+        itmReportBill = new javax.swing.JMenuItem();
         MnuHelp = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
 
@@ -368,32 +167,32 @@ public class FrmBill extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addContainerGap()
                 .addComponent(jLabel15)
-                .addGap(612, 612, 612)
+                .addGap(600, 600, 600)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 119));
 
-        jButton3.setText("Regresar");
+        btnReturnLobby.setText("Regresar");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton3)
+                .addGap(29, 29, 29)
+                .addComponent(btnReturnLobby)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jButton3)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addGap(8, 8, 8)
+                .addComponent(btnReturnLobby)
+                .addContainerGap(8, Short.MAX_VALUE))
         );
 
         jLabel1.setText("Id Factura:");
@@ -588,7 +387,7 @@ public class FrmBill extends javax.swing.JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
+                .addGap(7, 7, 7)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -643,7 +442,7 @@ public class FrmBill extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(120, 120, 120)
                         .addComponent(btnAddTable)))
-                .addGap(19, 19, 19)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -699,11 +498,11 @@ public class FrmBill extends javax.swing.JFrame {
         });
         MnuOptions.add(itmDuplicateRegisterSupplier);
 
-        jMenuItem1.setText("Grafica Proveedores");
-        MnuOptions.add(jMenuItem1);
+        itmGraphicBill.setText("Grafica Factura");
+        MnuOptions.add(itmGraphicBill);
 
-        jMenuItem2.setText("Informe Proveedores");
-        MnuOptions.add(jMenuItem2);
+        itmReportBill.setText("Informe Factura");
+        MnuOptions.add(itmReportBill);
 
         jMenuBar1.add(MnuOptions);
 
@@ -735,7 +534,7 @@ public class FrmBill extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -783,15 +582,15 @@ public class FrmBill extends javax.swing.JFrame {
     }//GEN-LAST:event_txttotalBillActionPerformed
 
     private void itmNewRegisterSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmNewRegisterSupplierActionPerformed
-        clearBillForm(false);
+        controller.onNewBill();
     }//GEN-LAST:event_itmNewRegisterSupplierActionPerformed
 
     private void itmDeleteRegisterSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmDeleteRegisterSupplierActionPerformed
-        clearBillForm(false);
+        controller.onNewBill();
     }//GEN-LAST:event_itmDeleteRegisterSupplierActionPerformed
 
     private void itmSaveRegisterSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSaveRegisterSupplierActionPerformed
-        saveBill();
+        controller.onSave();
     }//GEN-LAST:event_itmSaveRegisterSupplierActionPerformed
 
     private void itmDuplicateRegisterSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmDuplicateRegisterSupplierActionPerformed
@@ -853,11 +652,13 @@ public class FrmBill extends javax.swing.JFrame {
     private javax.swing.JMenu MnuOptions;
     private javax.swing.JButton btnAddTable;
     private javax.swing.JButton btnBill;
+    private javax.swing.JButton btnReturnLobby;
     private javax.swing.JMenuItem itmDeleteRegisterSupplier;
     private javax.swing.JMenuItem itmDuplicateRegisterSupplier;
+    private javax.swing.JMenuItem itmGraphicBill;
     private javax.swing.JMenuItem itmNewRegisterSupplier;
+    private javax.swing.JMenuItem itmReportBill;
     private javax.swing.JMenuItem itmSaveRegisterSupplier;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -875,8 +676,6 @@ public class FrmBill extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

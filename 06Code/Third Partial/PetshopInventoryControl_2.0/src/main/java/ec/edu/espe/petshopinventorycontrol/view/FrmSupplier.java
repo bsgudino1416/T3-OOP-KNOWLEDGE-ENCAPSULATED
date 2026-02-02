@@ -1,7 +1,9 @@
 package ec.edu.espe.petshopinventorycontrol.view;
 
+import ec.edu.espe.petshopinventorycontrol.utils.ScrollUtils;
 import ec.edu.espe.petshopinventorycontrol.controller.SupplierService;
 import ec.edu.espe.petshopinventorycontrol.controller.SupplierValidator;
+import ec.edu.espe.petshopinventorycontrol.controller.ReportService;
 import ec.edu.espe.petshopinventorycontrol.model.mongo.MongoSupplierGateway;
 import java.awt.Color;
 import java.util.Date;
@@ -18,6 +20,7 @@ public class FrmSupplier extends javax.swing.JFrame {
             new MongoSupplierGateway(),
             new SupplierValidator()
     );
+    private final ReportService reportService = ReportService.defaultService();
 
     private final Color errorColor = new Color(204, 0, 0);
     private final Color normalColor = Color.BLACK;
@@ -27,10 +30,10 @@ public class FrmSupplier extends javax.swing.JFrame {
      */
     public FrmSupplier() {
         initComponents();
+        ScrollUtils.applyScrollBars(this);
         generateAndSetNewSupplierId();
 
     }
-
    private void generateAndSetNewSupplierId() {
     try {
         String nextId = supplierService.generateNextSupplierId(new Date());
@@ -195,15 +198,15 @@ private void duplicateCurrentRegister() {
         jLabel10 = new javax.swing.JLabel();
         jDateEntry = new com.toedter.calendar.JDateChooser();
         jPanel2 = new javax.swing.JPanel();
-        btnbacksupplier = new javax.swing.JButton();
+        btnReturnLobby = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         MnuFile = new javax.swing.JMenu();
         itmNewRegisterSupplier = new javax.swing.JMenuItem();
         itmSaveRegisterSupplier = new javax.swing.JMenuItem();
         itmDuplicateRegisterSupplier = new javax.swing.JMenuItem();
         MnuOptions = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        itmGraphicSupplier = new javax.swing.JMenuItem();
+        itmReportSupplier = new javax.swing.JMenuItem();
         MnuHelp = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
 
@@ -294,10 +297,10 @@ private void duplicateCurrentRegister() {
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 119));
 
-        btnbacksupplier.setText("Regresar");
-        btnbacksupplier.addActionListener(new java.awt.event.ActionListener() {
+        btnReturnLobby.setText("Regresar");
+        btnReturnLobby.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnbacksupplierActionPerformed(evt);
+                btnReturnLobbyActionPerformed(evt);
             }
         });
 
@@ -307,14 +310,14 @@ private void duplicateCurrentRegister() {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addComponent(btnbacksupplier)
+                .addComponent(btnReturnLobby)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(btnbacksupplier)
+                .addComponent(btnReturnLobby)
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -445,27 +448,27 @@ private void duplicateCurrentRegister() {
 
         MnuOptions.setText("Opciones");
 
-        jMenuItem1.setText("Grafica Proveedores");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        itmGraphicSupplier.setText("Grafica Proveedores");
+        itmGraphicSupplier.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                itmGraphicSupplierActionPerformed(evt);
             }
         });
-        MnuOptions.add(jMenuItem1);
+        MnuOptions.add(itmGraphicSupplier);
 
-        jMenuItem2.setText("Informe Proveedores");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        itmReportSupplier.setText("Informe Proveedores");
+        itmReportSupplier.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                itmReportSupplierActionPerformed(evt);
             }
         });
-        MnuOptions.add(jMenuItem2);
+        MnuOptions.add(itmReportSupplier);
 
         jMenuBar1.add(MnuOptions);
 
         MnuHelp.setText("Ayuda");
 
-        jMenuItem3.setText("Informacion");
+        jMenuItem3.setText("Información");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem3ActionPerformed(evt);
@@ -517,10 +520,10 @@ private void duplicateCurrentRegister() {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtemailSupplierActionPerformed
 
-    private void btnbacksupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbacksupplierActionPerformed
-        // new FrmEmployeeMenu().setVisible(true);
-        // this.dispose();
-    }//GEN-LAST:event_btnbacksupplierActionPerformed
+    private void btnReturnLobbyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnLobbyActionPerformed
+        new FrmLobby().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnReturnLobbyActionPerformed
 
     private void itmNewRegisterSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmNewRegisterSupplierActionPerformed
         clearSupplierFields();
@@ -583,20 +586,14 @@ private void duplicateCurrentRegister() {
         duplicateCurrentRegister();
     }//GEN-LAST:event_itmDuplicateRegisterSupplierActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void itmGraphicSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmGraphicSupplierActionPerformed
+        new FrmGraphicSupplier().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_itmGraphicSupplierActionPerformed
 
-        JOptionPane.showMessageDialog(this,
-                "Pendiente: abrir ventana de Gráfica de Proveedores.",
-                "Navegación", JOptionPane.INFORMATION_MESSAGE);
-
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-
-        JOptionPane.showMessageDialog(this,
-                "Pendiente: abrir ventana de Informe de Proveedores.",
-                "Navegación", JOptionPane.INFORMATION_MESSAGE);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    private void itmReportSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmReportSupplierActionPerformed
+        reportService.exportSupplierReport(this);
+    }//GEN-LAST:event_itmReportSupplierActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
 
@@ -657,9 +654,11 @@ private void duplicateCurrentRegister() {
     private javax.swing.JMenu MnuFile;
     private javax.swing.JMenu MnuHelp;
     private javax.swing.JMenu MnuOptions;
-    private javax.swing.JButton btnbacksupplier;
+    private javax.swing.JButton btnReturnLobby;
     private javax.swing.JMenuItem itmDuplicateRegisterSupplier;
+    private javax.swing.JMenuItem itmGraphicSupplier;
     private javax.swing.JMenuItem itmNewRegisterSupplier;
+    private javax.swing.JMenuItem itmReportSupplier;
     private javax.swing.JMenuItem itmSaveRegisterSupplier;
     private com.toedter.calendar.JDateChooser jDateEntry;
     private javax.swing.JLabel jLabel1;
@@ -674,8 +673,6 @@ private void duplicateCurrentRegister() {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -691,3 +688,7 @@ private void duplicateCurrentRegister() {
     private javax.swing.JTextField txtemailSupplier;
     // End of variables declaration//GEN-END:variables
 }
+
+
+
+

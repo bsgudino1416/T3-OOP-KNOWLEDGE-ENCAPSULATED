@@ -4,18 +4,45 @@
  */
 package ec.edu.espe.petshopinventorycontrol.view;
 
+import ec.edu.espe.petshopinventorycontrol.utils.ScrollUtils;
+import ec.edu.espe.petshopinventorycontrol.controller.ExpiredProductsController;
+import ec.edu.espe.petshopinventorycontrol.controller.ExpiredProductsService;
+import ec.edu.espe.petshopinventorycontrol.controller.ExpiredProductsView;
+import ec.edu.espe.petshopinventorycontrol.model.ExpiredProductRecord;
+import ec.edu.espe.petshopinventorycontrol.model.mongo.MongoProductGateway;
+import ec.edu.espe.petshopinventorycontrol.model.mongo.MongoStockGateway;
+import java.awt.Color;
+import java.awt.Component;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableModel;
+
 /**
  *
  * @author Steven Loza @ESPE
  */
-public class FrmProductsExpired extends javax.swing.JFrame {
+public class FrmProductsExpired extends javax.swing.JFrame implements ExpiredProductsView {
+
+    private final ExpiredProductsController controller;
+    private final List<ExpiredProductRecord> rowRecords = new ArrayList<>();
 
     /**
      * Creates new form FrmProductsExpired
      */
     public FrmProductsExpired() {
         initComponents();
+        ScrollUtils.applyScrollBars(this);
+        controller = new ExpiredProductsController(
+                new ExpiredProductsService(new MongoProductGateway(), new MongoStockGateway()),
+                ec.edu.espe.petshopinventorycontrol.controller.ReportService.defaultService()
+        );
+        tblProductExpired.setDefaultRenderer(Object.class, new ExpiredRowRenderer());
+        controller.onInit(this);
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -29,9 +56,15 @@ public class FrmProductsExpired extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        btnReturnLobby = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblProductExpired = new javax.swing.JTable();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        MnuOptions = new javax.swing.JMenu();
+        ItmReportExpired = new javax.swing.JMenuItem();
+        MnuHelp = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,15 +91,28 @@ public class FrmProductsExpired extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 119));
 
+        btnReturnLobby.setText("Regresar");
+        btnReturnLobby.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReturnLobbyActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(btnReturnLobby)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 75, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(btnReturnLobby)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         tblProductExpired.setModel(new javax.swing.table.DefaultTableModel(
@@ -99,6 +145,27 @@ public class FrmProductsExpired extends javax.swing.JFrame {
                 .addContainerGap(192, Short.MAX_VALUE))
         );
 
+        MnuOptions.setText("Opciones");
+
+        ItmReportExpired.setText("Informe Expirados");
+        ItmReportExpired.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ItmReportExpiredActionPerformed(evt);
+            }
+        });
+        MnuOptions.add(ItmReportExpired);
+
+        jMenuBar1.add(MnuOptions);
+
+        MnuHelp.setText("Ayuda");
+
+        jMenuItem3.setText("Información");
+        MnuHelp.add(jMenuItem3);
+
+        jMenuBar1.add(MnuHelp);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -126,6 +193,14 @@ public class FrmProductsExpired extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnReturnLobbyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnLobbyActionPerformed
+        controller.onReturnLobby(this);
+    }//GEN-LAST:event_btnReturnLobbyActionPerformed
+
+    private void ItmReportExpiredActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ItmReportExpiredActionPerformed
+        controller.onReport(this);
+    }//GEN-LAST:event_ItmReportExpiredActionPerformed
 
     /**
      * @param args the command line arguments
@@ -163,11 +238,70 @@ public class FrmProductsExpired extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem ItmReportExpired;
+    private javax.swing.JMenu MnuHelp;
+    private javax.swing.JMenu MnuOptions;
+    private javax.swing.JButton btnReturnLobby;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblProductExpired;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void setTableModel(TableModel model, List<ExpiredProductRecord> records) {
+        rowRecords.clear();
+        if (records != null) {
+            rowRecords.addAll(records);
+        }
+        tblProductExpired.setModel(model);
+    }
+
+    @Override
+    public void showMessage(String message, String title, int messageType) {
+        JOptionPane.showMessageDialog(this, message, title, messageType);
+    }
+
+    private final class ExpiredRowRenderer extends DefaultTableCellRenderer {
+
+        private final Color expiredColor = new Color(255, 153, 153);
+        private final Color warningColor = new Color(255, 255, 153);
+        private final Color okColor = new Color(204, 255, 204);
+
+        @Override
+        public Component getTableCellRendererComponent(
+                JTable table,
+                Object value,
+                boolean isSelected,
+                boolean hasFocus,
+                int row,
+                int column
+        ) {
+            Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            if (isSelected) {
+                return c;
+            }
+
+            int modelRow = table.convertRowIndexToModel(row);
+            if (modelRow >= 0 && modelRow < rowRecords.size()) {
+                long daysRemaining = rowRecords.get(modelRow).getDaysRemaining();
+                if (daysRemaining < 0) {
+                    c.setBackground(expiredColor);
+                } else if (daysRemaining <= 15) {
+                    c.setBackground(warningColor);
+                } else {
+                    c.setBackground(okColor);
+                }
+                c.setForeground(Color.BLACK);
+            } else {
+                c.setBackground(table.getBackground());
+                c.setForeground(table.getForeground());
+            }
+            return c;
+        }
+    }
 }

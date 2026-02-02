@@ -5,6 +5,7 @@ import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 import static com.mongodb.client.model.Filters.regex;
 import static com.mongodb.client.model.Sorts.descending;
+import static com.mongodb.client.model.Sorts.ascending;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 //import com.mongodb.client.distinct.DistinctIterable;
@@ -54,6 +55,40 @@ public final class MongoProductGateway {
 
     public void insert(Document productDoc) {
         products.insertOne(productDoc);
+    }
+
+    public List<Document> findAllOrdered() {
+        List<Document> result = new ArrayList<>();
+        for (Document doc : products.find().sort(ascending("_id"))) {
+            result.add(doc);
+        }
+        if (!result.isEmpty()) {
+            return result;
+        }
+
+        MongoDatabase db = MongoConfig.getDatabase();
+        String[] fallbacks = new String[]{
+            "inventory",
+            "Inventory",
+            "Product",
+            "product"
+        };
+
+        for (String name : fallbacks) {
+            if (name.equalsIgnoreCase(MongoConfig.PRODUCT_COLLECTION)) {
+                continue;
+            }
+            List<Document> alt = new ArrayList<>();
+            MongoCollection<Document> col = db.getCollection(name);
+            for (Document doc : col.find().sort(ascending("_id"))) {
+                alt.add(doc);
+            }
+            if (!alt.isEmpty()) {
+                return alt;
+            }
+        }
+
+        return result;
     }
 
     public List<String> findDistinctAnimalTypesUsed() {
