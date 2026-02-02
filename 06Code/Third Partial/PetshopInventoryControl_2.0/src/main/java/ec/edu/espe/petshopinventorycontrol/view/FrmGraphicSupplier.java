@@ -74,6 +74,7 @@ public class FrmGraphicSupplier extends javax.swing.JFrame implements GraphicSup
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 119));
 
+        jLabel1.setFont(new java.awt.Font("Bodoni MT", 0, 14)); // NOI18N
         jLabel1.setText("GRAFICA DE PROVEEDORES ");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -81,16 +82,16 @@ public class FrmGraphicSupplier extends javax.swing.JFrame implements GraphicSup
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(296, 296, 296)
+                .addGap(302, 302, 302)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(45, 45, 45)
+                .addGap(41, 41, 41)
                 .addComponent(jLabel1)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         GraphicSupplier.setText("GRAFICA");
@@ -115,21 +116,21 @@ public class FrmGraphicSupplier extends javax.swing.JFrame implements GraphicSup
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(339, 339, 339)
+                        .addComponent(GraphicSupplier))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(342, 342, 342)
-                        .addComponent(GraphicSupplier)))
-                .addContainerGap(33, Short.MAX_VALUE))
+                        .addGap(35, 35, 35)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addGap(15, 15, 15)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(89, 89, 89)
+                .addGap(97, 97, 97)
                 .addComponent(GraphicSupplier)
-                .addContainerGap(173, Short.MAX_VALUE))
+                .addContainerGap(148, Short.MAX_VALUE))
         );
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 119));

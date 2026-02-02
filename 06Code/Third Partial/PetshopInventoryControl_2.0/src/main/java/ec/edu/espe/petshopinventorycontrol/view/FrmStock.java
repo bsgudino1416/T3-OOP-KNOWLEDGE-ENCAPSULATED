@@ -14,12 +14,15 @@ import java.util.Map;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 /**
  *
  * @author Steven Loza @ESPE
  */
 public class FrmStock extends javax.swing.JFrame {
+
     private final StockService stockService = new StockService(
             new MongoStockGateway(),
             new MongoProductGateway(),
@@ -45,25 +48,24 @@ public class FrmStock extends javax.swing.JFrame {
         configureGraphicMenu();
     }
 
-  private void setupUnitCostListener() {
-    txtUnitEntry.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
-        @Override
-        public void insertUpdate(javax.swing.event.DocumentEvent e) {
-            updatePricing();
-        }
+    private void setupUnitCostListener() {
+        txtUnitEntry.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            @Override
+            public void insertUpdate(javax.swing.event.DocumentEvent e) {
+                updatePricing();
+            }
 
-        @Override
-        public void removeUpdate(javax.swing.event.DocumentEvent e) {
-            updatePricing();
-        }
+            @Override
+            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+                updatePricing();
+            }
 
-        @Override
-        public void changedUpdate(javax.swing.event.DocumentEvent e) {
-            updatePricing();
-        }
-    });
-}
-
+            @Override
+            public void changedUpdate(javax.swing.event.DocumentEvent e) {
+                updatePricing();
+            }
+        });
+    }
 
     private void configureReadOnlyFields() {
         IdStock.setEditable(false);
@@ -79,7 +81,6 @@ public class FrmStock extends javax.swing.JFrame {
         new FrmGraphicStock().setVisible(true);
         dispose();
     }
-
 
     private void generateAndSetNewStockId() {
         updateStockIdFromSelection();
@@ -303,20 +304,26 @@ public class FrmStock extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel2.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         jLabel2.setText("ID Stock:");
 
+        jLabel3.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         jLabel3.setText("Nombre del producto:");
 
+        jLabel4.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         jLabel4.setText("Marca:");
 
+        jLabel5.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         jLabel5.setText("Costo del Producto:");
 
+        jLabel6.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         jLabel6.setText("Costo Unidad: ");
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 51, 0));
         jLabel9.setText("Ganancia");
 
+        jLabel8.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         jLabel8.setText("Porcentaje de Ganacia:");
 
         cmbNameofProduct.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -331,6 +338,7 @@ public class FrmStock extends javax.swing.JFrame {
             }
         });
 
+        jLabel10.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         jLabel10.setText("Categoria Producto:");
 
         cmbCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -341,8 +349,10 @@ public class FrmStock extends javax.swing.JFrame {
             }
         });
 
+        jLabel16.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         jLabel16.setText("Unidades procesadas:");
 
+        jLabel14.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         jLabel14.setText("Precio unitario:");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -445,6 +455,7 @@ public class FrmStock extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 119));
 
+        jLabel1.setFont(new java.awt.Font("Bodoni MT", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Stock");
 
@@ -453,16 +464,16 @@ public class FrmStock extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(319, 319, 319)
+                .addGap(297, 297, 297)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
+                .addGap(28, 28, 28)
                 .addComponent(jLabel1)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 119));
@@ -529,6 +540,11 @@ public class FrmStock extends javax.swing.JFrame {
         MnuHelp.setText("Ayuda");
 
         jMenuItem3.setText("Información");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         MnuHelp.add(jMenuItem3);
 
         jMenuBar3.add(MnuHelp);
@@ -621,8 +637,6 @@ public class FrmStock extends javax.swing.JFrame {
         }
 
     }
-    
-    
 
     private void clearStockFieldsButKeepId() {
         cmbCategory.setSelectedIndex(cmbCategory.getItemCount() > 0 ? 0 : -1);
@@ -702,6 +716,24 @@ public class FrmStock extends javax.swing.JFrame {
         reportService.exportStockReport(this);
     }//GEN-LAST:event_itmReportStockActionPerformed
 
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        String info = ""
+                + "El módulo de stock permite gestionar y controlar la disponibilidad de los productos almacenados en el sistema. "
+                + "Desde esta sección se pueden consultar los niveles de existencias, identificar variaciones en el inventario y dar seguimiento al movimiento de productos. "
+                + "Su uso contribuye a mantener un control adecuado y actualizado del inventario.";
+
+        JTextArea textArea = new JTextArea(info);
+        textArea.setWrapStyleWord(true);
+        textArea.setLineWrap(true);
+        textArea.setEditable(false);
+        textArea.setCaretPosition(0);
+
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new java.awt.Dimension(520, 180));
+
+        JOptionPane.showMessageDialog(this, scrollPane, "Informacion", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -774,5 +806,3 @@ public class FrmStock extends javax.swing.JFrame {
     private javax.swing.JTextField txtUnitEntry;
     // End of variables declaration//GEN-END:variables
 }
-
-

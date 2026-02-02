@@ -78,6 +78,9 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="Tittle">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Bodoni MT" size="18" style="1"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="LOBBY"/>
           </Properties>
         </Component>
@@ -155,21 +158,33 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="TittleInventory">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Bodoni MT" size="14" style="1"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Total Inventario:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="TittleBill">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Bodoni MT" size="14" style="1"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Total Factura"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="TotalCostInvestment">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Bodoni MT" size="14" style="1"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="$0.00"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="TotalBill">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Bodoni MT" size="14" style="1"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="$0.00"/>
           </Properties>
         </Component>

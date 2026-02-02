@@ -66,6 +66,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Informaci&#xf3;n"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem3ActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -259,7 +262,7 @@
                           <Component id="cmbDay" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="159" max="32767" attributes="0"/>
+                  <EmptySpace pref="143" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -308,6 +311,9 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Bodoni MT" size="14" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Id Personal:"/>
           </Properties>
         </Component>
@@ -315,6 +321,9 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Bodoni MT" size="14" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Cedula:"/>
           </Properties>
         </Component>
@@ -322,6 +331,9 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Bodoni MT" size="14" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Nombre Completo:"/>
           </Properties>
         </Component>
@@ -329,6 +341,9 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel5">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Bodoni MT" size="14" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Cargo:"/>
           </Properties>
         </Component>
@@ -348,6 +363,9 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel6">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Bodoni MT" size="14" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Turno:"/>
           </Properties>
         </Component>
@@ -367,6 +385,9 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel7">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Bodoni MT" size="14" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Asignado:"/>
           </Properties>
         </Component>
@@ -385,6 +406,9 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel8">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Bodoni MT" size="14" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Dirreccion:"/>
           </Properties>
         </Component>
@@ -392,6 +416,9 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel9">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Bodoni MT" size="14" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Estado:"/>
           </Properties>
         </Component>
@@ -410,6 +437,9 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel11">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Bodoni MT" size="14" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Fecha de incorporaci&#xf3;n:"/>
           </Properties>
         </Component>

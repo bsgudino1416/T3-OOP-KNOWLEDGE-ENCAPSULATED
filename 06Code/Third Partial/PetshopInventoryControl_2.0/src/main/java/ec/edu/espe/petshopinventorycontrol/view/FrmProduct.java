@@ -58,7 +58,6 @@ public class FrmProduct extends javax.swing.JFrame {
         dispose();
     }
 
-
     private void resetProductSelections() {
         cmbTypeProduct.setSelectedIndex(-1);
         cmbTypeAnimal.setSelectedIndex(-1);
@@ -490,6 +489,7 @@ public class FrmProduct extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 119));
 
+        jLabel1.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Agregar Producto Inventario");
 
@@ -510,28 +510,40 @@ public class FrmProduct extends javax.swing.JFrame {
                 .addContainerGap(31, Short.MAX_VALUE))
         );
 
+        jLabel2.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         jLabel2.setText("ID Producto:");
 
+        jLabel3.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         jLabel3.setText("Proveedor:");
 
+        jLabel4.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         jLabel4.setText("Nombre del Producto:");
 
+        jLabel5.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         jLabel5.setText("Categoria:");
 
+        jLabel6.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         jLabel6.setText("SubCategoria:");
 
+        jLabel7.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         jLabel7.setText("Marca:");
 
+        jLabel8.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         jLabel8.setText("Costo Producto:");
 
+        jLabel9.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         jLabel9.setText("Unidad:");
 
+        jLabel10.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         jLabel10.setText("Libras producto:");
 
+        jLabel11.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         jLabel11.setText("Costo Inversión:");
 
+        jLabel12.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         jLabel12.setText("Fecha de Ingreso:");
 
+        jLabel13.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         jLabel13.setText("Fecha de Caducidad:");
 
         txtIdProduct.addActionListener(new java.awt.event.ActionListener() {
@@ -570,6 +582,7 @@ public class FrmProduct extends javax.swing.JFrame {
             }
         });
 
+        jLabel14.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         jLabel14.setText("Cantidad :");
 
         txtPounds.addActionListener(new java.awt.event.ActionListener() {
@@ -578,6 +591,7 @@ public class FrmProduct extends javax.swing.JFrame {
             }
         });
 
+        jLabel15.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         jLabel15.setText("Total libras ingresadas:");
 
         txtTotalPounds.addActionListener(new java.awt.event.ActionListener() {
@@ -797,6 +811,11 @@ public class FrmProduct extends javax.swing.JFrame {
         MnuHelp.setText("Ayuda");
 
         jMenuItem3.setText("Información");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         MnuHelp.add(jMenuItem3);
 
         jMenuBar1.add(MnuHelp);
@@ -973,7 +992,7 @@ public class FrmProduct extends javax.swing.JFrame {
                     JOptionPane.INFORMATION_MESSAGE
             );
 
-            lastSaveExitoful = true;           
+            lastSaveExitoful = true;
             clearProductFields();
             generateAndSetNewProductId();
 
@@ -1013,6 +1032,24 @@ public class FrmProduct extends javax.swing.JFrame {
     private void itmReportProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmReportProductActionPerformed
         reportService.exportProductReport(this);
     }//GEN-LAST:event_itmReportProductActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        String info = ""
+                + "El módulo de productos permite gestionar y organizar la información relacionada con los artículos registrados en el sistema. "
+                + "Desde esta sección se pueden registrar, consultar y actualizar datos clave como características, precios y categorías de los productos. "
+                + "Su uso contribuye a mantener la información estructurada y coherente dentro del sistema.";
+
+        JTextArea textArea = new JTextArea(info);
+        textArea.setWrapStyleWord(true);
+        textArea.setLineWrap(true);
+        textArea.setEditable(false);
+        textArea.setCaretPosition(0);
+
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new java.awt.Dimension(520, 180));
+
+        JOptionPane.showMessageDialog(this, scrollPane, "Informacion", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1095,4 +1132,3 @@ public class FrmProduct extends javax.swing.JFrame {
     private javax.swing.JTextField txtTotalPounds;
     // End of variables declaration//GEN-END:variables
 }
-

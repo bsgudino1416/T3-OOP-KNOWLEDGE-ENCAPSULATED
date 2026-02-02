@@ -6,6 +6,9 @@ package ec.edu.espe.petshopinventorycontrol.view;
 
 import ec.edu.espe.petshopinventorycontrol.utils.ScrollUtils;
 import ec.edu.espe.petshopinventorycontrol.controller.BillController;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -138,6 +141,7 @@ public class FrmBill extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(0, 0, 119));
 
         jLabel15.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel15.setFont(new java.awt.Font("Bodoni MT", 1, 24)); // NOI18N
         jLabel15.setText("Factura");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -195,22 +199,31 @@ public class FrmBill extends javax.swing.JFrame {
                 .addContainerGap(8, Short.MAX_VALUE))
         );
 
+        jLabel1.setFont(new java.awt.Font("Bodoni MT", 1, 12)); // NOI18N
         jLabel1.setText("Id Factura:");
 
+        jLabel2.setFont(new java.awt.Font("Bodoni MT", 1, 12)); // NOI18N
         jLabel2.setText("Nombres y Apellidos:");
 
+        jLabel3.setFont(new java.awt.Font("Bodoni MT", 1, 12)); // NOI18N
         jLabel3.setText("CI:");
 
+        jLabel4.setFont(new java.awt.Font("Bodoni MT", 1, 12)); // NOI18N
         jLabel4.setText("Telefono:");
 
+        jLabel5.setFont(new java.awt.Font("Bodoni MT", 1, 12)); // NOI18N
         jLabel5.setText("Email:");
 
+        jLabel6.setFont(new java.awt.Font("Bodoni MT", 1, 12)); // NOI18N
         jLabel6.setText("Dirreccion:");
 
+        jLabel7.setFont(new java.awt.Font("Bodoni MT", 1, 12)); // NOI18N
         jLabel7.setText("Fecha:");
 
+        jLabel8.setFont(new java.awt.Font("Bodoni MT", 1, 12)); // NOI18N
         jLabel8.setText("Encargado:");
 
+        jLabel9.setFont(new java.awt.Font("Bodoni MT", 1, 12)); // NOI18N
         jLabel9.setText("Cantidad:");
 
         txtCI.addActionListener(new java.awt.event.ActionListener() {
@@ -243,6 +256,7 @@ public class FrmBill extends javax.swing.JFrame {
             }
         });
 
+        jLabel10.setFont(new java.awt.Font("Bodoni MT", 1, 12)); // NOI18N
         jLabel10.setText("Precio Unitario:");
 
         txtPriceUnit.addActionListener(new java.awt.event.ActionListener() {
@@ -266,10 +280,13 @@ public class FrmBill extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tableBill);
 
+        jLabel11.setFont(new java.awt.Font("Bodoni MT", 1, 12)); // NOI18N
         jLabel11.setText("Subtotal:");
 
+        jLabel12.setFont(new java.awt.Font("Bodoni MT", 1, 12)); // NOI18N
         jLabel12.setText("IVA:");
 
+        jLabel13.setFont(new java.awt.Font("Bodoni MT", 1, 12)); // NOI18N
         jLabel13.setText("Total:");
 
         txtSubtotal.addActionListener(new java.awt.event.ActionListener() {
@@ -292,6 +309,7 @@ public class FrmBill extends javax.swing.JFrame {
 
         btnBill.setText("Bill");
 
+        jLabel14.setFont(new java.awt.Font("Bodoni MT", 1, 12)); // NOI18N
         jLabel14.setText("Codigo Producto:");
 
         txtCodeProduct.addActionListener(new java.awt.event.ActionListener() {
@@ -306,6 +324,7 @@ public class FrmBill extends javax.swing.JFrame {
             }
         });
 
+        jLabel16.setFont(new java.awt.Font("Bodoni MT", 1, 12)); // NOI18N
         jLabel16.setText("Nombre del producto:");
 
         txtNameproductBill.addActionListener(new java.awt.event.ActionListener() {
@@ -509,6 +528,11 @@ public class FrmBill extends javax.swing.JFrame {
         MnuHelp.setText("Ayuda");
 
         jMenuItem3.setText("Información");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         MnuHelp.add(jMenuItem3);
 
         jMenuBar1.add(MnuHelp);
@@ -608,6 +632,24 @@ public class FrmBill extends javax.swing.JFrame {
     private void txtNameproductBillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameproductBillActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNameproductBillActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        String info = ""
+                + "El módulo de proveedores permite gestionar y organizar la información relacionada con las entidades que suministran productos o servicios al sistema. "
+                + "Desde esta sección se pueden registrar, consultar y actualizar datos clave que facilitan la integración con otros procesos. "
+                + "Su uso contribuye a mantener la información ordenada y coherente dentro del sistema.";
+
+        JTextArea textArea = new JTextArea(info);
+        textArea.setWrapStyleWord(true);
+        textArea.setLineWrap(true);
+        textArea.setEditable(false);
+        textArea.setCaretPosition(0);
+
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new java.awt.Dimension(520, 180));
+
+        JOptionPane.showMessageDialog(this, scrollPane, "Informacion", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments

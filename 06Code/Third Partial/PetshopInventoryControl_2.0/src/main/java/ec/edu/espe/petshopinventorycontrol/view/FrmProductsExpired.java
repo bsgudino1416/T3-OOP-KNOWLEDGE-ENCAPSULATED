@@ -16,7 +16,9 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 
@@ -42,7 +44,6 @@ public class FrmProductsExpired extends javax.swing.JFrame implements ExpiredPro
         tblProductExpired.setDefaultRenderer(Object.class, new ExpiredRowRenderer());
         controller.onInit(this);
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -70,6 +71,7 @@ public class FrmProductsExpired extends javax.swing.JFrame implements ExpiredPro
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 119));
 
+        jLabel1.setFont(new java.awt.Font("Bodoni MT", 1, 24)); // NOI18N
         jLabel1.setText("PRODUCTOS EXPIRADOS");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -77,16 +79,16 @@ public class FrmProductsExpired extends javax.swing.JFrame implements ExpiredPro
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(311, 311, 311)
+                .addGap(223, 223, 223)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addGap(39, 39, 39)
                 .addComponent(jLabel1)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 119));
@@ -160,6 +162,11 @@ public class FrmProductsExpired extends javax.swing.JFrame implements ExpiredPro
         MnuHelp.setText("Ayuda");
 
         jMenuItem3.setText("Información");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         MnuHelp.add(jMenuItem3);
 
         jMenuBar1.add(MnuHelp);
@@ -201,6 +208,24 @@ public class FrmProductsExpired extends javax.swing.JFrame implements ExpiredPro
     private void ItmReportExpiredActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ItmReportExpiredActionPerformed
         controller.onReport(this);
     }//GEN-LAST:event_ItmReportExpiredActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        String info = ""
+                + "El módulo de productos caducados permite gestionar y supervisar los productos que han superado su fecha de vencimiento. "
+                + "Desde esta sección se pueden consultar y controlar los artículos caducados, facilitando la toma de decisiones para su manejo adecuado. "
+                + "Su uso contribuye a mantener la calidad y seguridad de los productos dentro del sistema.";
+
+        JTextArea textArea = new JTextArea(info);
+        textArea.setWrapStyleWord(true);
+        textArea.setLineWrap(true);
+        textArea.setEditable(false);
+        textArea.setCaretPosition(0);
+
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new java.awt.Dimension(520, 180));
+
+        JOptionPane.showMessageDialog(this, scrollPane, "Informacion", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments

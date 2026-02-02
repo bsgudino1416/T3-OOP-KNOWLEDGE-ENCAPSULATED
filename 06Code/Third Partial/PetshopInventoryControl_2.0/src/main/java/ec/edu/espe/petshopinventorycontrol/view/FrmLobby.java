@@ -67,6 +67,7 @@ public class FrmLobby extends javax.swing.JFrame implements LobbyView {
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 119));
 
+        Tittle.setFont(new java.awt.Font("Bodoni MT", 1, 18)); // NOI18N
         Tittle.setText("LOBBY");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -86,12 +87,16 @@ public class FrmLobby extends javax.swing.JFrame implements LobbyView {
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 
+        TittleInventory.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         TittleInventory.setText("Total Inventario:");
 
+        TittleBill.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         TittleBill.setText("Total Factura");
 
+        TotalCostInvestment.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         TotalCostInvestment.setText("$0.00");
 
+        TotalBill.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         TotalBill.setText("$0.00");
 
         Supplier.setIcon(new javax.swing.ImageIcon("C:\\Users\\User\\Pictures\\fotos Proyecto\\proveedores.png")); // NOI18N

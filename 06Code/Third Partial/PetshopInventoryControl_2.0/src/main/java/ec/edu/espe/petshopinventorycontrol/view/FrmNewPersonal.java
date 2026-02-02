@@ -6,6 +6,9 @@ package ec.edu.espe.petshopinventorycontrol.view;
 
 import ec.edu.espe.petshopinventorycontrol.utils.ScrollUtils;
 import ec.edu.espe.petshopinventorycontrol.controller.PersonalController;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -46,7 +49,7 @@ public class FrmNewPersonal extends javax.swing.JFrame {
         itmNewRegisterSupplier.setText("Nuevo Registro");
         itmSaveRegisterSupplier.setText("Guardar Registro");
         itmDeleteRegisterSupplier.setVisible(false);
-      
+
         itmGraphicPersonal.setText("Grafica Personal");
         itmReport.setText("Informe Personal");
         jMenuItem3.setText("Informacion");
@@ -156,30 +159,39 @@ public class FrmNewPersonal extends javax.swing.JFrame {
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 
+        jLabel1.setFont(new java.awt.Font("Bodoni MT", 0, 14)); // NOI18N
         jLabel1.setText("Id Personal:");
 
+        jLabel2.setFont(new java.awt.Font("Bodoni MT", 0, 14)); // NOI18N
         jLabel2.setText("Cedula:");
 
+        jLabel3.setFont(new java.awt.Font("Bodoni MT", 0, 14)); // NOI18N
         jLabel3.setText("Nombre Completo:");
 
+        jLabel5.setFont(new java.awt.Font("Bodoni MT", 0, 14)); // NOI18N
         jLabel5.setText("Cargo:");
 
         cmbPost.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Vendedor", "Administrador", " " }));
 
+        jLabel6.setFont(new java.awt.Font("Bodoni MT", 0, 14)); // NOI18N
         jLabel6.setText("Turno:");
 
         cmbSchedule.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "8:00AM-16:30PM", "12:00PM-20:00PM", " " }));
 
+        jLabel7.setFont(new java.awt.Font("Bodoni MT", 0, 14)); // NOI18N
         jLabel7.setText("Asignado:");
 
         cmbDay.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Matutino", "Vespertino" }));
 
+        jLabel8.setFont(new java.awt.Font("Bodoni MT", 0, 14)); // NOI18N
         jLabel8.setText("Dirreccion:");
 
+        jLabel9.setFont(new java.awt.Font("Bodoni MT", 0, 14)); // NOI18N
         jLabel9.setText("Estado:");
 
         cmbState.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Vinculado", "Desvinculado" }));
 
+        jLabel11.setFont(new java.awt.Font("Bodoni MT", 0, 14)); // NOI18N
         jLabel11.setText("Fecha de incorporación:");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -229,7 +241,7 @@ public class FrmNewPersonal extends javax.swing.JFrame {
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(cmbDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(159, Short.MAX_VALUE))
+                .addContainerGap(143, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -309,6 +321,11 @@ public class FrmNewPersonal extends javax.swing.JFrame {
         MnuHelp.setText("Ayuda");
 
         jMenuItem3.setText("Información");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         MnuHelp.add(jMenuItem3);
 
         jMenuBar1.add(MnuHelp);
@@ -358,6 +375,24 @@ public class FrmNewPersonal extends javax.swing.JFrame {
     private void btnReturnLobbyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnLobbyActionPerformed
         controller.onReturnLobby();
     }//GEN-LAST:event_btnReturnLobbyActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        String info = ""
+                + "El módulo de personal permite gestionar y organizar la información relacionada con los colaboradores del sistema. "
+                + "Desde esta sección se pueden registrar, consultar y actualizar datos del personal, facilitando su integración con los procesos internos. "
+                + "Su uso contribuye a mantener un registro ordenado y actualizado de los recursos humanos.";
+
+        JTextArea textArea = new JTextArea(info);
+        textArea.setWrapStyleWord(true);
+        textArea.setLineWrap(true);
+        textArea.setEditable(false);
+        textArea.setCaretPosition(0);
+
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new java.awt.Dimension(520, 180));
+
+        JOptionPane.showMessageDialog(this, scrollPane, "Informacion", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments

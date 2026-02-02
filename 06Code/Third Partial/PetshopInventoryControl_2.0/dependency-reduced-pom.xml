@@ -33,9 +33,6 @@
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
         <version>3.4.2</version>
-        <configuration>
-          <skip>true</skip>
-        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
@@ -47,7 +44,8 @@
               <goal>shade</goal>
             </goals>
             <configuration>
-              <shadedArtifactAttached>false</shadedArtifactAttached>
+              <shadedArtifactAttached>true</shadedArtifactAttached>
+              <shadedClassifierName>all</shadedClassifierName>
               <transformers>
                 <transformer>
                   <mainClass>ec.edu.espe.petshopinventorycontrol.view.Presentation</mainClass>
@@ -77,6 +75,48 @@
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>jpackage</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.1.0</version>
+            <executions>
+              <execution>
+                <id>jpackage-app-image</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <executable>jpackage</executable>
+                  <arguments>
+                    <argument>--type</argument>
+                    <argument>app-image</argument>
+                    <argument>--dest</argument>
+                    <argument>${project.build.directory}/jpackage</argument>
+                    <argument>--input</argument>
+                    <argument>${project.build.directory}</argument>
+                    <argument>--main-jar</argument>
+                    <argument>${project.build.finalName}.jar</argument>
+                    <argument>--main-class</argument>
+                    <argument>${app.mainClass}</argument>
+                    <argument>--name</argument>
+                    <argument>${app.name}</argument>
+                    <argument>--app-version</argument>
+                    <argument>${project.version}</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
   <dependencies>
     <dependency>
       <groupId>com.itextpdf</groupId>
@@ -87,7 +127,9 @@
     </dependency>
   </dependencies>
   <properties>
-    <maven.compiler.release>21</maven.compiler.release>
+    <maven.compiler.release>25</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <app.mainClass>ec.edu.espe.petshopinventorycontrol.view.Presentation</app.mainClass>
+    <app.name>PetshopInventoryControl</app.name>
   </properties>
 </project>

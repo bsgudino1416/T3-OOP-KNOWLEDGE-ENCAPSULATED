@@ -74,6 +74,7 @@ public class FrmGraphicPersonal extends javax.swing.JFrame implements GraphicPer
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 119));
 
+        jLabel1.setFont(new java.awt.Font("Bodoni MT", 1, 18)); // NOI18N
         jLabel1.setText("GRAFICA DE PERSONAL");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
