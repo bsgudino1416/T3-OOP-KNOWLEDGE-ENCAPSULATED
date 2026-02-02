@@ -20,7 +20,7 @@ public final class MongoBillGateway {
         String[] collections = new String[] {
             COLLECTION_BILL,
             COLLECTION_FACTURA,
-            "Bills",
+            "Bill",
             "bills",
             "factura"
         };
