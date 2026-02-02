@@ -20,6 +20,8 @@ public class FrmLogin extends javax.swing.JFrame implements LoginView {
         ScrollUtils.applyScrollBars(this);
         bttnCreate.setText("Crear cuenta");
         bttnCreate.addActionListener(e -> controller.onCreateAccount());
+        getRootPane().setDefaultButton(bttnSignIn);
+        txtPassLogin.addActionListener(e -> bttnSignIn.doClick());
     }
 
     /**
@@ -180,7 +182,7 @@ public class FrmLogin extends javax.swing.JFrame implements LoginView {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtUserLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserLoginActionPerformed
-        // TODO add your handling code here:
+        bttnSignIn.doClick();
     }//GEN-LAST:event_txtUserLoginActionPerformed
 
     private void bttnSignInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnSignInActionPerformed
