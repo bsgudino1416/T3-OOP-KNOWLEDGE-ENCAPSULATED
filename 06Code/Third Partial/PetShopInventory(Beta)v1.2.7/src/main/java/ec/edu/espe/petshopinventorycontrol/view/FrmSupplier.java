@@ -1,11 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package ec.edu.espe.petshopinventorycontrol.view;
 
 import com.toedter.calendar.JDateChooser;
+<<<<<<< Updated upstream
 
+=======
+import ec.edu.espe.petshopinventorycontrol.controller.MongoConnection;
+>>>>>>> Stashed changes
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -32,12 +32,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import com.mongodb.client.model.Sorts;
+import java.awt.HeadlessException;
 
 
-/**
- *
- * @author Steven Loza @ESPE
- */
 public class FrmSupplier extends javax.swing.JFrame {
 
     private MongoDatabase db;
@@ -507,7 +504,7 @@ public class FrmSupplier extends javax.swing.JFrame {
                 try {
                     int lastSeq = Integer.parseInt(lastId.split("-")[1]);
                     nextSeq = lastSeq + 1;
-                } catch (Exception ignored) {
+                } catch (NumberFormatException ignored) {
                     nextSeq = 1;
                 }
             }
@@ -658,7 +655,7 @@ public class FrmSupplier extends javax.swing.JFrame {
                     "Proveedor guardado ✅\nID: " + currentSupplierId,
                     "OK", JOptionPane.INFORMATION_MESSAGE);
 
-        } catch (Exception e) {
+        } catch (HeadlessException e) {
             JOptionPane.showMessageDialog(this,
                     "Error al guardar en MongoDB: " + e.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
@@ -827,10 +824,9 @@ public class FrmSupplier extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmSupplier().setVisible(true);
-            }
+
+        java.awt.EventQueue.invokeLater(() -> {
+            new FrmSupplier().setVisible(true);
         });
     }
 

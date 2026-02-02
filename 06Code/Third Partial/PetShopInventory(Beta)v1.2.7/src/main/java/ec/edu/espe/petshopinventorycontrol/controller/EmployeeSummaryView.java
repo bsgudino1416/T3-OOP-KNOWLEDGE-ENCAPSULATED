@@ -11,7 +11,13 @@ package ec.edu.espe.petshopinventorycontrol.controller;
 public interface EmployeeSummaryView {
     void refreshTotals();
 
+<<<<<<< Updated upstream
     public void addProductToTable(String animales_de_granja, String cerdo, String comida, String balanceado, String text, int libras, double foodPrice);
 
     public void setVisible(boolean b);
+=======
+    public void setVisible(boolean b);
+
+    public void addProductToTable(String mascotas_de_casa, String gato, String juguete, String selectedValue, String string, int units, double subToy);
+>>>>>>> Stashed changes
 }
