@@ -1,10 +1,7 @@
 
 package ec.edu.espe.petshopinventorycontrol.model.services;
 
-/**
- *
- * @author Steven Loza @ESPE
- */
+
 public final class RegistrationRequest {
 
     private final String firstName;

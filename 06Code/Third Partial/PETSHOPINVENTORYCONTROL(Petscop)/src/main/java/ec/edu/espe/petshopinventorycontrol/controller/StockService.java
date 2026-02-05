@@ -61,27 +61,6 @@ public class StockService {
         return productGateway.findDistinctBrandsByAnimalAndName(category, name);
     }
 
-//    public ProductCostResult getCostForSelectionOrNull(String category, String name, String brand) {
-//        Document p = productGateway.findProductByAnimalNameBrand(category, name, brand);
-//        if (p == null) {
-//            return null;
-//        }
-//
-//        String costText = p.getString("cost"); // ajusta si tu campo en Mongo se llama distinto
-//        if (costText == null) {
-//            Object cost = p.get("cost");
-//            costText = cost != null ? String.valueOf(cost) : null;
-//        }
-//
-//        Double costValue = tryParseDouble(costText);
-//        if (costValue == null) {
-//            return null;
-//        }
-//
-//        // Costo unitario: como en FrmStock tú tienes cmbCostUnit (textfield)
-//        // Aquí lo dejamos igual al costo base si no tienes otra lógica.
-//        return new ProductCostResult(costValue, costValue);
-//    }
     public ProductCostResult getCostForSelectionOrNull(String category, String name, String brand) {
         Document p = productGateway.findProductByAnimalNameBrand(category, name, brand);
         if (p == null) {
@@ -177,7 +156,7 @@ public class StockService {
                 .append("name", name)
                 .append("brand", brand)
                 .append("cost", costText)
-//                .append("costUnit", costUnitText)
+
                 .append("unitEntry", unitEntryText)
                 .append("gainPercent", gain)
                 .append("finalPrice", calculatedGainText)

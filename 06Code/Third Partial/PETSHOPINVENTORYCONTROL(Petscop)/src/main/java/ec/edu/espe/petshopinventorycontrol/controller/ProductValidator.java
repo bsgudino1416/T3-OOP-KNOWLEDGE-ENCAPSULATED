@@ -35,7 +35,7 @@ public final class ProductValidator {
         if (isBlank(name)) errors.put("txtNameProduct", "Required");
         if (isBlank(typeProduct)) errors.put("cmbTypeProduct", "Required");
 
-        // subcategoría ahora es combobox
+       
         if (isBlank(animalType)) errors.put("cmbTypeAnimal", "Required");
 
         if (isBlank(brand)) errors.put("txtBrandProduct", "Required");
@@ -48,12 +48,12 @@ public final class ProductValidator {
 
         if (entryDate == null) errors.put("jDateChooser1", "Required");
 
-        // caducidad solo para COMIDA y MEDICINA
+        
         if (isExpiryRequired(typeProduct) && expiryDate == null) {
             errors.put("jDateChooser2", "Required");
         }
 
-        // libras solo si unit == "Libras"
+       
         if (isPoundsRequired(unit)) {
             if (isBlank(poundsText) || !isNumber(poundsText)) errors.put("txtPounds", "Invalid");
             if (isBlank(totalPoundsText) || !isNumber(totalPoundsText)) errors.put("txtTotalPounds", "Invalid");

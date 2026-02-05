@@ -17,10 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-/**
- *
- * @author Steven Loza @ESPE
- */
+
 public class FrmStock extends javax.swing.JFrame {
 
     private final StockService stockService = new StockService(
