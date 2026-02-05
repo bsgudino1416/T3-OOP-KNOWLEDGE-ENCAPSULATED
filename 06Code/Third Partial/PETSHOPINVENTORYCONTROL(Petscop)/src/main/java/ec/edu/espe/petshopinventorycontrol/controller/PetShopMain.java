@@ -1,15 +1,7 @@
 package ec.edu.espe.petshopinventorycontrol.controller;
-
-//import ec.edu.espe.petshopinventorycontrol.view.FrmLoginPetshop; 
-
 public class PetShopMain {
 
-    public static void main(String[] args) {
-        
-       
-//        DataEmployee.conectar(); 
-
-       
+   public static void main(String[] args) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -25,7 +17,7 @@ public class PetShopMain {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                
-//                new FrmLoginPetshop().setVisible(true);
+
             }
         });
         

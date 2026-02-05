@@ -3,10 +3,6 @@ package ec.edu.espe.petshopinventorycontrol.model.services;
 
 import java.util.Objects;
 
-/**
- *
- * @author Steven Loza @ESPE
- */
 public final class UserAccount {
 
     private final String firstName;
@@ -15,11 +11,11 @@ public final class UserAccount {
     private final String email;
     private final String gender;
 
-    // Seguridad:
-    private final String usernameHash;       // Para buscar/login y unicidad
-    private final String usernameEncrypted;  // cifrado como pediste (opcional pero incluido)
-    private final String passwordHash;       // PBKDF2 (NO reversible)
-    private final String passwordSalt;       // Base64
+   
+    private final String usernameHash;       
+    private final String usernameEncrypted;  
+    private final String passwordHash;       
+    private final String passwordSalt;       
     private final int passwordIterations;
     private final boolean twoFactorEnabled;
     private final String twoFactorSecretEncrypted;

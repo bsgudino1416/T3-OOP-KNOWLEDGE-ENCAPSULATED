@@ -18,7 +18,7 @@ public final class RegistrationValidator {
             throw new IllegalArgumentException("Las contrasenas no coinciden");
         }
 
-        // Tu regla minima:
+        
         if (r.getPassword().length() < 1) {
             throw new IllegalArgumentException("La contrasena debe tener al menos 1 caracter");
         }
