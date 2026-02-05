@@ -99,13 +99,13 @@ public class FrmLobby extends javax.swing.JFrame implements LobbyView {
         TotalBill.setFont(new java.awt.Font("Bodoni MT", 1, 14)); // NOI18N
         TotalBill.setText("$0.00");
 
-        Supplier.setIcon(new javax.swing.ImageIcon("C:\\Users\\User\\Pictures\\fotos Proyecto\\proveedores.png")); // NOI18N
+        Supplier.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ec/edu/espe/petshopinventorycontrol/utils/images/proveedores.png"))); // NOI18N
 
-        product.setIcon(new javax.swing.ImageIcon("C:\\Users\\User\\Pictures\\fotos Proyecto\\producto.png")); // NOI18N
+        product.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ec/edu/espe/petshopinventorycontrol/utils/images/producto.png"))); // NOI18N
 
-        Bill.setIcon(new javax.swing.ImageIcon("C:\\Users\\User\\Pictures\\fotos Proyecto\\orden de compra .png")); // NOI18N
+        Bill.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ec/edu/espe/petshopinventorycontrol/utils/images/orden de compra .png"))); // NOI18N
 
-        personal.setIcon(new javax.swing.ImageIcon("C:\\Users\\User\\Pictures\\fotos Proyecto\\personal.png")); // NOI18N
+        personal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ec/edu/espe/petshopinventorycontrol/utils/images/personal.png"))); // NOI18N
 
         labelstock.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ec/edu/espe/petshopinventorycontrol/utils/images/stock.png"))); // NOI18N
 
